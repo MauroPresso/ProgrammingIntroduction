@@ -1,0 +1,59 @@
+Modelado de Datos:
+- Modelado conceptual -> situación problemática.
+- Modelado lógico -> 1°, 2° y 3° Forma normal (tablas relacionadas entre sí).
+- Modelado físico -> Estructura de base de datos a través de un sistema de gestión.
+
+En esta materia nos vamos a centrar en el modelado físico.
+
+Modelo Relacional: Forma de relacionar tablas de base de datos.
+
+Elementos de una BDD:
+- Tabla o entidad:
+	- Objeto principal
+	- Campos (columnas) y registros (filas)
+- Atributo:
+	- Campo
+	- Tipos
+- Dominio: Describe el conjunto de posibles valores del atributo.
+- Clave:
+	- Primaria
+	- Foránea
+	- Índice
+Nosotros vamos a trabajar con las BDD RELACIONALES.
+
+SQLite ya viene instalado con Python!! Importando la librería!!
+
+Con DB Browser podemos hacer cosas en la base de datos independientemente del programa. Cumple con la independencia.
+
+SQLite no admite claves foráneas.
+
+SQL (Structured Query Language) -> Lenguaje estructurado de consulta (a la BDD).
+	- Lenguaje de definición de datos (crear BDD o crear tabla). -> Vinculado a la estructura.
+	- Lenguaje de manipulación de datos (insertar, seleccionar, modificar, borrar). -> Vinculado al dato.
+ 
+Vamos a usar:
+	- Métodos de librería de SQLite3 desde Python.
+
+Instrucciones del lenguaje de manipulación de datos (LMD): 
+- Select
+- Insert Into
+- Update
+- Delete
+
+Cada comando tiene su especificidad.
+
+PARA IMPORTAR SQLite3 EN PYTHON:
+
+import sqlite3
+miConexion=sqlite3.connect("Carpeta\Base")
+miCursor=miConexion.cursor()
+miCursor.execute("CREATE TABLE MISCONTACTOS(NOMBRE VARCHAR(50), TELEFONO INTEGER)")
+miConexion.close()
+
+PARA CREAR TABLAS:
+- VARCHAR()
+- INTEGER
+	
+LUNES QUE VIENE -> CÓDIGO!!
+
+El TKinter también se importa desde Python!!
