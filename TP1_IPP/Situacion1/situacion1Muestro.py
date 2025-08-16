@@ -2,16 +2,16 @@
 import sqlite3
 
 # Conecto a la base de datos (Seria como el ruta a la base de datos)
-conexion = sqlite3.connect('empresa.db')
+mi_conexion = sqlite3.connect('TP1_IPP\\Situacion1\\empresa.db')
 
 # Creo un cursor para ejecutar comandos SQL (Seria como el puntero a la base de datos)
-cursor = conexion.cursor()
+mi_cursor = mi_conexion.cursor()
 
 # Selecciono datos de la tabla 'CONTACTOS'
-cursor.execute("SELECT * FROM EMPLEADOS")
+mi_cursor.execute("SELECT * FROM EMPLEADOS")
 
 # el metodo fetchall() devuelve la cantidad los registros (filas) de la consulta
-cantidad_registros = cursor.fetchall()
+cantidad_registros = mi_cursor.fetchall()
 
 # Imprimo los datos obtenidos
 k = 0
@@ -21,8 +21,8 @@ for registro in cantidad_registros:
 # TABLA ORDENADA
 input("Presione Enter para ver los registros ordenados por puesto...")
 # Ordeno los registros por el campo 'NOMBRE'
-cursor.execute("SELECT * FROM EMPLEADOS ORDER BY PUESTO")
-cantidad_registros_ordenados = cursor.fetchall()    
+mi_cursor.execute("SELECT * FROM EMPLEADOS ORDER BY PUESTO")
+cantidad_registros_ordenados = mi_cursor.fetchall()    
 # Imprimo los datos obtenidos
 c = 0
 for registro in cantidad_registros_ordenados:
@@ -31,12 +31,12 @@ for registro in cantidad_registros_ordenados:
 
 input("Presione Enter para ver los registros ordenados por salario...")
 # Ordeno los registros por el campo 'NOMBRE'
-cursor.execute("SELECT * FROM EMPLEADOS ORDER BY SALARIO")
-cantidad_registros_ordenados = cursor.fetchall()    
+mi_cursor.execute("SELECT * FROM EMPLEADOS ORDER BY SALARIO")
+cantidad_registros_ordenados = mi_cursor.fetchall()    
 # Imprimo los datos obtenidos
 i = 0
 for registro in cantidad_registros_ordenados:
     print(f"\nEmpleado nro {i + 1}.\n- ID: {registro[0]}\n- Nombre: {registro[1]}\n- Apellido: {registro[2]}\n- Puesto: {registro[3]}\n- Salario: {registro[4]}\n")
     i = i + 1
 
-conexion.close()  # Cierro la conexión a la base de datos
+mi_conexion.close()  # Cierro la conexión a la base de datos
