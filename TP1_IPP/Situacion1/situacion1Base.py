@@ -2,7 +2,7 @@
 import sqlite3
 
 # Conecto a la base de datos (Seria como el ruta a la base de datos)
-miConexion = sqlite3.connect('empresa.db')
+miConexion = sqlite3.connect('TP1_IPP\\Situacion1\\empresa.db')
 
 # Creo un cursor para ejecutar comandos SQL (Seria como el puntero a la base de datos)
 miCursor = miConexion.cursor()
