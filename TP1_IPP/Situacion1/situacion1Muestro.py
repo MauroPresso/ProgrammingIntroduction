@@ -1,3 +1,5 @@
+import os
+os.system('cls')
 # Importo la librería sqlite3
 import sqlite3
 
