@@ -17,7 +17,7 @@ mi_cursor.execute("SELECT * FROM EMPLEADOS")
 mi_cursor.execute("UPDATE EMPLEADOS SET SALARIO = 906357 WHERE APELLIDO = 'Sartori'")
 mi_cursor.execute("UPDATE EMPLEADOS SET NOMBRE = 'Jose' WHERE NOMBRE = 'Pepe'")
 mi_cursor.execute("UPDATE EMPLEADOS SET PUESTO = 'Transportista' WHERE PUESTO = 'Logística'")
-mi_cursor.execute("UPDATE EMPLEADOS SET SALARIO = '2105987' WHERE PUESTO = 'Informatico'")
+mi_cursor.execute("UPDATE EMPLEADOS SET SALARIO = 2105987 WHERE PUESTO = 'Informatico'")
 mi_cursor.execute("UPDATE EMPLEADOS SET APELLIDO = 'Faerman' WHERE APELLIDO = 'Faermann'")
 
 # Para que los cambios se guarden en la base de datos
