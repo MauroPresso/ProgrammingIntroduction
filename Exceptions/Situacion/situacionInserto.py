@@ -3,7 +3,7 @@ import sqlite3
 
 try:
     # Conecto a la base de datos (Seria como el ruta a la base de datos)
-    mi_conexion = sqlite3.connect('TP1_IPP\\Situacion1\\empresa.db')
+    mi_conexion = sqlite3.connect('TP1_IPP\\Situacion\\empresa.db')
     # Creo un cursor para ejecutar comandos SQL (Seria como el puntero a la base de datos)
     mi_cursor = mi_conexion.cursor()
     # Inserto datos en la tabla 'EMPLEADOS'
