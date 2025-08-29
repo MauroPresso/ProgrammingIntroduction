@@ -1,31 +1,25 @@
-# Importo TKinter
 from tkinter import *
 
-# Creo la raiz
-raiz = Tk()
+raiz=Tk()
 
-# Icono
-raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\audio.ico')
-# Titulo
-raiz.title("**** Intro A la Programacion - Año 2025 ****")
-# Cursor
-raiz.config(cursor="star")
+raiz.title("Formulario registro de alumnos")
 
-# Resizing window
-#raiz.resizable( Ancho (True or False), Alto (True or False))
+raiz.resizable(True,True)
 
-# Probando combinaciones posibles
-raiz.resizable(True, True)
+raiz.config(bg="white")
 
-# Configuramos el raiz 
-raiz.config(bg = "blue")
-marco = Frame()
+raiz.config(cursor="clock")
 
-# Aca le indicamos que el frame va a formar parte de la ventana
+raiz.config(relief="raised")
+
+raiz.config(bd=50)
+
+marco=Frame()
+
 marco.pack()
 
-# Configuraciones del marco, color, ancho, alto
-marco.config(bg = "pink", width = "650", height = "350")
+marco.config(bg="skyblue",width="650",height="450")
 
-# Mantengo el ciclo
+marco.pack(fill="both",expand=1)
+
 raiz.mainloop()
