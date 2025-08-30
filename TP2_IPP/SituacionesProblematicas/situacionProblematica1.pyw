@@ -3,9 +3,9 @@ from tkinter import *
 # Creando la ventana raiz
 raiz = Tk()
 
-# Configuro la ventana
+# Configuro la ventana raiz
 
-# Titulo de la ventana
+# Titulo de la ventana raiz
 raiz.title("**** Registro de nuevos alumnos de la academia ****")
 
 # Tamaño de la ventana
@@ -20,8 +20,17 @@ raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\book.ico')
 # El metodo config() es para configurar los widgets.
 raiz.config(bg = "green") # bg: background (color de fondo).
 raiz.config(cursor = "pencil") # cursor: es el iconito del mouse.
-raiz.config(width = "650", height = "350") # Configuro el ancho y el alto respectivamente.
 raiz.config(relief= "sunken") # Relieve
+
+
+# Creo el marco (está contenido DENTRO de la ventana raiz).
+marco = Frame()
+# .pack() porque va a formar parte de la ventana raiz.
+#marco.pack(fill="x", expand=True) # expand = True, centraliza el frame dentro de la ventana raiz.
+marco.pack(fill="y", expand=True)
+#marco.pack(fill="both", expand=True)
+marco.config(bg = "yellow", width = "650", height = "350") # Configuro el color, el ancho y el alto respectivamente. 
+#Las dimensiones ya las tiene el marco, por eso se las quito a la ventana raiz porque es obvio que la raiz va a ser más grande que el marco.
 
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
