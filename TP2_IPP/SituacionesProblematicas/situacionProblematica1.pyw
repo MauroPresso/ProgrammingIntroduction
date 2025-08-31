@@ -15,7 +15,7 @@ raiz.resizable(True, True) # Con resizable(True, True) ambos bordes de la ventan
 #raiz.resizable(False, False) # Con resizable(False, False) la ventana NO es expansible.
 
 # Icono
-raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\book.ico')
+raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
 
 # El metodo config() es para configurar los widgets.
 raiz.config(bg = "green") # bg: background (color de fondo).
