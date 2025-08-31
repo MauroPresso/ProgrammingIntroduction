@@ -20,7 +20,7 @@ raiz.resizable(True, True) # Con resizable(True, True) ambos bordes de la ventan
 # Icono
 try:
     raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
-except:
+except Exception:
     pass
 
 # El metodo config() es para configurar los widgets.
@@ -31,9 +31,9 @@ raiz.config(cursor = "pencil") # cursor: es el iconito del mouse.
 marco = Frame(raiz, padx=20, pady=20)
 # .pack() porque va a formar parte de la ventana raiz.
 marco.pack(fill="y", expand=True)
-# fill =x: rellena de forma VERTICAL
-# fill=y: rellena de forma horizonal
-# fill =both rellena en vertical y horizonal
+# fill=x : rellena de forma VERTICAL
+# fill=y : rellena de forma horizonal
+# fill=both: rellena en vertical y horizonal
 # expand centraliza el frame dentro de la ventana raiz
 marco.config(bg = "grey", relief= "groove") # Configuro el color, el ancho y el alto respectivamente. 
 #Las dimensiones ya las tiene el marco, por eso se las quito a la ventana raiz porque es obvio que la raiz va a ser más grande que el marco.
