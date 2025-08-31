@@ -20,7 +20,7 @@ raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\book.ico')
 # El metodo config() es para configurar los widgets.
 raiz.config(bg = "brown") # bg: background (color de fondo).
 raiz.config(cursor = "spider") # cursor: es el iconito del mouse.
-raiz.config(relief= "groove") # Relieve
+raiz.config(relief= "solid") # Relieve
 
 
 # Creo el marco (está contenido DENTRO de la ventana raiz).
