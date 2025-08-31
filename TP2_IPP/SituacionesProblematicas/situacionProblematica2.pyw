@@ -6,7 +6,7 @@ raiz = Tk()
 # Configuro la ventana raiz
 
 # Titulo de la ventana raiz
-raiz.title("**** Registro de nuevos alumnos de la academia ****")
+raiz.title("**** Registro de datos del turno del paciente ****")
 
 # Tamaño de la ventana
 raiz.resizable(True, True) # Con resizable(True, True) ambos bordes de la ventana raiz son expansibles. Es lo que pasa ya por defecto.
