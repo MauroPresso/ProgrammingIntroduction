@@ -18,13 +18,14 @@ raiz.resizable(True, True) # Con resizable(True, True) ambos bordes de la ventan
 #raiz.resizable(False, False) # Con resizable(False, False) la ventana NO es expansible.
 
 # Icono
-raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
+try:
+    raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
+except:
+    pass
 
 # El metodo config() es para configurar los widgets.
 raiz.config(bg = "purple") # bg: background (color de fondo).
 raiz.config(cursor = "pencil") # cursor: es el iconito del mouse.
-raiz.config(relief= "groove") # Relieve
-
 
 # Creo el marco (está contenido DENTRO de la ventana raiz).
 marco = Frame(raiz, padx=20, pady=20)
@@ -34,7 +35,7 @@ marco.pack(fill="y", expand=True)
 # fill=y: rellena de forma horizonal
 # fill =both rellena en vertical y horizonal
 # expand centraliza el frame dentro de la ventana raiz
-marco.config(bg = "grey", width = "850", height = "550") # Configuro el color, el ancho y el alto respectivamente. 
+marco.config(bg = "grey", relief= "groove") # Configuro el color, el ancho y el alto respectivamente. 
 #Las dimensiones ya las tiene el marco, por eso se las quito a la ventana raiz porque es obvio que la raiz va a ser más grande que el marco.
 
 """
