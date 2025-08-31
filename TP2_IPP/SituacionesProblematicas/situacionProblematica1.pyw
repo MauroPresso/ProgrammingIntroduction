@@ -20,16 +20,18 @@ raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\book.ico')
 # El metodo config() es para configurar los widgets.
 raiz.config(bg = "green") # bg: background (color de fondo).
 raiz.config(cursor = "pencil") # cursor: es el iconito del mouse.
-raiz.config(relief= "sunken") # Relieve
+raiz.config(relief= "groove") # Relieve
 
 
 # Creo el marco (está contenido DENTRO de la ventana raiz).
 marco = Frame()
 # .pack() porque va a formar parte de la ventana raiz.
-#marco.pack(fill="x", expand=True) # expand = True, centraliza el frame dentro de la ventana raiz.
 marco.pack(fill="y", expand=True)
-#marco.pack(fill="both", expand=True)
-marco.config(bg = "yellow", width = "650", height = "350") # Configuro el color, el ancho y el alto respectivamente. 
+# fill =x: rellena de forma VERTICAL
+# fill=y: rellena de forma horizonal
+# fill =both rellena en vertical y horizonal
+# expand centraliza el frame dentro de la ventana raiz
+marco.config(bg = "yellow", width = "850", height = "550") # Configuro el color, el ancho y el alto respectivamente. 
 #Las dimensiones ya las tiene el marco, por eso se las quito a la ventana raiz porque es obvio que la raiz va a ser más grande que el marco.
 
 
