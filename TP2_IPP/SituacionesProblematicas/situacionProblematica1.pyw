@@ -78,8 +78,15 @@ Termino a ingresar las cosas que me piden
 Boton de registrar alumno.
 """
 boton_registrar = Button(marco, text="Registrar")
-boton_registrar.grid(row=3, column=0, columnspan=2, pady=(12,0))
+boton_registrar.grid(row=3, column=0, columnspan=2, pady=10)
+boton_registrar.config(fg = "green", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
+"""
+Boton de cancelar alumno.
+"""
+boton_cancelar = Button(marco, text="Cancelar")
+boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
+boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
