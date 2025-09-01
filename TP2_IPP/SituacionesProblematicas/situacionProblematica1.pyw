@@ -41,12 +41,13 @@ marco.config(bg = "grey", relief= "groove") # Configuro el color, el ancho y el 
 """
 Empiezo a ingresar las cosas que me piden
 (TODOS LOS OBJETOS (WIDGETS)TIENEN SU CREACION, UBICACION Y SU CONFIGURACION)
+El sticky es la ubicacion del objeto en la celda y el anchor es la ubicacion del texto en el objeto.
 """
 
 # Etiqueta del nombre completo
 etiqueta_nombre_completo = Label(marco, text="Nombre completo:")
 etiqueta_nombre_completo.grid(row=0, column=0, sticky="w", padx=20, pady=30) # .grid() para acomodar el objeto dentro del Frame.
-etiqueta_nombre_completo.config(fg = "blue", bg = "white", width = 25, font = ("Tahoma", 12, "bold"))
+etiqueta_nombre_completo.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del nombre completo
 ingreso_nombre_completo = Entry(marco)
 ingreso_nombre_completo.grid(row=0, column=1, sticky="w", pady=30)
@@ -54,8 +55,8 @@ ingreso_nombre_completo.config(fg = "red", bg = "white", width = 30, font = ("Ar
 
 # Etiqueta del numero de documento
 etiqueta_nro_documento = Label(marco, text="N° de documento:")
-etiqueta_nro_documento.grid(row=1, column=0, sticky="w", padx=20, pady=30)
-etiqueta_nro_documento.config(fg = "blue", bg = "white", width = 25, font = ("Tahoma", 12, "bold"))
+etiqueta_nro_documento.grid(row=1, column=0, sticky="w", padx=20, pady=30) 
+etiqueta_nro_documento.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del nnumero de documento
 ingreso_nro_documento = Entry(marco)
 ingreso_nro_documento.grid(row=1, column=1, sticky="w", pady=30)
@@ -64,7 +65,7 @@ ingreso_nro_documento.config(fg = "red", bg = "white", width = 30, font = ("Aria
 # Etiqueta del correo electronico
 etiqueta_correo_electronico = Label(marco, text="Correo electrónico:")
 etiqueta_correo_electronico.grid(row=2, column=0, sticky="w", padx=20, pady=30)
-etiqueta_correo_electronico.config(fg = "blue", bg = "white", width = 25, font = ("Tahoma", 12, "bold"))
+etiqueta_correo_electronico.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del correo electronico
 ingreso_correo_electronico = Entry(marco)
 ingreso_correo_electronico.grid(row=2, column=1, sticky="w", pady=30)
