@@ -30,7 +30,7 @@ raiz.config(cursor = "pencil") # cursor: es el iconito del mouse.
 # Creo el marco (está contenido DENTRO de la ventana raiz).
 marco = Frame(raiz, padx=20, pady=20)
 # .pack() porque va a formar parte de la ventana raiz.
-marco.pack(fill="y", expand=True)
+marco.pack(fill="none", expand=True)
 # fill=x : rellena de forma VERTICAL
 # fill=y : rellena de forma horizonal
 # fill=both: rellena en vertical y horizonal
@@ -45,29 +45,29 @@ Empiezo a ingresar las cosas que me piden
 
 # Etiqueta del nombre completo
 etiqueta_nombre_completo = Label(marco, text="Nombre completo:")
-etiqueta_nombre_completo.grid(row=0, column=0, sticky="w", padx=(0,10), pady=(0,8)) # .grid() para acomodar el objeto dentro del Frame.
+etiqueta_nombre_completo.grid(row=0, column=0, sticky="w", padx=20, pady=30) # .grid() para acomodar el objeto dentro del Frame.
 etiqueta_nombre_completo.config(fg = "blue", bg = "white", width = 25, font = ("Tahoma", 12, "bold"))
 # Ingreso del nombre completo
 ingreso_nombre_completo = Entry(marco)
-ingreso_nombre_completo.grid(row=0, column=1, sticky="ew", pady=(0,8))
+ingreso_nombre_completo.grid(row=0, column=1, sticky="w", pady=30)
 ingreso_nombre_completo.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 # Etiqueta del numero de documento
 etiqueta_nro_documento = Label(marco, text="N° de documento:")
-etiqueta_nro_documento.grid(row=1, column=0, sticky="w", padx=(0,10), pady=(0,8))
+etiqueta_nro_documento.grid(row=1, column=0, sticky="w", padx=20, pady=30)
 etiqueta_nro_documento.config(fg = "blue", bg = "white", width = 25, font = ("Tahoma", 12, "bold"))
 # Ingreso del nnumero de documento
 ingreso_nro_documento = Entry(marco)
-ingreso_nro_documento.grid(row=1, column=1, sticky="ew", pady=(0,8))
+ingreso_nro_documento.grid(row=1, column=1, sticky="w", pady=30)
 ingreso_nro_documento.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 # Etiqueta del correo electronico
 etiqueta_correo_electronico = Label(marco, text="Correo electrónico:")
-etiqueta_correo_electronico.grid(row=2, column=0, sticky="w", padx=(0,10), pady=(0,8))
+etiqueta_correo_electronico.grid(row=2, column=0, sticky="w", padx=20, pady=30)
 etiqueta_correo_electronico.config(fg = "blue", bg = "white", width = 25, font = ("Tahoma", 12, "bold"))
 # Ingreso del correo electronico
 ingreso_correo_electronico = Entry(marco)
-ingreso_correo_electronico.grid(row=2, column=1, sticky="ew", pady=(0,8))
+ingreso_correo_electronico.grid(row=2, column=1, sticky="w", pady=30)
 ingreso_correo_electronico.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 """
 Termino a ingresar las cosas que me piden
