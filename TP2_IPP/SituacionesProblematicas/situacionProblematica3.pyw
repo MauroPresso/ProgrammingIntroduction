@@ -88,7 +88,7 @@ boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
 boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 """
-Boton de cancelar prestamo.
+Boton de salir.
 """
 boton_salir = Button(marco, text="Salir")
 boton_salir.grid(row=5, column=0, columnspan=2, pady=10)
