@@ -88,5 +88,12 @@ boton_cancelar = Button(marco, text="Cancelar")
 boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
 boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
+"""
+Boton de salir.
+"""
+boton_salir = Button(marco, text="Salir")
+boton_salir.grid(row=5, column=0, columnspan=2, pady=10)
+boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
+
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga.
 raiz.mainloop()
