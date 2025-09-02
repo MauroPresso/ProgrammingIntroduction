@@ -78,14 +78,14 @@ boton_inscribir.config(fg = "green", bg = "white", width = 10, font = ("Calibri"
 Boton de cancelar prestamo.
 """
 boton_cancelar = Button(marco, text="Cancelar")
-boton_cancelar.grid(row=1, column=0, columnspan=2, padx=10)
+boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
 boton_cancelar.config(fg = "red", bg = "white", width = 10, font = ("Times New Roman", 14, "italic"))
 
 """
 Boton de salir.
 """
 boton_salir = Button(marco, text="Salir")
-boton_salir.grid(row=2, column=0, columnspan=2, padx=10)
+boton_salir.grid(row=5, column=0, columnspan=2, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 10, font = ("Helvetica", 14, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
