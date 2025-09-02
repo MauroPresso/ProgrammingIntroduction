@@ -44,24 +44,35 @@ Empiezo a ingresar las cosas que me piden
 
 # Etiqueta del nombre completo
 etiqueta_nombre_paciente = Label(marco, text="Nombre del paciente:")
-etiqueta_nombre_paciente.grid(row=0, column=0, sticky="w", padx=(0,10), pady=(0,8)) # .grid() para acomodar el objeto dentro del Frame.
+etiqueta_nombre_paciente.grid(row=0, column=0, sticky="w", padx=10, pady=8) # .grid() para acomodar el objeto dentro del Frame.
+etiqueta_nombre_paciente.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# sticky = "w": alineado hacia la izquierda.
+# pady = 10: espacio hacia arriba y hacia abajo de 10.
+# padx = 10: espacio hacia la izquierda y hacia la derecha de 10.
+
 # Ingreso del nombre paciente
 ingreso_nombre_paciente = Entry(marco)
-ingreso_nombre_paciente.grid(row=0, column=1, sticky="ew", pady=(0,8))
+ingreso_nombre_paciente.grid(row=0, column=1, sticky="w", pady=8)
+ingreso_nombre_paciente.config(fg = "yellow", bg = "black", width = 30, font = ("Arial", 14, "italic"))
+
 
 # Etiqueta del numero de documento
 etiqueta_edad_paciente = Label(marco, text="Edad del paciente:")
-etiqueta_edad_paciente.grid(row=1, column=0, sticky="w", padx=(0,10), pady=(0,8))
+etiqueta_edad_paciente.grid(row=1, column=0, sticky="w", padx=10, pady=8)
+etiqueta_edad_paciente.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del nnumero de documento
 ingreso_edad_paciente = Entry(marco)
-ingreso_edad_paciente.grid(row=1, column=1, sticky="ew", pady=(0,8))
+ingreso_edad_paciente.grid(row=1, column=1, sticky="w", pady=8)
+ingreso_edad_paciente.config(fg = "yellow", bg = "black", width = 30, font = ("Arial", 14, "italic"))
 
 # Etiqueta del correo electronico
 etiqueta_especialidad_medica = Label(marco, text="Especialidad medica solicitada:")
-etiqueta_especialidad_medica.grid(row=2, column=0, sticky="w", padx=(0,10), pady=(0,8))
+etiqueta_especialidad_medica.grid(row=2, column=0, sticky="w", padx=10, pady=8)
+etiqueta_especialidad_medica.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del correo electronico
 ingreso_especialidad_medica = Entry(marco)
-ingreso_especialidad_medica.grid(row=2, column=1, sticky="ew", pady=(0,8))
+ingreso_especialidad_medica.grid(row=2, column=1, sticky="w", pady=8)
+ingreso_especialidad_medica.config(fg = "yellow", bg = "black", width = 30, font = ("Arial", 14, "italic"))
 
 """
 Termino a ingresar las cosas que me piden
@@ -71,7 +82,15 @@ Termino a ingresar las cosas que me piden
 Boton de confirmar turno.
 """
 boton_confirmar = Button(marco, text="Confirmar turno")
-boton_confirmar.grid(row=3, column=0, columnspan=2, pady=(12,0))
+boton_confirmar.grid(row=3, column=0, columnspan=2, pady=12)
+boton_confirmar.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+
+"""
+Boton de cancelar turno.
+"""
+boton_cancelar = Button(marco, text="Cancelar")
+boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
+boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
