@@ -85,24 +85,30 @@ Empiezo a ingresar las cosas que me piden
 
 # Etiqueta del nombre completo
 etiqueta_nombre_lector = Label(marco, text="Nombre del lector:")
-etiqueta_nombre_lector.grid(row=0, column=0, sticky="w", padx=(0,10), pady=(0,8)) # .grid() para acomodar el objeto dentro del Frame.
+etiqueta_nombre_lector.grid(row=0, column=0, sticky="w", padx=10, pady=8) # .grid() para acomodar el objeto dentro del Frame.
+etiqueta_nombre_lector.config(fg = "purple", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del nombre lector
 ingreso_nombre_lector = Entry(marco)
-ingreso_nombre_lector.grid(row=0, column=1, sticky="ew", pady=(0,8))
+ingreso_nombre_lector.grid(row=0, column=1, sticky="w", pady=8)
+ingreso_nombre_lector.config(fg = "skyblue", bg = "black", width = 30, font = ("Arial", 14, "italic"))
 
 # Etiqueta del titulo del libro
 etiqueta_titulo_libro = Label(marco, text="Titulo del libro:")
-etiqueta_titulo_libro.grid(row=1, column=0, sticky="w", padx=(0,10), pady=(0,8))
+etiqueta_titulo_libro.grid(row=1, column=0, sticky="w", padx=10, pady=8)
+etiqueta_titulo_libro.config(fg = "purple", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso del titulo del libro
 ingreso_titulo_libro = Entry(marco)
-ingreso_titulo_libro.grid(row=1, column=1, sticky="ew", pady=(0,8))
+ingreso_titulo_libro.grid(row=1, column=1, sticky="w", pady=8)
+ingreso_titulo_libro.config(fg = "skyblue", bg = "black", width = 30, font = ("Arial", 14, "italic"))
 
 # Etiqueta de la fecha de devolucion
 etiqueta_fecha_devolucion = Label(marco, text="Fecha de devolucion:")
-etiqueta_fecha_devolucion.grid(row=2, column=0, sticky="w", padx=(0,10), pady=(0,8))
+etiqueta_fecha_devolucion.grid(row=2, column=0, sticky="w", padx=10, pady=8)
+etiqueta_fecha_devolucion.config(fg = "purple", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Ingreso de la fecha de devolucion
 ingreso_fecha_devolucion = Entry(marco)
-ingreso_fecha_devolucion.grid(row=2, column=1, sticky="ew", pady=(0,8))
+ingreso_fecha_devolucion.grid(row=2, column=1, sticky="w", pady=8)
+ingreso_fecha_devolucion.config(fg = "skyblue", bg = "black", width = 30, font = ("Arial", 14, "italic"))
 
 """
 Termino a ingresar las cosas que me piden
@@ -112,7 +118,15 @@ Termino a ingresar las cosas que me piden
 Boton de confirmar turno.
 """
 boton_cargar = Button(marco, text="Cargar prestamo")
-boton_cargar.grid(row=3, column=0, columnspan=2, pady=(12,0))
+boton_cargar.grid(row=3, column=0, columnspan=2, pady=12)
+boton_cargar.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+
+"""
+Boton de cancelar prestamo.
+"""
+boton_cancelar = Button(marco, text="Cancelar")
+boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
+boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
