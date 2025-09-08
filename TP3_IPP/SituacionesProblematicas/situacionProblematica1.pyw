@@ -1,12 +1,19 @@
 from tkinter import *
 
+# Funciones para los botones
+
+def Calcular():
+    suma = valor1.get() + valor2.get() + valor3.get() # .get()
+    total.set(suma) # .set()
+
+
 # Creando la ventana raiz
 raiz = Tk()
 
 # Configuro la ventana raiz
 
 # Titulo de la ventana raiz
-raiz.title("**** Registro de nuevos alumnos de la academia ****")
+raiz.title("**** CALCULO DE SUMATORIA ****")
 raiz.geometry("480x300")
 raiz.minsize(420, 260)
 
@@ -19,7 +26,7 @@ raiz.resizable(True, True) # Con resizable(True, True) ambos bordes de la ventan
 
 # Icono
 try:
-    raiz.iconbitmap('TP2_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
+    raiz.iconbitmap('TP3_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\Software.ico')
 except Exception:
     pass
 
@@ -43,56 +50,73 @@ Empiezo a ingresar las cosas que me piden
 (TODOS LOS OBJETOS (WIDGETS)TIENEN SU CREACION, UBICACION Y SU CONFIGURACION)
 El sticky es la ubicacion del objeto en la celda y el anchor es la ubicacion del texto en el objeto.
 """
+cartel=Label(marco,text="** SUMATORIA DE NÚMEROS **")
+cartel.grid(row=0,column=0,sticky="w",pady=10,padx=10)
+cartel.config(fg="blue",bg="lightblue")
 
-# Etiqueta del nombre completo
-etiqueta_nombre_completo = Label(marco, text="Nombre completo:")
-etiqueta_nombre_completo.grid(row=0, column=0, sticky="w", padx=20, pady=30) # .grid() para acomodar el objeto dentro del Frame.
-etiqueta_nombre_completo.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Ingreso del nombre completo
-ingreso_nombre_completo = Entry(marco)
-ingreso_nombre_completo.grid(row=0, column=1, sticky="w", pady=30)
-ingreso_nombre_completo.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Etiqueta del valor UNO.
+etiqueta_valor_uno = Label(marco, text="Ingrese valor UNO:")
+etiqueta_valor_uno.grid(row=1, column=0, sticky="w", padx=20, pady=30) # .grid() para acomodar el objeto dentro del Frame.
+etiqueta_valor_uno.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# Etiqueta del valor DOS.
+etiqueta_valor_dos = Label(marco, text="Ingrese valor DOS:")
+etiqueta_valor_dos.grid(row=2, column=0, sticky="w", padx=20, pady=30) 
+etiqueta_valor_dos.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# Etiqueta del valor TRES.
+etiqueta_valor_tres = Label(marco, text="Ingrese valor TRES:")
+etiqueta_valor_tres.grid(row=3, column=0, sticky="w", padx=20, pady=30)
+etiqueta_valor_tres.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# Etiqueta del TOTAL.
+etiqueta_TOTAL = Label(marco, text="TOTAL:")
+etiqueta_TOTAL.grid(row=4, column=0, sticky="w", padx=20, pady=30)
+etiqueta_TOTAL.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
-# Etiqueta del numero de documento
-etiqueta_nro_documento = Label(marco, text="N° de documento:")
-etiqueta_nro_documento.grid(row=1, column=0, sticky="w", padx=20, pady=30) 
-etiqueta_nro_documento.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Ingreso del nnumero de documento
-ingreso_nro_documento = Entry(marco)
-ingreso_nro_documento.grid(row=1, column=1, sticky="w", pady=30)
-ingreso_nro_documento.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Declaro el tipo de dato de los Entry (IntVar para enteros y StringVar para texto).
+valor1=IntVar()
+valor2=IntVar()
+valor3=IntVar()
+total=IntVar()
 
-# Etiqueta del correo electronico
-etiqueta_correo_electronico = Label(marco, text="Correo electrónico:")
-etiqueta_correo_electronico.grid(row=2, column=0, sticky="w", padx=20, pady=30)
-etiqueta_correo_electronico.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Ingreso del correo electronico
-ingreso_correo_electronico = Entry(marco)
-ingreso_correo_electronico.grid(row=2, column=1, sticky="w", pady=30)
-ingreso_correo_electronico.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del valor UNO.
+ingreso_valor_uno = Entry(marco, textvariable=valor1)
+ingreso_valor_uno.grid(row=1, column=1, sticky="w", pady=30)
+ingreso_valor_uno.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del valor DOS.
+ingreso_valor_dos = Entry(marco, textvariable=valor2)
+ingreso_valor_dos.grid(row=2, column=1, sticky="w", pady=30)
+ingreso_valor_dos.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del valor TRES.
+ingreso_valor_tres = Entry(marco, textvariable=valor3)
+ingreso_valor_tres.grid(row=3, column=1, sticky="w", pady=30)
+ingreso_valor_tres.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del valor TRES.
+ingreso_TOTAL = Entry(marco, textvariable=total)
+ingreso_TOTAL.grid(row=4, column=1, sticky="w", pady=30)
+ingreso_TOTAL.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+
 """
 Termino a ingresar las cosas que me piden
 """
 
 """
-Boton de registrar alumno.
+Boton de confirmar ingreso.
 """
-boton_registrar = Button(marco, text="Registrar")
-boton_registrar.grid(row=3, column=0, columnspan=2, pady=10)
-boton_registrar.config(fg = "green", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+boton_confirmar = Button(marco, text="CONFIRMAR")
+boton_confirmar.grid(row=5, column=0, columnspan=2, pady=10)
+boton_confirmar.config(fg = "green", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 """
-Boton de cancelar alumno.
+Boton de nueva suma.
 """
-boton_cancelar = Button(marco, text="Cancelar")
-boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
-boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_nueva_suma = Button(marco, text="NUEVA SUMA")
+boton_nueva_suma.grid(row=6, column=0, columnspan=2, pady=10)
+boton_nueva_suma.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 """
 Boton de salir.
 """
 boton_salir = Button(marco, text="Salir")
-boton_salir.grid(row=5, column=0, columnspan=2, pady=10)
+boton_salir.grid(row=7, column=0, columnspan=2, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga.
