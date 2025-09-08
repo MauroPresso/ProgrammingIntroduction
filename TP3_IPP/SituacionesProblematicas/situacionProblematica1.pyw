@@ -6,11 +6,18 @@ def Calcular():
     suma = valor1.get() + valor2.get() + valor3.get() # .get()
     total.set(suma) # .set()
 
+    if flete.get()==1:
+        suma=suma*1.1
+    if garantia.get()==1:
+        suma=suma*1.15
+
 def Nuevo():
     valor1.set(0)
     valor2.set(0)
     valor3.set(0)
     total.set(0)
+    flete.set(0)
+    garantia.set(0)
 
 
 # Creando la ventana raiz
@@ -124,6 +131,30 @@ Boton de salir.
 boton_salir = Button(marco, text="Salir", command=raiz.destroy) # con el command se vincula y con el destroy efecivamente de destruye.
 boton_salir.grid(row=7, column=0, columnspan=2, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
+
+
+"""
+CHECKBUTTON
+"""
+etiqueta_boton = Label(marco, text = "** SERVICIOS ESPECIALES **")
+etiqueta_boton.grid(row=1,column=2,sticky="w",padx=10,pady=10)
+etiqueta_boton.config(fg = "white", bg = "black", width = 30, font = ("Rockell", 14, "italic"))
+
+# Son DOS porque son INDEPENDIENTES
+flete=IntVar()
+garantia=IntVar()
+
+# Los botones
+check_flete = Checkbutton(marco, text="Flete", variable=flete, onvalue=1, offvalue=0)
+check_flete.grid(row=2,column=2,sticky="w",padx=10,pady=10)
+check_flete.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+
+
+
+
+check_garantia = Checkbutton(marco, text="Garantia", variable=garantia, onvalue=1, offvalue=0)
+check_garantia.grid(row=3,column=2,sticky="w",padx=10,pady=10)
+check_garantia.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga.
 raiz.mainloop()
