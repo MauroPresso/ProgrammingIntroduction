@@ -6,6 +6,12 @@ def Calcular():
     suma = valor1.get() + valor2.get() + valor3.get() # .get()
     total.set(suma) # .set()
 
+def Nuevo():
+    valor1.set(0)
+    valor2.set(0)
+    valor3.set(0)
+    total.set(0)
+
 
 # Creando la ventana raiz
 raiz = Tk()
@@ -78,7 +84,7 @@ valor3=IntVar()
 total=IntVar()
 
 # Ingreso del valor UNO.
-ingreso_valor_uno = Entry(marco, textvariable=valor1)
+ingreso_valor_uno = Entry(marco, textvariable=valor1) #Con  textvariable la vinculo con valor1
 ingreso_valor_uno.grid(row=1, column=1, sticky="w", pady=30)
 ingreso_valor_uno.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del valor DOS.
@@ -115,7 +121,7 @@ boton_nueva_suma.config(fg = "red", bg = "white", width = 30, font = ("Times New
 """
 Boton de salir.
 """
-boton_salir = Button(marco, text="Salir")
+boton_salir = Button(marco, text="Salir", command=raiz.destroy) # con el command se vincula y con el destroy efecivamente de destruye.
 boton_salir.grid(row=7, column=0, columnspan=2, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
 
