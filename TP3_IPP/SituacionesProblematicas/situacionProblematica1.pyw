@@ -107,14 +107,14 @@ Termino a ingresar las cosas que me piden
 """
 Boton de confirmar ingreso.
 """
-boton_confirmar = Button(marco, text="CONFIRMAR")
+boton_confirmar = Button(marco, text="CONFIRMAR", command=lambda:Calcular()) # El lambda va a buscar la funcion.
 boton_confirmar.grid(row=5, column=0, columnspan=2, pady=10)
 boton_confirmar.config(fg = "green", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 """
 Boton de nueva suma.
 """
-boton_nueva_suma = Button(marco, text="NUEVA SUMA")
+boton_nueva_suma = Button(marco, text="NUEVA SUMA", command=lambda:Nuevo())
 boton_nueva_suma.grid(row=6, column=0, columnspan=2, pady=10)
 boton_nueva_suma.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
