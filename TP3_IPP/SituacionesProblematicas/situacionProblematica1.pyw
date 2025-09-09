@@ -1,17 +1,24 @@
 from tkinter import *
+from tkinter import messagebox
 
 # Funciones para los botones
 
 def Calcular():
-    suma = valor1.get() + valor2.get() + valor3.get() # .get()
-    #total.set(suma) # .set()
+    if valor1.get()>10000 or valor2.get()>10000 or valor3.get()>10000:
+        messagebox.showerror("ERROR", "Una de las compras supera los $10000")
+    else:
+        suma = valor1.get() + valor2.get() + valor3.get() # .get()
+        if es_cliente.get()==1:
+            suma=suma*0.9
+        else:
+            suma=suma*1.20
 
-    if flete.get()==1:
-        suma=suma*1.1
-    if garantia.get()==1:
-        suma=suma*1.15
-
+        if flete.get()==1:
+            suma=suma*1.1
+        if garantia.get()==1:
+            suma=suma*1.15
     total.set(suma) # .set()
+    messagebox.showinfo("CONFIRMACION", "Compra finalizada!!")
 
 
 def Nuevo():
@@ -21,6 +28,8 @@ def Nuevo():
     total.set(0)
     flete.set(0)
     garantia.set(0)
+    es_cliente.set(1)
+    messagebox.showwarning("ATENCIÓN", "Está por empezar una nueva compra")
 
 
 # Creando la ventana raiz
