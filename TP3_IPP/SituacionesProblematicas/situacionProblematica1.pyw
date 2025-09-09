@@ -31,6 +31,17 @@ def Nuevo():
     es_cliente.set(1)
     messagebox.showwarning("ATENCIÓN", "Está por empezar una nueva compra")
 
+def salida():
+    #                                   TITULO DE VENTANA   CARTEL DE LA VENTANA EMERGENTE
+    #                                           |                           |
+    #                                           V                           V
+    respuesta = messagebox.askquestion("SALIDA DE LA APP", "Confirmar que sale de la apicacion")
+    if respuesta=="yes":
+        raiz.destroy() # cuando destroy lo vinculas a command no se pone parentesis. En este caso, si.
+    else:
+        messagebox.showinfo("SALIDA DE LA APP", "Aun sigues aqui, gracias por quedarte!")
+
+
 
 # Creando la ventana raiz
 raiz = Tk()
@@ -140,7 +151,7 @@ boton_nueva_suma.config(fg = "red", bg = "white", width = 30, font = ("Times New
 """
 Boton de salir.
 """
-boton_salir = Button(marco, text="Salir", command=raiz.destroy) # con el command se vincula y con el destroy efecivamente de destruye.
+boton_salir = Button(marco, text="Salir", command=lambda:salida()) # con el command se vincula y con el destroy efecivamente de destruye.
 boton_salir.grid(row=7, column=0, columnspan=2, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
 
