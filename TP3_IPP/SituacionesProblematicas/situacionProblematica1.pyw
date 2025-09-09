@@ -4,12 +4,15 @@ from tkinter import *
 
 def Calcular():
     suma = valor1.get() + valor2.get() + valor3.get() # .get()
-    total.set(suma) # .set()
+    #total.set(suma) # .set()
 
     if flete.get()==1:
         suma=suma*1.1
     if garantia.get()==1:
         suma=suma*1.15
+
+    total.set(suma) # .set()
+
 
 def Nuevo():
     valor1.set(0)
@@ -144,17 +147,30 @@ etiqueta_boton.config(fg = "white", bg = "black", width = 30, font = ("Rockell",
 flete=IntVar()
 garantia=IntVar()
 
-# Los botones
+# Las casillas de verificacion
 check_flete = Checkbutton(marco, text="Flete", variable=flete, onvalue=1, offvalue=0)
 check_flete.grid(row=2,column=2,sticky="w",padx=10,pady=10)
 check_flete.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-
-
-
 
 check_garantia = Checkbutton(marco, text="Garantia", variable=garantia, onvalue=1, offvalue=0)
 check_garantia.grid(row=3,column=2,sticky="w",padx=10,pady=10)
 check_garantia.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
+"""
+RADIOBUTTON
+"""
+# Etiqueta del boton de opcion.
+etiqueta_cliente = Label(marco, text = "** ¿ES CLIENTE? **")
+etiqueta_cliente.grid(row=1,column=3,sticky="w",padx=10,pady=10)
+etiqueta_cliente.config(fg = "white", bg = "black", width = 30, font = ("Rockell", 14, "italic"))
+
+# Funcionalidad del boton de opcion
+es_cliente=IntVar()
+
+si_es_cliente=Radiobutton(marco, text="SI es CLIENTE", variable=es_cliente, value=1)
+si_es_cliente.grid(row=2, column=3, sticky="w", padx=10, pady=10)
+
+no_es_cliente=Radiobutton(marco, text="NO es CLIENTE", variable=es_cliente, value=2)
+no_es_cliente.grid(row=3, column=3, sticky="w", padx=10, pady=10)
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga.
 raiz.mainloop()
