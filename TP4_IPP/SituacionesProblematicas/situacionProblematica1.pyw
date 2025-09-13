@@ -11,28 +11,38 @@ from tkinter import *
 from tkinter import messagebox
 
 """
- @brief Función que alerta al usuario de Entry's sin completar.
+ @brief Función que maneja el registro de la inscripción.
 
  @param none
 
  @return none
 """
-def advertir(): 
-    # Nombre completo
-    if ingreso_nombre_completo.get()=="": # En el entry del nombre completo no hay nada
-        messagebox.showerror("ERROR","No ingresaste tu nombre")
+def registrar(): 
+    if nombre_completo.get() == "" or nro_documento.get() == 0 or correo_electronico.get() == "":
+        # Nombre completo
+        if nombre_completo.get() == "": # En el entry del nombre completo no hay nada
+            messagebox.showerror("ERROR","No ingresaste tu nombre")
+        # Numero de documento
+        elif nro_documento.get() == 0: # En el entry del numero de documento no hay nada
+            messagebox.showerror("ERROR","No ingresaste tu numero de documento")
+        # Correo electronico
+        else: # En el entry del correo electronico no hay nada
+            messagebox.showerror("ERROR","No ingresaste tu correo electronico")  
     else:
-        messagebox.showinfo("CONFIRMACIÓN","NOMBRE INGRESADO OK")
-    # Numero de documento
-    if ingreso_nro_documento.get()=="": # En el entry del numero de documento no hay nada
-        messagebox.showerror("ERROR","No ingresaste tu numero de documento")
-    else:
-        messagebox.showinfo("CONFIRMACIÓN","NUMERO DE DOCUMENTO INGRESADO OK")
-    # Correo electronico
-    if ingreso_correo_electronico.get()=="": # En el entry del correo electronico no hay nada
-        messagebox.showerror("ERROR","No ingresaste tu correo electronico")
-    else:
-        messagebox.showinfo("CONFIRMACIÓN","CORREO ELECTRONICO INGRESADO OK")  
+        messagebox.showinfo("SU INSCRIPCION HA SIDO REGISTRADA CON ÉXITO", f"Alumno: {nombre_completo.get()}\nDNI: {nro_documento.get()}\nCorreo: {correo_electronico.get()}")
+
+"""
+ @brief Función que maneja la cancelación de la inscripción.
+
+ @param none
+
+ @return none
+"""
+def cancelar():
+    nombre_completo.set("")
+    nro_documento.set(0)
+    correo_electronico.set("")
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar esta inscripción")
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -51,7 +61,6 @@ def salida():
         raiz.destroy() # cuando destroy lo vinculas a command no se pone parentesis. En este caso, si.
     else:
         messagebox.showinfo("SALIDA DE LA APP", "Aun sigues aqui, gracias por quedarte!")
-
 
 # Creando la ventana raiz
 raiz = Tk()
@@ -101,28 +110,33 @@ El sticky es la ubicacion del objeto en la celda y el anchor es la ubicacion del
 etiqueta_nombre_completo = Label(marco, text="Nombre completo:")
 etiqueta_nombre_completo.grid(row=0, column=0, sticky="w", padx=20, pady=30) # .grid() para acomodar el objeto dentro del Frame.
 etiqueta_nombre_completo.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Ingreso del nombre completo
-ingreso_nombre_completo = Entry(marco)
-ingreso_nombre_completo.grid(row=0, column=1, sticky="w", pady=30)
-ingreso_nombre_completo.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
-
 # Etiqueta del numero de documento
 etiqueta_nro_documento = Label(marco, text="N° de documento:")
 etiqueta_nro_documento.grid(row=1, column=0, sticky="w", padx=20, pady=30) 
 etiqueta_nro_documento.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Ingreso del nnumero de documento
-ingreso_nro_documento = Entry(marco)
-ingreso_nro_documento.grid(row=1, column=1, sticky="w", pady=30)
-ingreso_nro_documento.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
-
 # Etiqueta del correo electronico
 etiqueta_correo_electronico = Label(marco, text="Correo electrónico:")
 etiqueta_correo_electronico.grid(row=2, column=0, sticky="w", padx=20, pady=30)
 etiqueta_correo_electronico.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+
+# Declaro el tipo de dato de los Entry (IntVar para enteros y StringVar para texto).
+nombre_completo=StringVar()
+nro_documento=IntVar()
+correo_electronico=StringVar()
+
+# Ingreso del nombre completo
+ingreso_nombre_completo = Entry(marco, textvariable=nombre_completo)
+ingreso_nombre_completo.grid(row=0, column=1, sticky="w", pady=30)
+ingreso_nombre_completo.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del nnumero de documento
+ingreso_nro_documento = Entry(marco, textvariable=nro_documento)
+ingreso_nro_documento.grid(row=1, column=1, sticky="w", pady=30)
+ingreso_nro_documento.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del correo electronico
-ingreso_correo_electronico = Entry(marco)
+ingreso_correo_electronico = Entry(marco, textvariable=correo_electronico)
 ingreso_correo_electronico.grid(row=2, column=1, sticky="w", pady=30)
 ingreso_correo_electronico.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+
 """
 Termino a ingresar las cosas que me piden
 """
@@ -130,21 +144,21 @@ Termino a ingresar las cosas que me piden
 """
 Boton de registrar alumno.
 """
-boton_registrar = Button(marco, text="Registrar")
+boton_registrar = Button(marco, text="Registrar", command=lambda:registrar())
 boton_registrar.grid(row=3, column=0, columnspan=1, padx=10, pady=10)
 boton_registrar.config(fg = "green", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 """
 Boton de cancelar alumno.
 """
-boton_cancelar = Button(marco, text="Cancelar")
+boton_cancelar = Button(marco, text="Cancelar", command=lambda:cancelar())
 boton_cancelar.grid(row=3, column=1, columnspan=1, padx=10, pady=10)
 boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 """
 Boton de salir.
 """
-boton_salir = Button(marco, text="Salir")
+boton_salir = Button(marco, text="Salir", command=lambda:salida())
 boton_salir.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
 
