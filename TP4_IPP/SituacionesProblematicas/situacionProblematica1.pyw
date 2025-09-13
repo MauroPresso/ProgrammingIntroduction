@@ -1,4 +1,57 @@
+# @file situacionProblematica1.pyw
+#
+# @brief Programa que permite ingresar los datos de un cliente y calcular el total de su factura.
+# @date 09/22/2025
+# @author Mauro Presso
+# @version 1.0
+# @details
+# Situación Problemática Nº1 - Práctica Integral - Introducción a la Programación
+
 from tkinter import *
+from tkinter import messagebox
+
+"""
+ @brief Función que alerta al usuario de Entry's sin completar.
+
+ @param none
+
+ @return none
+"""
+def advertir(): 
+    # Nombre completo
+    if ingreso_nombre_completo.get()=="": # En el entry del nombre completo no hay nada
+        messagebox.showerror("ERROR","No ingresaste tu nombre")
+    else:
+        messagebox.showinfo("CONFIRMACIÓN","NOMBRE INGRESADO OK")
+    # Numero de documento
+    if ingreso_nro_documento.get()=="": # En el entry del numero de documento no hay nada
+        messagebox.showerror("ERROR","No ingresaste tu numero de documento")
+    else:
+        messagebox.showinfo("CONFIRMACIÓN","NUMERO DE DOCUMENTO INGRESADO OK")
+    # Correo electronico
+    if ingreso_correo_electronico.get()=="": # En el entry del correo electronico no hay nada
+        messagebox.showerror("ERROR","No ingresaste tu correo electronico")
+    else:
+        messagebox.showinfo("CONFIRMACIÓN","CORREO ELECTRONICO INGRESADO OK")  
+
+"""
+ @brief Función que maneja la salida de la aplicación.
+
+ @param none
+
+ @return none
+"""
+
+def salida():
+    #                                   TITULO DE VENTANA   CARTEL DE LA VENTANA EMERGENTE
+    #                                           |                           |
+    #                                           V                           V
+    respuesta = messagebox.askquestion("SALIDA DE LA APP", "Confirmar que sale de la apicacion")
+    if respuesta=="yes":
+        raiz.destroy() # cuando destroy lo vinculas a command no se pone parentesis. En este caso, si.
+    else:
+        messagebox.showinfo("SALIDA DE LA APP", "Aun sigues aqui, gracias por quedarte!")
+
 
 # Creando la ventana raiz
 raiz = Tk()
@@ -78,21 +131,21 @@ Termino a ingresar las cosas que me piden
 Boton de registrar alumno.
 """
 boton_registrar = Button(marco, text="Registrar")
-boton_registrar.grid(row=3, column=0, columnspan=2, pady=10)
+boton_registrar.grid(row=3, column=0, columnspan=1, padx=10, pady=10)
 boton_registrar.config(fg = "green", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 """
 Boton de cancelar alumno.
 """
 boton_cancelar = Button(marco, text="Cancelar")
-boton_cancelar.grid(row=4, column=0, columnspan=2, pady=10)
+boton_cancelar.grid(row=3, column=1, columnspan=1, padx=10, pady=10)
 boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 
 """
 Boton de salir.
 """
 boton_salir = Button(marco, text="Salir")
-boton_salir.grid(row=5, column=0, columnspan=2, pady=10)
+boton_salir.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga.
