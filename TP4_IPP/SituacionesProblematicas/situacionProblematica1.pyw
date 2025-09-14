@@ -1,6 +1,6 @@
 # @file situacionProblematica1.pyw
 #
-# @brief Programa que permite ingresar los datos de un cliente y calcular el total de su factura.
+# @brief Programa que permite ingresar los datos de un alumno de una academia.
 # @date 09/22/2025
 # @author Mauro Presso
 # @version 3.0
@@ -9,6 +9,10 @@
 
 from tkinter import *
 from tkinter import messagebox
+
+"""
+FUNCIONES
+"""
 
 """
  @brief Función que define la condicion de edad del alumno.
@@ -92,8 +96,6 @@ def cancelar():
     whatsapp.set(0)
     encuesta.set(0)
 
-    
-
 """
  @brief Función que maneja la salida de la aplicación.
 
@@ -109,29 +111,19 @@ def salida():
     else:
         messagebox.showinfo("SALIDA DE LA APP", "Aun sigues aqui, gracias por quedarte!")
 
-# Creando la ventana raiz
+"""
+RAIZ
+"""
 raiz = Tk()
-
-# Configuro la ventana raiz
-
-# Titulo de la ventana raiz
 raiz.title("**** Registro de nuevos alumnos de la academia ****")
 raiz.geometry("480x300")
 raiz.minsize(420, 260)
-
-
-# Tamaño de la ventana
 raiz.resizable(True, True)
-
 # Icono
 try:
     raiz.iconbitmap('TP4_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
 except Exception:
     pass
-
-"""
-RAIZ
-"""
 raiz.config(bg = "purple")
 raiz.config(cursor = "pencil") 
 
