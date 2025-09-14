@@ -154,7 +154,6 @@ etiqueta_correo_electronico = Label(marco, text="Correo electrónico:")
 etiqueta_correo_electronico.grid(row=3, column=0, sticky="w", padx=20, pady=30)
 etiqueta_correo_electronico.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta de la edad
-# Etiqueta del numero de documento
 etiqueta_edad = Label(marco, text="Edad:")
 etiqueta_edad.grid(row=4, column=0, sticky="w", padx=20, pady=30) 
 etiqueta_edad.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
