@@ -3,7 +3,7 @@
 # @brief Programa que permite ingresar los datos de un cliente y calcular el total de su factura.
 # @date 09/22/2025
 # @author Mauro Presso
-# @version 1.0
+# @version 2.0
 # @details
 # Situación Problemática Nº1 - Práctica Integral - Introducción a la Programación
 
@@ -44,6 +44,8 @@ def cancelar():
     nombre_completo.set("")
     nro_documento.set(0)
     correo_electronico.set("")
+    # Botones de opción
+    nivel_estudios.set(0)
     # Casillas de verificación
     email.set(0)
     whatsapp.set(0)
