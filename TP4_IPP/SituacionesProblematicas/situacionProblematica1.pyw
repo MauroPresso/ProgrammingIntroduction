@@ -23,9 +23,9 @@ FUNCIONES
 """
 def determinar_condicion_edad(edad):
     if edad > 0 and edad < 18:
-        return "Menor de edad"
+       return ("Menor de edad")
     else:
-        return "Mayor de edad"
+        return ("Mayor de edad")
 
 """
  @brief Función que cuenta la cantidad de preferencias seleccionadas.
@@ -43,7 +43,7 @@ def contar_preferencias():
             contador_preferencias += 1
         if encuesta.get() == 1:
             contador_preferencias += 1
-    return contador_preferencias
+    cantidad_preferencias.set(contador_preferencias)
 
 """
  @brief Función que maneja el registro de la inscripción.
@@ -71,9 +71,8 @@ def registrar():
     elif nivel_estudios.get() != 1 and nivel_estudios.get() != 2 and nivel_estudios.get() != 3:
         messagebox.showerror("ERROR","No seleccionaste tu nivel de estudios")
     else:
-        condicion_edad = determinar_condicion_edad(edad.get())
-        cantidad_preferencias = contar_preferencias()
-        messagebox.showinfo("SU INSCRIPCION HA SIDO REGISTRADA CON ÉXITO", f"Alumno: {nombre_completo.get()}\nDNI: {nro_documento.get()}\nCondicion de Edad: {condicion_edad}\nCorreo: {correo_electronico.get()}\nNivel de estudios: {nivel_estudios.get()}ario completo\nPreferencias de contacto seleccionadas: {cantidad_preferencias}/3")
+        es_mayor_o_menor=determinar_condicion_edad(edad.get())
+        messagebox.showinfo("SU INSCRIPCION HA SIDO REGISTRADA CON ÉXITO", f"Alumno: {nombre_completo.get()}\nDNI: {nro_documento.get()}\nEl alumno es: {es_mayor_o_menor}\nCorreo: {correo_electronico.get()}\nNivel de estudios: {nivel_estudios.get()}-ario completo")
 
 """
  @brief Función que maneja la cancelación de la inscripción.
@@ -95,6 +94,7 @@ def cancelar():
     email.set(0)
     whatsapp.set(0)
     encuesta.set(0)
+    cantidad_preferencias.set(0)
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -138,7 +138,7 @@ marco.config(bg = "grey", relief= "groove")
 ETIQUETAS
 """
 # Subtitulo de la app
-etiqueta_subtitulo = Label(marco, text = "*** REGISTRO DE NUEVOS ALUMNOS ***")
+etiqueta_subtitulo = Label(marco, text = "REGISTRO DE NUEVOS ALUMNOS")
 etiqueta_subtitulo.grid(row=0,column=0,sticky="w",padx=10,pady=10) # .grid() para acomodar el objeto dentro del Frame.
 etiqueta_subtitulo.config(fg = "white", bg = "black", width = 40, font = ("Rockell", 14, "italic"))
 # Etiqueta del nombre completo
@@ -158,11 +158,11 @@ etiqueta_edad = Label(marco, text="Edad:")
 etiqueta_edad.grid(row=4, column=0, sticky="w", padx=20, pady=30) 
 etiqueta_edad.config(fg = "blue", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta del boton de opcion
-etiqueta_nivel_estudios = Label(marco, text = "*** NIVEL DE ESTUDIOS ***")
+etiqueta_nivel_estudios = Label(marco, text = "NIVEL DE ESTUDIOS:")
 etiqueta_nivel_estudios.grid(row=0,column=2,sticky="w",padx=10,pady=10)
 etiqueta_nivel_estudios.config(fg = "white", bg = "black", width = 30, font = ("Rockell", 14, "italic"))
 # Etiqueta de la casilla de verificacion
-etiqueta_preferencias_contacto = Label(marco, text = "** PREFERENCIAS DE CONTACTO **")
+etiqueta_preferencias_contacto = Label(marco, text = "PREFERENCIAS DE CONTACTO:")
 etiqueta_preferencias_contacto.grid(row=0,column=3,sticky="w",padx=10,pady=10)
 etiqueta_preferencias_contacto.config(fg = "white", bg = "black", width = 30, font = ("Rockell", 14, "italic"))
 """
@@ -173,6 +173,7 @@ nombre_completo=StringVar()
 nro_documento=IntVar()
 correo_electronico=StringVar()
 edad=IntVar()
+cantidad_preferencias=IntVar()
 # Ingreso del nombre completo
 ingreso_nombre_completo = Entry(marco, textvariable=nombre_completo)
 ingreso_nombre_completo.grid(row=1, column=1, sticky="w", padx=10, pady=10)
@@ -185,10 +186,14 @@ ingreso_nro_documento.config(fg = "red", bg = "white", width = 30, font = ("Aria
 ingreso_correo_electronico = Entry(marco, textvariable=correo_electronico)
 ingreso_correo_electronico.grid(row=3, column=1, sticky="w", padx=10, pady=10)
 ingreso_correo_electronico.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
-# Ingreso del nnumero de documento
+# Ingreso del edad
 ingreso_edad = Entry(marco, textvariable=edad)
 ingreso_edad.grid(row=4, column=1, sticky="w", padx=10,pady=10)
 ingreso_edad.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso de la cantidad de preferencias seleccionadas
+ingreso_cantidad_preferencias = Entry(marco, textvariable=cantidad_preferencias, state="readonly")
+ingreso_cantidad_preferencias.grid(row=4, column=3, columnspan=1, sticky="w", padx=10,pady=10)
+ingreso_cantidad_preferencias.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 """ 
 BOTONES DE ACCION
@@ -205,6 +210,10 @@ boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New R
 boton_salir = Button(marco, text="Salir", command=lambda:salida())
 boton_salir.grid(row=7, column=1, columnspan=2, padx=10, pady=10, sticky="we")
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
+# Boton para contar las preferencias seleccionadas
+boton_contar_preferencias = Button(marco, text="Contar preferencias", command=lambda:contar_preferencias())
+boton_contar_preferencias.grid(row=5, column=3, padx=10, pady=10, sticky="we")
+boton_contar_preferencias.config(fg = "blue", bg = "white", width = 30, font = ("Arial", 14, "italic"))
 
 """
 BOTONES DE OPCION
