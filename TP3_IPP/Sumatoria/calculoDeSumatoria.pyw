@@ -125,7 +125,7 @@ ingreso_valor_dos.config(fg = "red", bg = "white", width = 30, font = ("Arial", 
 ingreso_valor_tres = Entry(marco, textvariable=valor3)
 ingreso_valor_tres.grid(row=3, column=1, sticky="w", pady=30)
 ingreso_valor_tres.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
-# Ingreso del valor TRES.
+# Ingreso del valor TOTAL.
 ingreso_TOTAL = Entry(marco, textvariable=total)
 ingreso_TOTAL.grid(row=4, column=1, sticky="w", pady=30)
 ingreso_TOTAL.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"))
