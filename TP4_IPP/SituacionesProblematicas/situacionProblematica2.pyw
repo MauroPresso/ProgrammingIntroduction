@@ -13,6 +13,43 @@ from tkinter import messagebox
 """
 FUNCIONES
 """
+def calcular_ano_de_nacimiento(edad):
+    from datetime import date
+    ano_actual = date.today().year
+    ano_nacimiento.set(ano_actual - edad)
+
+"""
+ @brief Función que calcula el costo extra por recordatorio.
+
+ @param none
+
+ @return none
+"""
+def calcular_costo_extra():
+    recargo = 0
+    if email.get() == 1:
+        recargo += 30
+    if whatsapp.get() == 1:
+        recargo += 20
+    if sms.get() == 1:
+        recargo += 10
+    costo_extra.set(recargo)
+
+"""
+ @brief Función que recibe las opciones de turno en enteros y las convierte a string.
+
+ @param horario_turno: int
+
+ @return str
+"""
+def asignar_turno(horario_turno):
+    if horario_turno == 1:
+        return "Mañana"
+    elif horario_turno == 2:
+        return "Tarde"
+    else:
+        return "Noche"
+
 """
  @brief Función que maneja el registro de la inscripción.
 
@@ -20,27 +57,26 @@ FUNCIONES
 
  @return none
 """
-def registrar(): 
+def confirmar_turno(): 
     # Entrys
-    if nombre_paciente.get() == "" or ano_nacimiento.get() == 0 or especialidad_medica.get() == "" or edad.get() == 0:
+    if nombre_paciente.get() == "" or especialidad_medica.get() == "" or edad.get() == 0:
         # Nombre completo
         if nombre_paciente.get() == "": # En el entry del nombre completo no hay nada
             messagebox.showerror("ERROR","No ingresaste tu nombre")
-        # Numero de documento
-        elif ano_nacimiento.get() == 0: # En el entry del numero de documento no hay nada
-            messagebox.showerror("ERROR","No ingresaste tu numero de documento")
-        # Correo electronico
-        elif especialidad_medica.get() == "": # En el entry del correo electronico no hay nada
-            messagebox.showerror("ERROR","No ingresaste tu correo electronico")  
         # Edad
-        else: # En el entry de la edad no hay nada
+        elif edad.get() == 0: # En el entry del numero de documento no hay nada
             messagebox.showerror("ERROR","No ingresaste tu edad")
+        # Especialidad medica solicitada
+        else: # En el entry del especialidad medica no hay nada
+            messagebox.showerror("ERROR","No ingresaste la especialidad medica solicitada")
     # Botones de opción
     elif horario_turno.get() != 1 and horario_turno.get() != 2 and horario_turno.get() != 3:
-        messagebox.showerror("ERROR","No seleccionaste tu nivel de estudios")
+        messagebox.showerror("ERROR","No seleccionaste un horario de turno")
     else:
-        messagebox.showinfo("SU TURNO HA SIDO REGISTRADO CON ÉXITO", f"Alumno: {nombre_paciente.get()}\nAño de nacimiento: {ano_nacimiento.get()}\nEdad: {edad.get()}\nEspecialidad médica solicitada: {especialidad_medica.get()}\nHorario del turno: {horario_turno.get()}")
-
+        calcular_ano_de_nacimiento(edad.get())
+        turno = asignar_turno(horario_turno.get())
+        messagebox.showinfo("SU TURNO FUE REGISTRADO CON ÉXITO", f"Nombre del paciente: {nombre_paciente.get()}\nEdad: {edad.get()}\nEspecialidad médica solicitada: {especialidad_medica.get()}\nHorario del turno: {turno}")
+        
 
 """
  @brief Función que maneja la cancelación del turno.
@@ -141,22 +177,27 @@ nombre_paciente=StringVar()
 ano_nacimiento=IntVar()
 especialidad_medica=StringVar()
 edad=IntVar()
+costo_extra=IntVar()
 # Ingreso del nombre paciente
 ingreso_nombre_paciente = Entry(marco, textvariable=nombre_paciente)
 ingreso_nombre_paciente.grid(row=1, column=1, sticky="w", padx=10,pady=10)
-ingreso_nombre_paciente.config(fg = "white", bg = "blue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del edad del paciente
 ingreso_edad_paciente = Entry(marco, textvariable=edad)
 ingreso_edad_paciente.grid(row=2, column=1, sticky="w", padx=10, pady=10)
-ingreso_edad_paciente.config(fg = "white", bg = "blue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_edad_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso de la especialidad medica solicitada
 ingreso_especialidad_medica = Entry(marco, textvariable=especialidad_medica)
 ingreso_especialidad_medica.grid(row=3, column=1, sticky="w", padx=10, pady=10)
-ingreso_especialidad_medica.config(fg = "white", bg = "blue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_especialidad_medica.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del año de nacimiento del paciente
 ingreso_ano_nacimiento = Entry(marco, textvariable=ano_nacimiento)
 ingreso_ano_nacimiento.grid(row=4, column=1, sticky="w", padx=10 ,pady=10)
-ingreso_ano_nacimiento.config(fg = "white", bg = "blue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_ano_nacimiento.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del costo extra por recordatorio
+ingreso_costo_extra = Entry(marco, textvariable=costo_extra)
+ingreso_costo_extra.grid(row=5, column=3, sticky="w", padx=10 ,pady=10)
+ingreso_costo_extra.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
 
 """
 BOTONES DE OPCION
@@ -200,17 +241,21 @@ check_sms.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 1
 BOTONES DE ACCION
 """
 # Boton de confirmar turno.
-boton_confirmar = Button(marco, text="Confirmar turno")
+boton_confirmar = Button(marco, text="Confirmar turno", command=lambda:confirmar_turno())
 boton_confirmar.grid(row=5, column=0, columnspan=2, padx=10,pady=10)
 boton_confirmar.config(fg = "green", bg = "skyblue", width = 30, font = ("Calibri", 14, "italic"))
 # Boton de cancelar turno.
-boton_cancelar = Button(marco, text="Cancelar")
+boton_cancelar = Button(marco, text="Cancelar", command=lambda:cancelar())
 boton_cancelar.grid(row=6, column=0, columnspan=2, padx=10,pady=10)
 boton_cancelar.config(fg = "red", bg = "skyblue", width = 30, font = ("Times New Roman", 14, "italic"))
 # Boton de salir.
 boton_salir = Button(marco, text="Salir", command=lambda:salida())
 boton_salir.grid(row=7, column=0, columnspan=2, padx=10,pady=10)
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
+# Boton de calcular costo extra por recordatorio.
+boton_costo_extra = Button(marco, text="Calcular costo extra por recordatorio", command=lambda:calcular_costo_extra())
+boton_costo_extra.grid(row=4, column=3, padx=10,pady=10)
+boton_costo_extra.config(fg = "blue", bg = "skyblue", width = 30, font = ("Calibri", 14, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
