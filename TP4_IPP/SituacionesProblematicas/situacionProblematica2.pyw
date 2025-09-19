@@ -3,7 +3,7 @@
 # @brief Programa que permite ingresar los datos de un paciente de una clinica medica.
 # @date 09/22/2025
 # @author Mauro Presso
-# @version 2.0
+# @version 3.0
 # @details
 # Situación Problemática Nº2 - Práctica Integral - Introducción a la Programación
 
