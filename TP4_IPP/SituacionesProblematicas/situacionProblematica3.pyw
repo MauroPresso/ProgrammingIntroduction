@@ -1,7 +1,17 @@
+# @file situacionProblematica3.pyw
+#
+# @brief Programa que permite ingresar los datos de un paciente de una clinica medica.
+# @date 09/22/2025
+# @author Mauro Presso
+# @version 3.0
+# @details
+# Situación Problemática Nº3 - Práctica Integral - Introducción a la Programación
+
 from tkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
 from datetime import date
+
 """
  @brief Función que calcula los días restantes para la devolución del libro.
  @param none
