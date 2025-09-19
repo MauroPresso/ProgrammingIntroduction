@@ -1,21 +1,102 @@
 from tkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
+from datetime import date
+"""
+ @brief Función que calcula los días restantes para la devolución del libro.
+ @param none
+ @return none
+"""
+def calcular_dias_restantes():
+    """
+    Lee la fecha como 'date' con .get_date() y calcula
+    (fecha_devolucion - hoy).days -> ENTERO (excluye el día de hoy).
+    """
+    hoy = date.today()
+    fecha_devolucion = ingreso_fecha_devolucion.get_date()  # -> datetime.date (sin hora)
+    dias_restantes = (fecha_devolucion - hoy).days  # ya EXCLUYE el día de hoy
+    if dias_restantes > 0:
+        messagebox.showinfo("Días restantes", f"Faltan {dias_restantes} día(s) para la devolución.")
+    elif dias_restantes == 0:
+        messagebox.showinfo("Días restantes", "¡La devolución es hoy!")
+    else:
+        messagebox.showwarning("Vencida", f"La devolución venció hace {-dias_restantes} día(s).")
+
+""" 
+ @brief Función que determina la categoría del libro según el valor seleccionado.
+
+ @param valor (int) - Valor seleccionado en el botón de opción.
+
+ @return categoría (str) - Categoría del libro correspondiente al valor.
+"""
+def determinar_categoria(valor):
+    if valor == 1:
+        return "Novela"
+    elif valor == 2:
+        return "Historia"
+    elif valor == 3:
+        return "Ciencia"
+    else:
+        return "Infantil"
 
 """
- @brief Función que maneja la cancelación del turno.
+ @brief Función que cuenta la cantidad de preferencias seleccionadas.
+
+ @param none
+
+ @return contador_preferencias (int) - Cantidad de preferencias seleccionadas.
+"""
+def contar_preferencias():
+    contador_preferencias = 0
+    if vencimiento.get() != 0 or extension.get() != 0 or novedades.get() != 0:
+        if vencimiento.get() == 1:
+            contador_preferencias += 1
+        if extension.get() == 1:
+            contador_preferencias += 1
+        if novedades.get() == 1:
+            contador_preferencias += 1
+    return contador_preferencias
+
+"""
+ @brief Función que maneja la cancelación del prestamo.
+
+ @param none
+
+ @return none
+"""
+def cargar_prestamo(): 
+    # Entrys
+    if nombre_lector.get() == "" or titulo.get() == "" or fecha.get() == 0:
+        # Nombre completo
+        if nombre_lector.get() == "": # En el entry del nombre completo no hay nada
+            messagebox.showerror("ERROR","No ingresaste tu nombre")
+        # Edad
+        elif titulo.get() == "": # En el entry del numero de documento no hay nada
+            messagebox.showerror("ERROR","No ingresaste el titulo del libro")
+        # Especialidad medica solicitada
+        else: # En el entry del especialidad medica no hay nada
+            messagebox.showerror("ERROR","No ingresaste la fecha de devolucion")
+    # Botones de opción
+    elif categoria.get() != 1 and categoria.get() != 2 and categoria.get() != 3 and categoria.get() != 4:
+        messagebox.showerror("ERROR","No seleccionaste una categoria del libro")
+    else:
+        cantidad_preferencias=contar_preferencias()
+        categoria_libro=determinar_categoria(categoria.get())
+        messagebox.showinfo("SU TURNO FUE REGISTRADO CON ÉXITO", f"Nombre del lector: {nombre_lector.get()}\nTitulo del libro: {titulo.get()}\nFecha de devolucion: {fecha.get()}\nCategoria del libro: {categoria_libro}\nServicios adicionales seleccionados: {cantidad_preferencias}/3")
+
+"""
+ @brief Función que maneja la cancelación del prestamo.
 
  @param none
 
  @return none
 """
 def cancelar():
-    messagebox.showwarning("ATENCIÓN", "Está por cancelar esta inscripción")
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar este prestamo")
     # Entrys
     nombre_lector.set("")
-    fecha.set(0)
     titulo.set("")
-    dias.set(0)
+    ingreso_fecha_devolucion.set_date(date.today())
     # Botones de opción
     categoria.set(0)
     # Casillas de verificación
@@ -82,11 +163,11 @@ etiqueta_fecha_devolucion.config(fg = "purple", bg = "white", width = 25, font =
 # Etiqueta de la categoria del libro
 etiqueta_categoria_libro = Label(marco, text="Categoria del libro:")
 etiqueta_categoria_libro.grid(row=0, column=2, sticky="w", padx=10, pady=8)
-etiqueta_categoria_libro.config(fg = "purple", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+etiqueta_categoria_libro.config(fg = "yellow", bg = "black", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta de las opciones de servicios adicionales
 etiqueta_servicios_adicionales = Label(marco, text="Servicios adicionales:")
 etiqueta_servicios_adicionales.grid(row=0, column=3, sticky="w", padx=10, pady=8)
-etiqueta_servicios_adicionales.config(fg = "purple", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+etiqueta_servicios_adicionales.config(fg = "yellow", bg = "black", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
 """
 INGRESOS
@@ -99,11 +180,11 @@ dias = IntVar()
 # Ingreso del nombre lector
 ingreso_nombre_lector = Entry(marco, textvariable=nombre_lector)
 ingreso_nombre_lector.grid(row=1, column=1, sticky="w", pady=8)
-ingreso_nombre_lector.config(fg = "skyblue", bg = "black", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_lector.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del titulo del libro
 ingreso_titulo_libro = Entry(marco, textvariable=titulo)
 ingreso_titulo_libro.grid(row=2, column=1, sticky="w", pady=8)
-ingreso_titulo_libro.config(fg = "skyblue", bg = "black", width = 30, font = ("Arial", 14, "italic"))
+ingreso_titulo_libro.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso de la fecha de devolucion
 ingreso_fecha_devolucion = DateEntry(marco, date_pattern='dd/mm/yyyy', textvariable=fecha)
 ingreso_fecha_devolucion.grid(row=3, column=1, sticky="w", pady=8)
@@ -154,8 +235,12 @@ check_novedades.config(fg = "black", bg = "white", width = 25, font = ("Comic Sa
 """
 BOTONES DE ACCION
 """
+# Boton para calcular los dias restantes para la devolucion
+boton_calcular_dias = Button(marco, text="Calcular días restantes", command=lambda:calcular_dias_restantes())
+boton_calcular_dias.grid(row=4, column=0, columnspan=2, pady=10)
+boton_calcular_dias.config(fg = "blue", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
 #Boton de confirmar turno.
-boton_cargar = Button(marco, text="Cargar prestamo")
+boton_cargar = Button(marco, text="Cargar prestamo", command=lambda:cargar_prestamo())
 boton_cargar.grid(row=5, column=0, columnspan=2, pady=12)
 boton_cargar.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
 #Boton de cancelar prestamo.
