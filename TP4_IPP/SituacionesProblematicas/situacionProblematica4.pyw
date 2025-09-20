@@ -78,7 +78,7 @@ def ingresar_registro():
         messagebox.showinfo("SU TURNO FUE REGISTRADO CON ÉXITO", f"Nombre del lector: {nombre.get()}\nNombre de usuario: {usuario.get()}\nCorreo electronico: {correo.get()}\nTipo de cuenta: {tipo_de_cuenta}\nServicios adicionales seleccionados: {cantidad_preferencias}/3")
 
 """
- @brief Función que maneja la cancelación del prestamo.
+ @brief Función que maneja la cancelación del ingreso.
 
  @param none
 
