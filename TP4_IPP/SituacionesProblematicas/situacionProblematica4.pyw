@@ -1,6 +1,6 @@
 # @file situacionProblematica4.pyw
 #
-# @brief Programa que permite ingresar los datos de un paciente de una clinica medica.
+# @brief Programa que permite ingresar los datos de un usuario de una tienda online.
 # @date 09/22/2025
 # @author Mauro Presso
 # @version 3.0
