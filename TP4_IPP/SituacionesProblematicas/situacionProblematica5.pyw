@@ -13,6 +13,12 @@ from tkinter import messagebox
 """
 FUNCIONES
 """
+
+"""
+ @brief Función que calcula el costo total del curso según la modalidad de cursada y las preferencias seleccionadas por el alumno.
+ @param none
+ @return none
+"""
 def calcular_costo_curso():
     costo_base = 5000  # Costo mensual base
     # Por modalidad
