@@ -68,7 +68,7 @@ def contar_preferencias():
     return contador_preferencias
 
 """
- @brief Función que maneja la cancelación del prestamo.
+ @brief Función que maneja el cargado del prestamo.
 
  @param none
 
