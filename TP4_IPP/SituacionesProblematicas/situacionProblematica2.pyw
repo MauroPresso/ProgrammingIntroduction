@@ -13,6 +13,12 @@ from tkinter import messagebox
 """
 FUNCIONES
 """
+
+"""
+ @brief Función que calcula el año de nacimiento a partir de la edad.
+ @param edad: int
+ @return none
+"""
 def calcular_ano_de_nacimiento(edad):
     from datetime import date
     ano_actual = date.today().year
