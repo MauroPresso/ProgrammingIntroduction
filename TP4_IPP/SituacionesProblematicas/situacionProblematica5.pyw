@@ -13,6 +13,24 @@ from tkinter import messagebox
 """
 FUNCIONES
 """
+def calcular_costo_curso():
+    costo_base = 5000  # Costo mensual base
+    # Por modalidad
+    if modalidad.get() == 2:  # Virtual
+        costo_total *= 0.8  # 20% de descuento
+    elif modalidad.get() == 3:  # Mixta
+        costo_total *= 0.9   # 10% de descuento
+    else:
+        costo_total = costo_base * meses.get()  # Presencial, sin cambios
+    # Por preferencias
+    if material_impreso.get() == 1:
+        costo_total += 500 * meses.get()    # Costo adicional por material impreso
+    elif clases_grabadas.get() == 1:
+        costo_total += 300 * meses.get()    # Costo adicional por clases grabadas
+    else:
+        costo_total += 700 * meses.get()    # Costo adicional por talleres extra
+    messagebox.showinfo("COSTO DEL CURSO", f"El costo total del curso por {meses.get()} meses es: ${costo_total}")
+
 """ 
  @brief Función que identifica la modalidad de cursada seleccionada por el alumno.
  @param none
@@ -93,6 +111,7 @@ def cancelar():
     # Entrys
     nombre.set("")
     idioma.set("")
+    meses.set(0)
     # Botones de opción
     nivel.set(0)
     modalidad.set(0)
@@ -146,7 +165,7 @@ ETIQUETAS
 # Subtitulo
 subtitulo = Label(marco, text="Datos para inscribirse:")
 subtitulo.grid(row=0, column=0, columnspan=2, sticky="w", pady=10, padx=10)
-subtitulo.config(fg = "yellow", bg = "blue", font = ("Arial", 14, "bold italic underline"))
+subtitulo.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
 # Etiqueta del nombre completo
 etiqueta_nombre_alumno = Label(marco, text="Nombre del alumno:")
 etiqueta_nombre_alumno.grid(row=1, column=0, sticky="w", padx=10, pady=10)
@@ -155,18 +174,22 @@ etiqueta_nombre_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14
 etiqueta_idioma_alumno = Label(marco, text="Idioma que desea aprender:")
 etiqueta_idioma_alumno.grid(row=2, column=0, sticky="w", padx=10, pady=10)
 etiqueta_idioma_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"))
+# Etiqueta de los meses de cursado
+etiqueta_meses_cursado = Label(marco, text="Meses que deseas cursar:")
+etiqueta_meses_cursado.grid(row=3, column=0, sticky="w", padx=10, pady=10)
+etiqueta_meses_cursado.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"))
 # Etiqueta del Nivel de conocimiento
 etiqueta_nivel_conocimiento = Label(marco, text="Nivel de conocimiento:")
 etiqueta_nivel_conocimiento.grid(row=0, column=2, sticky="w", padx=10, pady=10)
-etiqueta_nivel_conocimiento.config(fg = "yellow", bg = "blue", font = ("Arial", 14, "bold italic underline"))
+etiqueta_nivel_conocimiento.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
 # Etiqueta de la modalidad de cursada
 etiqueta_modalidad_cursada = Label(marco, text="Modalidad de cursada:")
 etiqueta_modalidad_cursada.grid(row=0, column=3, sticky="w", pady=10, padx=10)
-etiqueta_modalidad_cursada.config(fg = "yellow", bg = "blue", font = ("Arial", 14, "bold italic underline"))
+etiqueta_modalidad_cursada.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
 # Etiqueta de las preferencias
 etiqueta_preferencias = Label(marco, text="Seleccione las preferencias:")
 etiqueta_preferencias.grid(row=0, column=4, sticky="w", pady=10, padx=10)
-etiqueta_preferencias.config(fg = "yellow", bg = "blue", font = ("Arial", 14, "bold italic underline"))
+etiqueta_preferencias.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
 
 """
 ENTRYS
@@ -175,6 +198,7 @@ ENTRYS
 nombre = StringVar()
 idioma = StringVar()
 nivel = IntVar()
+meses = IntVar()
 # Ingreso del nombre del alumno
 ingreso_nombre_alumno = Entry(marco, textvariable=nombre)
 ingreso_nombre_alumno.grid(row=1, column=1, sticky="w", pady=10, padx=10)
@@ -183,6 +207,10 @@ ingreso_nombre_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14,
 ingreso_idioma_alumno = Entry(marco, textvariable=idioma)
 ingreso_idioma_alumno.grid(row=2, column=1, sticky="w", pady=10, padx=10)
 ingreso_idioma_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"))
+# Ingreso de los meses que desea cursar
+ingreso_meses_cursado = Entry(marco, textvariable=meses)
+ingreso_meses_cursado.grid(row=3, column=1, sticky="w", pady=10, padx=10)
+ingreso_meses_cursado.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"))
 
 """
 BOTONES DE OPCION
@@ -252,6 +280,10 @@ boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New R
 boton_salir = Button(marco, text="Salir", command=lambda:salida())
 boton_salir.grid(row=6, column=0, columnspan=2, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
+# Boton de calcular costo del curso.
+boton_calcular_costo = Button(marco, text="Calcular costo del curso", command=lambda:calcular_costo_curso())
+boton_calcular_costo.grid(row=4, column=2, columnspan=3, pady=10, padx=10, sticky="we")
+boton_calcular_costo.config(fg = "yellow", bg = "blue", width = 30, height=1, font = ("Verdana", 18, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
