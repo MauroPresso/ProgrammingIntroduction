@@ -1,7 +1,18 @@
+# @file: calculoDeSumatoria.pyw
+# @brief: Programa que calcula la sumatoria de tres valores ingresados por el usuario.
+# @author: Mauro Presso
+# @date: 2025-09-02
+# @details: TP3 - Introducción a la Programación - IFES.
+
 from tkinter import *
 from tkinter import messagebox
 
-# Funciones para los botones
+"""
+ @brief: Funcion que calcula la sumatoria de tres valores ingresados por el usuario.
+ @param: No recibe parametros.
+ @return: No devuelve nada.
+ @details: Si el usuario es cliente se le aplica un descuento del 10%. Si no es cliente se le aplica un recargo del 20%.
+"""
 
 def Calcular():
     if valor1.get()>10000 or valor2.get()>10000 or valor3.get()>10000:
@@ -20,7 +31,11 @@ def Calcular():
     total.set(suma) # .set()
     messagebox.showinfo("CONFIRMACION", "Compra finalizada!!")
 
-
+"""
+ @brief: Funcion que reinicia todos los campos del formulario.
+ @param: No recibe parametros.
+ @return: No devuelve nada.
+ @details: Muestra un cartel de advertencia al usuario."""
 def Nuevo():
     valor1.set(0)
     valor2.set(0)
@@ -31,6 +46,12 @@ def Nuevo():
     es_cliente.set(1)
     messagebox.showwarning("ATENCIÓN", "Está por empezar una nueva compra")
 
+"""
+ @brief: Funcion que cierra la aplicacion.      
+ @param: No recibe parametros.
+ @return: No devuelve nada.
+ @details: Muestra un cartel de confirmacion al usuario.
+"""
 def salida():
     #                                   TITULO DE VENTANA   CARTEL DE LA VENTANA EMERGENTE
     #                                           |                           |
