@@ -56,7 +56,11 @@ def contar_preferencias():
             contador_preferencias += 1
     return contador_preferencias
 
-
+"""
+ @brief Función que maneja el ingreso del registro.
+ @param none
+ @return none
+"""
 def ingresar_registro(): 
     # Entrys
     if nombre.get() == "" or usuario.get() == "" or correo.get() == "" or edad.get() < 18:
