@@ -57,7 +57,7 @@ def asignar_turno(horario_turno):
         return "Noche"
 
 """
- @brief Función que maneja el registro de la inscripción.
+ @brief Función que maneja la confirmacion del turno.
 
  @param none
 
