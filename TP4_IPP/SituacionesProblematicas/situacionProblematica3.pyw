@@ -1,6 +1,6 @@
 # @file situacionProblematica3.pyw
 #
-# @brief Programa que permite ingresar los datos de un paciente de una clinica medica.
+# @brief Programa que permite ingresar los datos de un prestamo de un libro de una biblioteca.
 # @date 09/22/2025
 # @author Mauro Presso
 # @version 3.0
