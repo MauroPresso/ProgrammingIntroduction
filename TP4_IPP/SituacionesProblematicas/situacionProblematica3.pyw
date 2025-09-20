@@ -76,16 +76,11 @@ def contar_preferencias():
 """
 def cargar_prestamo(): 
     # Entrys
-    if nombre_lector.get() == "" or titulo.get() == "" or fecha.get() == 0:
-        # Nombre completo
-        if nombre_lector.get() == "": # En el entry del nombre completo no hay nada
+    if nombre_lector.get() == "" or titulo.get() == "":
+        if nombre_lector.get() == "":
             messagebox.showerror("ERROR","No ingresaste tu nombre")
-        # Edad
-        elif titulo.get() == "": # En el entry del numero de documento no hay nada
+        else: 
             messagebox.showerror("ERROR","No ingresaste el titulo del libro")
-        # Especialidad medica solicitada
-        else: # En el entry del especialidad medica no hay nada
-            messagebox.showerror("ERROR","No ingresaste la fecha de devolucion")
     # Botones de opción
     elif categoria.get() != 1 and categoria.get() != 2 and categoria.get() != 3 and categoria.get() != 4:
         messagebox.showerror("ERROR","No seleccionaste una categoria del libro")
