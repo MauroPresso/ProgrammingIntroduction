@@ -1,8 +1,6 @@
-# @file
-
 from tkinter import * 
 from tkinter import filedialog as FileDialog 
-from io import open 
+# No es necesario importar open desde io si usarás el open nativo de Python
 
 ruta = "" # La utilizaremos para almacenar la ruta del fichero
 
@@ -19,7 +17,8 @@ def abrir():
     ruta = FileDialog.askopenfilename(initialdir='.', filetypes=(("Ficheros de texto", "*.txt"),), title="Abrir un fichero de texto")
 
     if ruta != "": 
-        fichero = open(ruta, 'r') 
+        # Agregamos encoding='utf-8' para manejar caracteres especiales
+        fichero = open(ruta, 'r', encoding='utf-8') 
         contenido = fichero.read() 
         texto.delete(1.0,'end') 
         texto.insert('insert', contenido) 
@@ -30,7 +29,8 @@ def guardar():
     mensaje.set("Guardar fichero") 
     if ruta != "": 
         contenido = texto.get(1.0,'end-1c') 
-        fichero = open(ruta, 'w+') 
+        # Agregamos encoding='utf-8'
+        fichero = open(ruta, 'w+', encoding='utf-8') 
         fichero.write(contenido) 
         fichero.close() 
         mensaje.set("Fichero guardado correctamente") 
@@ -43,7 +43,10 @@ def guardar_como():
     if fichero is not None: 
         ruta = fichero.name 
         contenido = texto.get(1.0,'end-1c') 
-        fichero = open(ruta, 'w+') 
+        # Cerramos primero el archivo que devolvió asksaveasfile
+        fichero.close()
+        # Abrimos de nuevo con la codificación correcta
+        fichero = open(ruta, 'w+', encoding='utf-8') 
         fichero.write(contenido) 
         fichero.close() 
         mensaje.set("Fichero guardado correctamente") 
