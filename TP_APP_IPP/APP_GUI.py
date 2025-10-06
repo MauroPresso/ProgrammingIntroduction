@@ -9,10 +9,25 @@
 
 from tkinter import *
 from tkinter import messagebox
+from classAlumnos import Alumnos
 
 """
 FUNCIONES
 """
+"""
+ @brief Función que maneja la limpieza de los campos de entrada de texto.
+
+ @param none
+
+ @return none
+"""
+def nuevo():
+    messagebox.showwarning("ATENCIÓN", "Está por ingresar una nueva inscripción")
+    # Entrys
+    nombre.set("")
+    domicilio.set("")
+    edad.set(0)
+    dni.set(0)
 
 """ 
  @brief Función que maneja la inscripción del alumno.
@@ -30,22 +45,8 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa tu DNI.")
     else:
-        messagebox.showinfo("BIENVENIDO AL CURSO", f"Tu nombre: {nombre.get()}\n\nTu domicilio: {domicilio.get()}\n\nTu edad: {edad.get()}\n\nDNI: {dni.get()}\n\nBienvenido/a al sistema educativo!")
-
-"""
- @brief Función que maneja la limpieza de los campos de entrada de texto.
-
- @param none
-
- @return none
-"""
-def nuevo():
-    messagebox.showwarning("ATENCIÓN", "Está por ingresar una nueva inscripción")
-    # Entrys
-    nombre.set("")
-    domicilio.set("")
-    edad.set(0)
-    dni.set(0)
+        miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
+        miAlumno.Agregar()
 
 """
  @brief Función que maneja la modificación de la inscripción.
@@ -62,7 +63,8 @@ def modificar():
         if respuesta=="yes":
             messagebox.showinfo("MODIFICAR INSCRIPCION", "La inscripción ha sido modificada")
         else:
-            messagebox.showinfo("MODIFICAR INSCRIPCION", "La inscripción no ha sido modificada")
+            miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
+            miAlumno.Modificar()
 
 """
  @brief Función que maneja la eliminación de la inscripción.
@@ -80,7 +82,8 @@ def eliminar():
         if respuesta=="yes":
             messagebox.showinfo("ELIMINAR INSCRIPCION", "La inscripción ha sido eliminada")
         else:
-            messagebox.showinfo("ELIMINAR INSCRIPCION", "La inscripción no ha sido eliminada")
+            miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
+            miAlumno.Eliminar()
 
 """
  @brief Función que maneja la salida de la aplicación.
