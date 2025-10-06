@@ -191,6 +191,10 @@ boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times N
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de cancelar
+boton_cancelar = Button(marco, text="CANCELAR", command=lambda:nuevo())
+boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
 boton_salir.grid(row=7, column=0, columnspan=3, pady=10, padx=10, sticky="w")
