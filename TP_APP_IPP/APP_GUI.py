@@ -182,7 +182,7 @@ boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
-boton_modificar.grid(row=6, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_modificar.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
 boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
@@ -190,7 +190,7 @@ boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=6, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.grid(row=7, column=0, columnspan=3, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
 
 
