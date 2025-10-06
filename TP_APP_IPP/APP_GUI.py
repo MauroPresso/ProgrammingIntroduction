@@ -48,22 +48,39 @@ def nuevo():
     dni.set(0)
 
 """
- @brief Función que maneja la cancelación de la inscripción.
+ @brief Función que maneja la modificación de la inscripción.
+ 
+ @param none
+    
+ @return none
+"""
+def modificar():
+    if nombre.get() == "" and domicilio.get() == "" and dni.get() == 0 and edad.get() == 0:
+        messagebox.showerror("ERROR", "No hay inscripción para modificar.")
+    else:
+        respuesta = messagebox.askquestion("MODIFICAR INSCRIPCION", "Confirmar que desea modificar la inscripción")
+        if respuesta=="yes":
+            messagebox.showinfo("MODIFICAR INSCRIPCION", "La inscripción ha sido modificada")
+        else:
+            messagebox.showinfo("MODIFICAR INSCRIPCION", "La inscripción no ha sido modificada")
+
+"""
+ @brief Función que maneja la eliminación de la inscripción.
 
  @param none
 
  @return none
 """
-def cancelar():
+def eliminar():
 
     if nombre.get() == "" and domicilio.get() == "" and dni.get() == 0 and edad.get() == 0:
-        messagebox.showerror("ERROR", "No hay inscripción para cancelar.")
+        messagebox.showerror("ERROR", "No hay inscripción para eliminar.")
     else:
-        respuesta = messagebox.askquestion("CANCELAR INSCRIPCION", "Confirmar que desea cancelar la inscripción")
+        respuesta = messagebox.askquestion("ELIMINAR INSCRIPCION", "Confirmar que desea eliminar la inscripción")
         if respuesta=="yes":
-            messagebox.showinfo("CANCELAR INSCRIPCION", "La inscripción ha sido cancelada")
+            messagebox.showinfo("ELIMINAR INSCRIPCION", "La inscripción ha sido eliminada")
         else:
-            messagebox.showinfo("CANCELAR INSCRIPCION", "La inscripción no ha sido cancelada")
+            messagebox.showinfo("ELIMINAR INSCRIPCION", "La inscripción no ha sido eliminada")
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -72,8 +89,6 @@ def cancelar():
 
  @return none
 """
-
-
 def salida():
     respuesta = messagebox.askquestion("SALIDA DE LA APP", "Confirmar que sale de la apicacion")
     if respuesta=="yes":
@@ -165,10 +180,14 @@ boton_inscribir.config(fg = "green", bg = "white", width = 30, font = ("Calibri"
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
-#Boton de cancelar inscripcion.
-boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
-boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
-boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de modificar
+boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
+boton_modificar.grid(row=6, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de eliminar
+boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
+boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
 boton_salir.grid(row=6, column=0, columnspan=3, pady=10, padx=10, sticky="w")
