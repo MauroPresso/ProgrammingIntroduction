@@ -22,12 +22,13 @@ FUNCIONES
  @return none
 """
 def nuevo():
-    messagebox.showwarning("ATENCIÓN", "Está por ingresar una nueva inscripción")
+    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
     nombre.set("")
     domicilio.set("")
     edad.set(0)
     dni.set(0)
+    ingreso_nombre_alumno.focus() #nombre del entry
 
 """ 
  @brief Función que maneja la inscripción del alumno.
