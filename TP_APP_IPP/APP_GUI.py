@@ -30,6 +30,24 @@ def nuevo():
     dni.set(0)
     ingreso_nombre_alumno.focus() #nombre del entry
 
+"""
+ @brief Función que maneja la cancelacion.
+
+ @param none
+
+ @return none
+"""
+def cancelar():
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar el ingreso de un nuevo registro")
+    # Entrys
+    nombre.set("")
+    domicilio.set("")
+    edad.set(0)
+    dni.set(0)
+    ingreso_nombre_alumno.focus() #nombre del entry
+
+
+
 """ 
  @brief Función que maneja la inscripción del alumno.
  @param none
@@ -193,7 +211,7 @@ boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
 # Boton de cancelar
-boton_cancelar = Button(marco, text="CANCELAR", command=lambda:nuevo())
+boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
 boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
 # Boton de salir.
