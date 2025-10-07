@@ -15,15 +15,12 @@ class Alumnos():
     
     # Método para agregar un alumno
     def Agregar(self):
-        mensaje="""Se agrego el alumno %s
-        que vive en %s
-        con dni %d
-        y de %d años de edad,
-        CON EXITO!!!""" %(self.nombre,self.domicilio,self.dni,self.edad)
-        messagebox.showinfo("AGREGAR",mensaje)
-        #messagebox.tipo("TITULO","Se agrego un nuevo alumno")
-        #Alumno1=Alumnos("Jorge","Cipolletti")
-        #print("Se agrego el alumno ",self.nombre,self.domicilio)
+        conexBD=Conexion()
+        instruct_insert="INSERT INTO Alumnos(nombre, domicilio, dni, edad) VALUES ('%s', '%s', '%s', '%s')"
+        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.domicilio, self.dni, self.edad))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
+        messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
+        conexBD.cerrar()
 
     # Método para modificar un alumno
     def Modificar(self):
