@@ -2,6 +2,7 @@ import os
 os.system("cls")
 
 from tkinter import messagebox
+from classConexion import Conexion
 
 class Alumnos():  
     # Constructor
