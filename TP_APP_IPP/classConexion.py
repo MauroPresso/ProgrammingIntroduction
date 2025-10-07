@@ -5,5 +5,5 @@ class Conexion:
         self.miConexion = sqlite3.connect("TP_APP_IPP\\BDD_APP.db")
         self.miCursor = self.miConexion.cursor()
     def cerrar(self):
-        self.miConexion.commit()
+        self.miConexion.commit() # COMMIT PREVIO AL CIERRE DE LA CONEXION
         self.miConexion.close()
