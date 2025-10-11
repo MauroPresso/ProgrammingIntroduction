@@ -11,26 +11,11 @@ from tkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
 from datetime import date
+from classPrestamo import Prestamo
 
 """
- @brief Función que calcula los días restantes para la devolución del libro.
- @param none
- @return none
+FUNCIONES
 """
-def calcular_dias_restantes():
-    """
-    Lee la fecha como 'date' con .get_date() y calcula
-    (fecha_devolucion - hoy).days -> ENTERO (excluye el día de hoy).
-    """
-    hoy = date.today()
-    fecha_devolucion = ingreso_fecha_devolucion.get_date()  # -> datetime.date (sin hora)
-    dias_restantes = (fecha_devolucion - hoy).days  # ya EXCLUYE el día de hoy
-    if dias_restantes > 0:
-        messagebox.showinfo("Días restantes", f"Faltan {dias_restantes} día(s) para la devolución.")
-    elif dias_restantes == 0:
-        messagebox.showinfo("Días restantes", "¡La devolución es hoy!")
-    else:
-        messagebox.showwarning("Vencida", f"La devolución venció hace {-dias_restantes} día(s).")
 
 """ 
  @brief Función que determina la categoría del libro según el valor seleccionado.
@@ -90,6 +75,27 @@ def cargar_prestamo():
         messagebox.showinfo("SU TURNO FUE REGISTRADO CON ÉXITO", f"Nombre del lector: {nombre_lector.get()}\nTitulo del libro: {titulo.get()}\nFecha de devolucion: {fecha.get()}\nCategoria del libro: {categoria_libro}\nServicios adicionales seleccionados: {cantidad_preferencias}/3")
 
 """
+ @brief Función que maneja la limpieza de los campos de entrada de texto.
+
+ @param none
+
+ @return none
+"""
+def nuevo():
+    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
+    # Entrys
+    nombre_lector.set("")
+    titulo.set("")
+    ingreso_fecha_devolucion.set_date(date.today())
+    # Botones de opción
+    categoria.set(0)
+    # Casillas de verificación
+    vencimiento.set(0)
+    extension.set(0)
+    novedades.set(0)
+    ingreso_nombre_lector.focus() #nombre del entry
+
+"""
  @brief Función que maneja la cancelación del prestamo.
 
  @param none
@@ -108,6 +114,62 @@ def cancelar():
     vencimiento.set(0)
     extension.set(0)
     novedades.set(0)
+    ingreso_nombre_lector.focus() #nombre del entry
+
+""" 
+ @brief Función que maneja la inscripción del alumno.
+ @param none
+ @return none
+"""
+def guardar():
+    if nombre_lector.get() == "" or titulo.get() == "" or fecha.get() == date.today() or categoria.get() == "":
+        if nombre_lector.get() == "":
+            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+        elif titulo.get() == "":
+            messagebox.showerror("ERROR", "Por favor, ingresa el título del libro.")
+        elif fecha.get() == date.today():
+            messagebox.showerror("ERROR", "Por favor, ingresa la fecha de devolución.")
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa la categoría del libro.")
+    else:
+        miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=categoria.get(), servicios=contar_preferencias())
+        miPrestamo.Agregar()
+
+"""
+ @brief Función que maneja la modificación de la inscripción.
+ 
+ @param none
+    
+ @return none
+"""
+def modificar():
+    if nombre_lector.get() == "" and titulo.get() == "" and fecha.get() == date.today() and categoria.get() == "":
+        messagebox.showerror("ERROR", "No hay préstamo para modificar.")
+    else:
+        respuesta = messagebox.askquestion("MODIFICAR PRESTAMO", "Confirmar que desea modificar el préstamo")
+        if respuesta=="yes":
+            messagebox.showinfo("MODIFICAR PRESTAMO", "El préstamo ha sido modificado")
+            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=categoria.get(), servicios=contar_preferencias())
+            miPrestamo.Modificar()
+
+"""
+ @brief Función que maneja la eliminación de la inscripción.
+
+ @param none
+
+ @return none
+"""
+def eliminar():
+
+    if nombre_lector.get() == "" and titulo.get() == "" and fecha.get() == 0 and categoria.get() == "":
+        messagebox.showerror("ERROR", "No hay préstamo para eliminar.")
+    else:
+        respuesta = messagebox.askquestion("ELIMINAR PRESTAMO", "Confirmar que desea eliminar el préstamo")
+        if respuesta=="yes":
+            messagebox.showinfo("ELIMINAR PRESTAMO", "El préstamo ha sido eliminado")
+            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=categoria.get(), servicios=contar_preferencias())
+            miPrestamo.Eliminar()
+
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -133,7 +195,7 @@ raiz.minsize(420, 260)
 raiz.resizable(True, True)
 # Icono
 try:
-    raiz.iconbitmap('TP4_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\book.ico')
+    raiz.iconbitmap('TP_APP_SP_IPP\\SP3\\book.ico')
 except Exception:
     pass
 raiz.config(bg = "brown") # bg: background (color de fondo).
@@ -240,22 +302,30 @@ check_novedades.config(fg = "black", bg = "white", width = 25, font = ("Comic Sa
 """
 BOTONES DE ACCION
 """
-# Boton para calcular los dias restantes para la devolucion
-boton_calcular_dias = Button(marco, text="Calcular días restantes", command=lambda:calcular_dias_restantes())
-boton_calcular_dias.grid(row=4, column=0, columnspan=2, pady=10)
-boton_calcular_dias.config(fg = "blue", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
-#Boton de confirmar turno.
-boton_cargar = Button(marco, text="Cargar prestamo", command=lambda:cargar_prestamo())
-boton_cargar.grid(row=5, column=0, columnspan=2, pady=12)
-boton_cargar.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
-#Boton de cancelar prestamo.
-boton_cancelar = Button(marco, text="Cancelar", command=lambda:cancelar())
-boton_cancelar.grid(row=6, column=0, columnspan=2, pady=10)
-boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
-#Boton de salir.
-boton_salir = Button(marco, text="Salir", command=lambda:salida())
-boton_salir.grid(row=7, column=0, columnspan=2, pady=10)
-boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
+# Boton de nuevo.
+boton_inscribir = Button(marco, text="NUEVO", command=lambda:nuevo())
+boton_inscribir.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_inscribir.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+# Boton de guardar
+boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
+boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
+# Boton de modificar
+boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
+boton_modificar.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de eliminar
+boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
+boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de cancelar
+boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
+boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
+# Boton de salir.
+boton_salir = Button(marco, text="SALIR", command=lambda:salida())
+boton_salir.grid(row=7, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
 
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
