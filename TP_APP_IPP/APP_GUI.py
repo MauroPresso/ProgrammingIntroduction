@@ -194,10 +194,10 @@ ingreso_dni_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "b
 """
 BOTONES DE ACCION
 """
-# Boton de inscribir.
-boton_inscribir = Button(marco, text="NUEVO", command=lambda:nuevo())
-boton_inscribir.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_inscribir.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+# Boton de nuevo.
+boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
+boton_nuevo.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
