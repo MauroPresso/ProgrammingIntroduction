@@ -11,6 +11,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
 from datetime import date
+from tktimepicker import SpinTimePickerOld, constants as tkc
 from classTurno import Turno
 
 """
@@ -70,20 +71,18 @@ def nuevo():
     # Botones de opción
     especialidad_medica.set(0)
     # Casillas de verificación
-    email.set(0)
-    whatsapp.set(0)
-    sms.set(0)
+    email.set(0), whatsapp.set(0), sms.set(0)
     ingreso_nombre_paciente.focus() #nombre del entry
 
 """
- @brief Función que maneja la cancelación del prestamo.
+ @brief Función que maneja la cancelación del turno.
 
  @param none
 
  @return none
 """
 def cancelar():
-    messagebox.showwarning("ATENCIÓN", "Está por cancelar este prestamo")
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar este turno")
     # Entrys
     nombre_paciente.set("")
     motivo.set("")
@@ -91,9 +90,7 @@ def cancelar():
     # Botones de opción
     especialidad_medica.set(0)
     # Casillas de verificación
-    email.set(0)
-    whatsapp.set(0)
-    sms.set(0)
+    email.set(0), whatsapp.set(0), sms.set(0)
     ingreso_nombre_paciente.focus() #nombre del entry
 
 """ 
@@ -102,7 +99,7 @@ def cancelar():
  @return none
 """
 def guardar():
-    if nombre_paciente.get() == "" or motivo.get() == "" or ingreso_fecha_turno.get_date() <= date.today() or ingreso_hora_turno.get() == "" or especialidad_medica.get() == 0:
+    if nombre_paciente.get() == "" or motivo.get() == "" or ingreso_fecha_turno.get_date() <= date.today() or especialidad_medica.get() == 0:
         if nombre_paciente.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
         elif motivo.get() == "":
@@ -110,13 +107,13 @@ def guardar():
         elif ingreso_fecha_turno.get_date() <= date.today():
             messagebox.showerror("ERROR", "Por favor, ingresa la fecha del turno válida.")
         else:
-            messagebox.showerror("ERROR", "Por favor, ingresa la categoría del turno.")
+            messagebox.showerror("ERROR", "Por favor, ingresa la especialidad médica.")
     else:
-        miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.get(), medico=especialidad_medica.get(), servicios=contar_preferencias())
+        miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.cget(), medico=especialidad_medica.get(), servicios=contar_preferencias())
         miTurno.Agregar()
 
 """
- @brief Función que maneja la modificación de la inscripción.
+ @brief Función que maneja la modificación de un turno.
  
  @param none
     
@@ -129,11 +126,11 @@ def modificar():
         respuesta = messagebox.askquestion("MODIFICAR TURNO", "Confirmar que desea modificar el turno")
         if respuesta=="yes":
             messagebox.showinfo("MODIFICAR TURNO", "El turno ha sido modificado")
-            miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.get(), medico=especialidad_medica.get(), servicios=contar_preferencias())
+            miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.cget(), medico=especialidad_medica.get(), servicios=contar_preferencias())
             miTurno.Modificar()
 
 """
- @brief Función que maneja la eliminación de la inscripción.
+ @brief Función que maneja la eliminación de un turno.
 
  @param none
 
@@ -186,7 +183,7 @@ FRAME
 """
 marco = Frame(raiz, padx=20, pady=20)
 marco.pack(fill="none", expand=True)
-marco.config(bg = "white", relief= "sunken") 
+marco.config(bg = "blue", relief= "sunken") 
 
 """
 ETIQUETAS
@@ -205,21 +202,20 @@ etiqueta_motivo_turno.grid(row=2, column=0, sticky="w", padx=10, pady=10)
 etiqueta_motivo_turno.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta de la fecha del turno
 etiqueta_fecha_turno = Label(marco, text="Fecha del turno:")
-etiqueta_fecha_turno.grid(row=2, column=0, sticky="w", padx=10, pady=10)
+etiqueta_fecha_turno.grid(row=3, column=0, sticky="w", padx=10, pady=10)
 etiqueta_fecha_turno.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta de la hora del turno
 etiqueta_hora_turno = Label(marco, text="Hora del turno:")
-etiqueta_hora_turno.grid(row=3, column=0, sticky="w", padx=10, pady=10)
+etiqueta_hora_turno.grid(row=4, column=0, sticky="w", padx=10, pady=10)
 etiqueta_hora_turno.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta del boton de opcion
-etiqueta_especialidad_medica = Label(marco, text = "*** HORARIO DEL TURNO ***")
+etiqueta_especialidad_medica = Label(marco, text = "*** ESPECIALIDAD MEDICA ***")
 etiqueta_especialidad_medica.grid(row=0,column=2,sticky="w",padx=10,pady=10)
 etiqueta_especialidad_medica.config(fg = "yellow", bg = "black", width = 30, font = ("Rockell", 14, "italic"))
 # Etiqueta de la casilla de verificacion
 etiqueta_preferencias_recordatorio = Label(marco, text = "*** RECORDATORIO ***")
 etiqueta_preferencias_recordatorio.grid(row=0,column=3,sticky="w",padx=10,pady=10)
 etiqueta_preferencias_recordatorio.config(fg = "yellow", bg = "black", width = 30, font = ("Rockell", 14, "italic"))
-
 
 """
 INGRESOS
@@ -239,12 +235,12 @@ ingreso_motivo_paciente.grid(row=2, column=1, sticky="w", padx=10, pady=10)
 ingreso_motivo_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del año de la fecha del turno
 ingreso_fecha_turno = DateEntry(marco, date_pattern='dd/mm/yyyy', textvariable=fecha_turno)
-ingreso_fecha_turno.grid(row=4, column=1, sticky="w", padx=10 ,pady=10)
-ingreso_fecha_turno.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_fecha_turno.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
+ingreso_fecha_turno.config(width = 30)
 # Ingreso de la hora del turno
-ingreso_hora_turno = Entry(marco, textvariable=hora_turno)
-ingreso_hora_turno.grid(row=5, column=1, sticky="w", padx=10 ,pady=10)
-ingreso_hora_turno.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_hora_turno = SpinTimePickerOld(marco)
+ingreso_hora_turno.grid(row=4, column=1, sticky="w", padx=10 ,pady=10)
+ingreso_hora_turno.addAll(tkc.HOURS24)
 
 """
 BOTONES DE OPCION
@@ -252,15 +248,15 @@ BOTONES DE OPCION
 # Funcionalidad del boton de opcion
 especialidad_medica=IntVar()
 # Opcion de primario completo
-medico_general=Radiobutton(marco, text="Turno MAÑANA", variable=especialidad_medica, value=1)
+medico_general=Radiobutton(marco, text="Medico General", variable=especialidad_medica, value=1)
 medico_general.grid(row=1, column=2, sticky="w", padx=10, pady=10)
 medico_general.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Opcion de secundario completo
-medico_especialista=Radiobutton(marco, text="Turno TARDE", variable=especialidad_medica, value=2)
+medico_especialista=Radiobutton(marco, text="Medico Especialista", variable=especialidad_medica, value=2)
 medico_especialista.grid(row=2, column=2, sticky="w", padx=10, pady=10)
 medico_especialista.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Opcion de terciario completo
-medico_cirujano=Radiobutton(marco, text="Turno NOCHE", variable=especialidad_medica, value=3)
+medico_cirujano=Radiobutton(marco, text="Medico Cirujano", variable=especialidad_medica, value=3)
 medico_cirujano.grid(row=3, column=2, sticky="w", padx=10, pady=10)
 medico_cirujano.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
