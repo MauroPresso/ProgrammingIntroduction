@@ -18,7 +18,7 @@ class Prestamo():
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
-        instruct_insert="INSERT INTO Prestamos(nombre, titulo, fecha, categoria, servicios) VALUES ('%s', '%s', '%s', '%s', '%s')"
+        instruct_insert="INSERT INTO PrestamosDeLibros(nombre, titulo, fecha, categoria, servicios) VALUES ('%s', '%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.titulo, self.fecha, self.categoria, self.servicios))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
