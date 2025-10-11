@@ -53,28 +53,6 @@ def contar_preferencias():
     return contador_preferencias
 
 """
- @brief Función que maneja el cargado del prestamo.
-
- @param none
-
- @return none
-"""
-def cargar_prestamo(): 
-    # Entrys
-    if nombre_lector.get() == "" or titulo.get() == "":
-        if nombre_lector.get() == "":
-            messagebox.showerror("ERROR","No ingresaste tu nombre")
-        else: 
-            messagebox.showerror("ERROR","No ingresaste el titulo del libro")
-    # Botones de opción
-    elif categoria.get() != 1 and categoria.get() != 2 and categoria.get() != 3 and categoria.get() != 4:
-        messagebox.showerror("ERROR","No seleccionaste una categoria del libro")
-    else:
-        cantidad_preferencias=contar_preferencias()
-        categoria_libro=determinar_categoria(categoria.get())
-        messagebox.showinfo("SU TURNO FUE REGISTRADO CON ÉXITO", f"Nombre del lector: {nombre_lector.get()}\nTitulo del libro: {titulo.get()}\nFecha de devolucion: {fecha.get()}\nCategoria del libro: {categoria_libro}\nServicios adicionales seleccionados: {cantidad_preferencias}/3")
-
-"""
  @brief Función que maneja la limpieza de los campos de entrada de texto.
 
  @param none
@@ -122,17 +100,17 @@ def cancelar():
  @return none
 """
 def guardar():
-    if nombre_lector.get() == "" or titulo.get() == "" or fecha.get() == date.today() or categoria.get() == "":
+    if nombre_lector.get() == "" or titulo.get() == "" or ingreso_fecha_devolucion.get_date() <= date.today() or categoria.get() == 0:
         if nombre_lector.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
         elif titulo.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa el título del libro.")
-        elif fecha.get() == date.today():
-            messagebox.showerror("ERROR", "Por favor, ingresa la fecha de devolución.")
+        elif ingreso_fecha_devolucion.get_date() <= date.today():
+            messagebox.showerror("ERROR", "Por favor, ingresa la fecha de devolución válida.")
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa la categoría del libro.")
     else:
-        miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=categoria.get(), servicios=contar_preferencias())
+        miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
         miPrestamo.Agregar()
 
 """
@@ -149,7 +127,7 @@ def modificar():
         respuesta = messagebox.askquestion("MODIFICAR PRESTAMO", "Confirmar que desea modificar el préstamo")
         if respuesta=="yes":
             messagebox.showinfo("MODIFICAR PRESTAMO", "El préstamo ha sido modificado")
-            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=categoria.get(), servicios=contar_preferencias())
+            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
             miPrestamo.Modificar()
 
 """
