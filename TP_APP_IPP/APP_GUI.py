@@ -46,8 +46,6 @@ def cancelar():
     dni.set(0)
     ingreso_nombre_alumno.focus() #nombre del entry
 
-
-
 """ 
  @brief Función que maneja la inscripción del alumno.
  @param none
