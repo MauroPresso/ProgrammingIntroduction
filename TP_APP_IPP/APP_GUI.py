@@ -79,7 +79,6 @@ def modificar():
         respuesta = messagebox.askquestion("MODIFICAR INSCRIPCION", "Confirmar que desea modificar la inscripción")
         if respuesta=="yes":
             messagebox.showinfo("MODIFICAR INSCRIPCION", "La inscripción ha sido modificada")
-        else:
             miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
             miAlumno.Modificar()
 
@@ -98,7 +97,6 @@ def eliminar():
         respuesta = messagebox.askquestion("ELIMINAR INSCRIPCION", "Confirmar que desea eliminar la inscripción")
         if respuesta=="yes":
             messagebox.showinfo("ELIMINAR INSCRIPCION", "La inscripción ha sido eliminada")
-        else:
             miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
             miAlumno.Eliminar()
 
