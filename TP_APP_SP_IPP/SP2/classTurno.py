@@ -12,13 +12,14 @@ class Turno():
         self.nombre=nombre
         self.motivo=motivo
         self.fecha=fecha
+        self.hora=hora
         self.medico=medico
         self.servicios=servicios
     
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
-        instruct_insert="INSERT INTO TurnosMedicos(NombreDelPaciente, Motivo, Fecha, Hora, Medico, Servicios) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
+        instruct_insert="INSERT INTO TurnosMedicos(NombreDelPaciente, Motivo, Fecha, Hora, Medico, OpcionesDeRecordatorio) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.motivo, self.fecha, self.hora, self.medico, self.servicios))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
