@@ -7,20 +7,20 @@ from classConexion import Conexion
 
 class Turno():  
     # Constructor
-    def __init__(self, id=0, nombre="", motivo="", fecha=date.today(), hora="", medico="", servicios=0):
+    def __init__(self, id=0, nombre="", motivo="", fecha=date.today(), horario=f"{00}:{00}:00", medico="", recordatorios=0):
         self.id=id
         self.nombre=nombre
         self.motivo=motivo
         self.fecha=fecha
-        self.hora=hora
+        self.horario=horario
         self.medico=medico
-        self.servicios=servicios
+        self.recordatorios=recordatorios
     
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
         instruct_insert="INSERT INTO TurnosMedicos(NombreDelPaciente, Motivo, Fecha, Hora, Medico, OpcionesDeRecordatorio) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
-        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.motivo, self.fecha, self.hora, self.medico, self.servicios))
+        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.servicios))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
@@ -31,8 +31,8 @@ class Turno():
         que tiene el libro %s
         con fecha de devolucion %s
         y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
+        y recordatorios %d
+        CON EXITO!!!""" %(self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.recordatorios)
         messagebox.showinfo("MODIFICAR",mensaje)
 
     
@@ -42,6 +42,6 @@ class Turno():
         que tiene el libro %s
         con fecha de devolucion %s
         y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
+        y recordatorios %d
+        CON EXITO!!!""" %(self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios)
         messagebox.showinfo("ELIMINAR",mensaje)
