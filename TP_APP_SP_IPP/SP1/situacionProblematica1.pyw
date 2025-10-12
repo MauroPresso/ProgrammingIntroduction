@@ -121,7 +121,7 @@ raiz.minsize(420, 260)
 raiz.resizable(True, True)
 # Icono
 try:
-    raiz.iconbitmap('TP4_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\icono2.ico')
+    raiz.iconbitmap('TP_APP_SP_IPP\\SP1\\icono2.ico')
 except Exception:
     pass
 raiz.config(bg = "purple")
