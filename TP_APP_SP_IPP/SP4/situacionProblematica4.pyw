@@ -127,7 +127,7 @@ raiz.minsize(420, 260)
 raiz.resizable(True, True) # Con resizable(True, True) ambos bordes de la ventana raiz son expansibles. Es lo que pasa ya por defecto.
 # Icono
 try:
-    raiz.iconbitmap('TP4_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\Hello.ico')
+    raiz.iconbitmap('TP_APP_SP_IPP\\SP4\\Hello.ico')
 except Exception:
     pass
 raiz.config(bg = "blue") # bg: background (color de fondo).
