@@ -152,7 +152,7 @@ raiz.minsize(420, 260)
 raiz.resizable(True, True)
 # Icono
 try:
-    raiz.iconbitmap('TP4_IPP\\CARPETA_DE_ICONOS_amp_PUNTEROS_20250825\\audio.ico')
+    raiz.iconbitmap('TP_APP_SP_IPP\\SP5\\audio.ico')
 except Exception:
     pass
 raiz.config(bg = "red") # bg: background (color de fondo).
