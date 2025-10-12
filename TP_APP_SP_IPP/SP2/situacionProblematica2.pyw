@@ -19,13 +19,14 @@ FUNCIONES
 """
 
 def _hora_time_desde_picker(picker) -> time:
-    """Devuelve datetime.time leído del SpinTimePickerOld (HH:MM)."""
+    """Devuelve datetime.time leído del SpinTimePickerOld (HH:MM) en builds variadas."""
     # 1) Getters típicos
     try:
         h = int(picker.getHrs()); m = int(picker.getMins())
         return time(h, m)
     except Exception:
         pass
+
     # 2) Variables internas comunes
     for hh_attr, mm_attr in (('hoursVar', 'minutesVar'),
                              ('hourVar', 'minuteVar'),
@@ -37,18 +38,37 @@ def _hora_time_desde_picker(picker) -> time:
             return time(h, m)
         except Exception:
             continue
-    # 3) Leer TSpinbox hijos (fallback)
+
+    # 3) Buscar spinboxes hijos (TSpinbox o Spinbox), recorriendo recursivamente
+    def _spinboxes_rec(w):
+        boxes = []
+        for ch in w.winfo_children():
+            cls = ch.winfo_class()
+            if cls in ('TSpinbox', 'Spinbox'):
+                boxes.append(ch)
+            # seguir descendiendo (algunos builds anidan frames)
+            boxes.extend(_spinboxes_rec(ch))
+        return boxes
+
     try:
-        vals = []
-        for child in picker.winfo_children():
-            if child.winfo_class() == 'TSpinbox':
-                vals.append(child.get())
-        if len(vals) >= 2:
-            h, m = int(vals[0]), int(vals[1])
+        spbs = _spinboxes_rec(picker)
+        # A veces el orden es HH,MM; otras MM,HH. Intentamos parsear ambos.
+        if len(spbs) >= 2:
+            a = int(spbs[0].get())
+            b = int(spbs[1].get())
+            # Heurística: si a > 23 y b <= 23, intercambiamos
+            if a > 23 and b <= 23:
+                a, b = b, a
+            # Clamp básico por si el control permite valores fuera de rango
+            h = max(0, min(23, a))
+            m = max(0, min(59, b))
             return time(h, m)
     except Exception:
         pass
-    raise ValueError("No se pudo leer la hora del timePicker.")
+
+    # 4) Si llegamos acá, no se pudo leer en tu build
+    raise ValueError("No se pudo leer la hora del timePicker (build no soportado).")
+
 
 def _hora_es_pasada_hoy(fecha_sel: date, hora_sel: time) -> bool:
     """True si la fecha es hoy y la hora es <= ahora."""
@@ -124,7 +144,8 @@ def contar_preferencias():
 
 def guardar():
     fecha_sel = ingreso_fecha_turno.get_date()
-
+    hora_sel = _hora_time_desde_picker(ingreso_hora_turno)      # -> datetime.time
+    hora_iso = hora_sel.strftime("%H:%M:%S")                     # '23:15:00'
     if nombre_paciente.get() == "" or motivo.get() == "" or especialidad_medica.get() == 0:
         if nombre_paciente.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
