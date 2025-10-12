@@ -10,7 +10,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
-from datetime import date
+from datetime import date, datetime, time
 from tktimepicker import SpinTimePickerOld, constants as tkc
 from classTurno import Turno
 
@@ -18,9 +18,76 @@ from classTurno import Turno
 FUNCIONES
 """
 
-"""
-FUNCIONES
-"""
+def _hora_time_desde_picker(picker) -> time:
+    """Devuelve datetime.time leído del SpinTimePickerOld (HH:MM)."""
+    # 1) Getters típicos
+    try:
+        h = int(picker.getHrs()); m = int(picker.getMins())
+        return time(h, m)
+    except Exception:
+        pass
+    # 2) Variables internas comunes
+    for hh_attr, mm_attr in (('hoursVar', 'minutesVar'),
+                             ('hourVar', 'minuteVar'),
+                             ('hours', 'minutes'),
+                             ('hour', 'minute')):
+        try:
+            h = int(getattr(picker, hh_attr).get())
+            m = int(getattr(picker, mm_attr).get())
+            return time(h, m)
+        except Exception:
+            continue
+    # 3) Leer TSpinbox hijos (fallback)
+    try:
+        vals = []
+        for child in picker.winfo_children():
+            if child.winfo_class() == 'TSpinbox':
+                vals.append(child.get())
+        if len(vals) >= 2:
+            h, m = int(vals[0]), int(vals[1])
+            return time(h, m)
+    except Exception:
+        pass
+    raise ValueError("No se pudo leer la hora del timePicker.")
+
+def _hora_es_pasada_hoy(fecha_sel: date, hora_sel: time) -> bool:
+    """True si la fecha es hoy y la hora es <= ahora."""
+    ahora = datetime.now()
+    return (fecha_sel == ahora.date()) and (hora_sel <= ahora.time())
+
+def _resetear_timepicker():
+    global ingreso_hora_turno
+    # Intenta setters si existen…
+    try:
+        ingreso_hora_turno.setHrs(0); ingreso_hora_turno.setMins(0)
+        return
+    except Exception:
+        pass
+    ingreso_hora_turno.destroy()
+    ingreso_hora_turno = SpinTimePickerOld(marco)
+    ingreso_hora_turno.grid(row=4, column=1, sticky="w", padx=10, pady=10)
+    ingreso_hora_turno.addAll(tkc.HOURS24)
+
+def nuevo():
+    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
+    nombre_paciente.set("")
+    motivo.set("")
+    ingreso_fecha_turno.set_date(date.today())
+    especialidad_medica.set(0)
+    email.set(0); whatsapp.set(0); sms.set(0)
+    _resetear_timepicker()
+    ingreso_nombre_paciente.focus()
+
+def cancelar():
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar este turno")
+    nombre_paciente.set("")
+    motivo.set("")
+    ingreso_fecha_turno.set_date(date.today())
+    especialidad_medica.set(0)
+    email.set(0); whatsapp.set(0); sms.set(0)
+    _resetear_timepicker()
+    ingreso_nombre_paciente.focus()
+
 
 """ 
  @brief Función que determina la categoría del libro según el valor seleccionado.
@@ -55,97 +122,104 @@ def contar_preferencias():
             contador_preferencias += 1
     return contador_preferencias
 
-"""
- @brief Función que maneja la limpieza de los campos de entrada de texto.
-
- @param none
-
- @return none
-"""
-def nuevo():
-    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
-    # Entrys
-    nombre_paciente.set("")
-    motivo.set("")
-    ingreso_fecha_turno.set_date(date.today())
-    # Botones de opción
-    especialidad_medica.set(0)
-    # Casillas de verificación
-    email.set(0), whatsapp.set(0), sms.set(0)
-    ingreso_nombre_paciente.focus() #nombre del entry
-
-"""
- @brief Función que maneja la cancelación del turno.
-
- @param none
-
- @return none
-"""
-def cancelar():
-    messagebox.showwarning("ATENCIÓN", "Está por cancelar este turno")
-    # Entrys
-    nombre_paciente.set("")
-    motivo.set("")
-    ingreso_fecha_turno.set_date(date.today())
-    # Botones de opción
-    especialidad_medica.set(0)
-    # Casillas de verificación
-    email.set(0), whatsapp.set(0), sms.set(0)
-    ingreso_nombre_paciente.focus() #nombre del entry
-
-""" 
- @brief Función que maneja la inscripción del alumno.
- @param none
- @return none
-"""
 def guardar():
-    if nombre_paciente.get() == "" or motivo.get() == "" or ingreso_fecha_turno.get_date() <= date.today() or especialidad_medica.get() == 0:
+    fecha_sel = ingreso_fecha_turno.get_date()
+
+    if nombre_paciente.get() == "" or motivo.get() == "" or especialidad_medica.get() == 0:
         if nombre_paciente.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
         elif motivo.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa el motivo del turno.")
-        elif ingreso_fecha_turno.get_date() <= date.today():
-            messagebox.showerror("ERROR", "Por favor, ingresa la fecha del turno válida.")
         else:
-            messagebox.showerror("ERROR", "Por favor, ingresa la especialidad médica.")
-    else:
-        miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.cget(), medico=especialidad_medica.get(), servicios=contar_preferencias())
-        miTurno.Agregar()
+            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+        return
 
-"""
- @brief Función que maneja la modificación de un turno.
- 
- @param none
-    
- @return none
-"""
+    if fecha_sel < date.today():
+        messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        return
+
+    try:
+        hora_sel = _hora_time_desde_picker(ingreso_hora_turno)  # datetime.time
+    except Exception as e:
+        messagebox.showerror("ERROR", str(e))
+        return
+
+    if _hora_es_pasada_hoy(fecha_sel, hora_sel):
+        messagebox.showerror("ERROR", "La hora debe ser posterior a la actual.")
+        return
+
+    fecha_iso = fecha_sel.isoformat()             # "YYYY-MM-DD"
+    hora_iso  = hora_sel.strftime("%H:%M:%S")     # "HH:MM:SS"
+
+    miTurno = Turno(
+        nombre=nombre_paciente.get(),
+        motivo=motivo.get(),
+        fecha=fecha_iso,
+        hora=hora_iso,
+        medico=determinar_especialidad_medica(especialidad_medica.get()),
+        servicios=contar_preferencias()
+    )
+    miTurno.Agregar()
+
+
 def modificar():
-    if nombre_paciente.get() == "" and motivo.get() == "" and ingreso_fecha_turno.get_date() == date.today() and ingreso_hora_turno.get() == "" and especialidad_medica.get() == 0:
+    sin_datos = (
+        nombre_paciente.get() == "" and
+        motivo.get() == "" and
+        especialidad_medica.get() == 0
+    )
+    if sin_datos:
         messagebox.showerror("ERROR", "No hay turno para modificar.")
-    else:
-        respuesta = messagebox.askquestion("MODIFICAR TURNO", "Confirmar que desea modificar el turno")
-        if respuesta=="yes":
-            messagebox.showinfo("MODIFICAR TURNO", "El turno ha sido modificado")
-            miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.cget(), medico=especialidad_medica.get(), servicios=contar_preferencias())
-            miTurno.Modificar()
+        return
 
-"""
- @brief Función que maneja la eliminación de un turno.
+    fecha_sel = ingreso_fecha_turno.get_date()
+    if fecha_sel < date.today():
+        messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        return
 
- @param none
+    try:
+        hora_sel = _hora_time_desde_picker(ingreso_hora_turno)
+    except Exception as e:
+        messagebox.showerror("ERROR", str(e))
+        return
 
- @return none
-"""
+    if _hora_es_pasada_hoy(fecha_sel, hora_sel):
+        messagebox.showerror("ERROR", "La hora debe ser posterior a la actual.")
+        return
+
+    if messagebox.askquestion("MODIFICAR TURNO", "Confirmar que desea modificar el turno") == "yes":
+        miTurno = Turno(
+            nombre=nombre_paciente.get(),
+            motivo=motivo.get(),
+            fecha=fecha_sel.isoformat(),
+            hora=hora_sel.strftime("%H:%M:%S"),
+            medico=determinar_especialidad_medica(especialidad_medica.get()),
+            servicios=contar_preferencias()
+        )
+        miTurno.Modificar()
+        messagebox.showinfo("MODIFICAR TURNO", "El turno ha sido modificado")
+
 def eliminar():
-
-    if nombre_paciente.get() == "" and motivo.get() == "" and ingreso_fecha_turno.get_date() == 0 and especialidad_medica.get() == "":
+    sin_datos = (
+        nombre_paciente.get() == "" and
+        motivo.get() == "" and
+        especialidad_medica.get() == 0
+    )
+    if sin_datos:
         messagebox.showerror("ERROR", "No hay turno para eliminar.")
-    else:
-        respuesta = messagebox.askquestion("ELIMINAR TURNO", "Confirmar que desea eliminar el turno")
-        if respuesta=="yes":
-            messagebox.showinfo("ELIMINAR TURNO", "El turno ha sido eliminado")
-            miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), hora=ingreso_hora_turno.get(), medico=especialidad_medica.get(), servicios=contar_preferencias())
-            miTurno.Eliminar()
+        return
+
+    if messagebox.askquestion("ELIMINAR TURNO", "Confirmar que desea eliminar el turno") == "yes":
+        miTurno = Turno(
+            nombre=nombre_paciente.get(),
+            motivo=motivo.get(),
+            fecha=ingreso_fecha_turno.get_date().isoformat(),
+            hora=_hora_time_desde_picker(ingreso_hora_turno).strftime("%H:%M:%S"),
+            medico=determinar_especialidad_medica(especialidad_medica.get()),
+            servicios=contar_preferencias()
+        )
+        miTurno.Eliminar()
+        messagebox.showinfo("ELIMINAR TURNO", "El turno ha sido eliminado")
 
 
 """
@@ -224,7 +298,6 @@ INGRESOS
 nombre_paciente=StringVar()
 motivo=StringVar()
 fecha_turno=StringVar()
-hora_turno=StringVar()
 # Ingreso del nombre paciente
 ingreso_nombre_paciente = Entry(marco, textvariable=nombre_paciente)
 ingreso_nombre_paciente.grid(row=1, column=1, sticky="w", padx=10,pady=10)
@@ -234,13 +307,14 @@ ingreso_motivo_paciente = Entry(marco, textvariable=motivo)
 ingreso_motivo_paciente.grid(row=2, column=1, sticky="w", padx=10, pady=10)
 ingreso_motivo_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
 # Ingreso del año de la fecha del turno
-ingreso_fecha_turno = DateEntry(marco, date_pattern='dd/mm/yyyy', textvariable=fecha_turno)
+ingreso_fecha_turno = DateEntry(marco, date_pattern='yyyy/mm/dd', textvariable=fecha_turno)
 ingreso_fecha_turno.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
 ingreso_fecha_turno.config(width = 30)
-# Ingreso de la hora del turno
+# Ingreso de la hora del turno (timePicker)
 ingreso_hora_turno = SpinTimePickerOld(marco)
-ingreso_hora_turno.grid(row=4, column=1, sticky="w", padx=10 ,pady=10)
-ingreso_hora_turno.addAll(tkc.HOURS24)
+ingreso_hora_turno.grid(row=4, column=1, sticky="w", padx=10, pady=10)
+ingreso_hora_turno.addAll(tkc.HOURS24)  # arma HH y MM en formato 24h
+_resetear_timepicker()
 
 """
 BOTONES DE OPCION
