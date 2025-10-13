@@ -19,7 +19,7 @@ class Compra():
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
-        instruct_insert="INSERT INTO TiendaOnline(NombreDelCliente, Producto, Fecha, Hora, TipoDeCuenta, Preferencias) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
+        instruct_insert="INSERT INTO TiendaOnline(NombreDelCliente, Producto, FechaDeEntregaAprox, HorarioDeEntregaAprox, TipoDeCuenta, Preferencias) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.preferencias))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
