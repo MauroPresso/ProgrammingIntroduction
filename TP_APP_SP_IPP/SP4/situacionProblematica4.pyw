@@ -9,19 +9,9 @@
 
 from tkinter import *
 from tkinter import messagebox
-
-"""
- @brief Función que determina el costo segun el tipo de cuenta seleccionado.
- @param tipo_cuenta (int) - Valor del tipo de cuenta seleccionado.
- @return costo (float) - Costo mensual de la cuenta.
-"""
-def calcular_costo(tipo_cuenta):
-    if tipo_cuenta == 1:
-        costo.set(100.0)
-    elif tipo_cuenta == 2:
-        costo.set(200.0)
-    else:
-        costo.set(300.0)
+from tkcalendar import DateEntry
+from datetime import date
+from classCompra import Compra
 
 """
  @brief Función que determina el tipo de cuenta seleccionado.
@@ -57,57 +47,188 @@ def contar_preferencias():
     return contador_preferencias
 
 """
- @brief Función que maneja el ingreso del registro.
- @param none
- @return none
+FUNCIONES
 """
-def ingresar_registro(): 
-    # Entrys
-    if nombre.get() == "" or usuario.get() == "" or correo.get() == "" or edad.get() < 18:
-        
-        if nombre.get() == "": 
-            messagebox.showerror("ERROR","No ingresaste tu nombre")
-        elif usuario.get() == "": 
-            messagebox.showerror("ERROR","No ingresaste tu usuario")
-        elif correo.get() == "": 
-            messagebox.showerror("ERROR","No ingresaste tu correo electronico")
-        else: # edad.get() < 18
-            messagebox.showerror("ERROR","Debes ser mayor de edad para registrarte")
-    # Botones de opción
-    elif cuenta.get() != 1 and cuenta.get() != 2 and cuenta.get() != 3:
-        messagebox.showerror("ERROR","No seleccionaste un tipo de cuenta")
+""" 
+ @brief Función que convierte la hora y minutos en formato SQL.
+ @param hora (int) - Hora del Compra.
+ @param minutos (int) - Minutos del Compra.
+ @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
+"""
+def time_sql(hora, minutos):
+    if 0 <= hora <= 23 and 0 <= minutos <= 59:
+        hora_sql = f"{hora:02}:{minutos:02}:00"
+        return hora_sql
     else:
-        cantidad_preferencias=contar_preferencias()
-        tipo_de_cuenta=determinar_tipo_de_cuenta(cuenta.get())
-        messagebox.showinfo("SU TURNO FUE REGISTRADO CON ÉXITO", f"Nombre del lector: {nombre.get()}\nNombre de usuario: {usuario.get()}\nCorreo electronico: {correo.get()}\nTipo de cuenta: {tipo_de_cuenta}\nServicios adicionales seleccionados: {cantidad_preferencias}/3")
+        raise ValueError("Hora o minutos fuera de rango")
+
+""" 
+ @brief Función que inicializa un nuevo registro, limpiando todos los campos de entrada.
+ @param none
+ @return none
+ """
+def nuevo():
+    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
+    nombre.set("")
+    producto.set("")
+    ingreso_fecha_entrega.set_date(date.today())
+    hora_entrega.set(0); minuto_entrega.set(0)
+    cuenta.set(0)
+    ofertas.set(0); resumen.set(0); sms.set(0)
+    ingreso_nombre_cliente.focus()
+
+""" 
+ @brief Función que cancela el registro actual, limpiando todos los campos de entrada.
+ @param none
+ @return none
+ """
+def cancelar():
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar este Compra")
+    nombre.set("")
+    producto.set("")
+    ingreso_fecha_entrega.set_date(date.today())
+    hora_entrega.set(0); minuto_entrega.set(0)
+    ofertas.set(0); resumen.set(0); sms.set(0)
+    ingreso_nombre_cliente.focus()
+    cuenta.set(0)
 
 """
- @brief Función que maneja la cancelación del ingreso.
-
+ @brief Función que cuenta la cantidad de preferencias seleccionadas.
  @param none
+ @return contador_preferencias (int) - Cantidad de preferencias seleccionadas.
+"""
+def contar_preferencias():
+    contador_preferencias = 0
+    if ofertas.get() != 0 or resumen.get() != 0 or sms.get() != 0:
+        if ofertas.get() == 1:
+            contador_preferencias += 1
+        if resumen.get() == 1:
+            contador_preferencias += 1
+        if sms.get() == 1:
+            contador_preferencias += 1
+    return contador_preferencias
 
+"""
+ @brief Función que guarda el registro del Compra del paciente.
+ @param none
  @return none
 """
-def cancelar():
-    messagebox.showwarning("ATENCIÓN", "Está por cancelar el registro de usuario")
-    # Entrys
-    nombre.set("")
-    usuario.set("")
-    correo.set("")
-    edad.set(0)
-    costo.set(0.0)
-    # Botones de opción
-    cuenta.set(0)
-    # Casillas de verificación
-    ofertas.set(0)
-    sms.set(0)
-    resumen.set(0)
+def guardar():
+    condicion_hora = (hora_entrega.get() < 0 or hora_entrega.get() > 23)
+    condicion_minuto = (minuto_entrega.get() < 0 or minuto_entrega.get() > 59)
+    condicion_fecha = ((ingreso_fecha_entrega.get_date()) <= date.today())
+    condicion_paciente = (nombre.get() == "")
+    condicion_producto = (producto.get() == "")
+    condicion_cuenta = (cuenta.get() == 0)
+    if condicion_paciente or condicion_producto or condicion_cuenta or condicion_fecha or condicion_hora or condicion_minuto:
+        if condicion_paciente:
+            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+        elif condicion_producto:
+            messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
+        elif condicion_cuenta:
+            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+        elif condicion_fecha:
+            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        elif condicion_hora:
+            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
+    else:
+        if messagebox.askquestion("GUARDAR Compra", "Confirmar que desea guardar el Compra") == "yes":
+            miCompra = Compra(
+                nombre=nombre.get(),
+                producto=producto.get(),
+                fecha=ingreso_fecha_entrega.get_date(),
+                horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
+                cuenta=determinar_tipo_de_cuenta(cuenta.get()),
+                recordatorios=contar_preferencias()
+            )
+            miCompra.Agregar()
+            messagebox.showinfo("GUARDAR Compra", "El Compra ha sido guardado")
+        else:
+            messagebox.showinfo("GUARDAR Compra", "El Compra NO ha sido guardado")
+
+""" 
+ @brief Función que modifica el registro del Compra del paciente.
+ @param none
+ @return none
+"""
+def modificar():
+    condicion_hora = (hora_entrega.get() < 0 or hora_entrega.get() > 23)
+    condicion_minuto = (minuto_entrega.get() < 0 or minuto_entrega.get() > 59)
+    condicion_fecha = ((ingreso_fecha_entrega.get_date()) <= date.today())
+    condicion_cliente = (nombre.get() == "")
+    condicion_producto = (producto.get() == "")
+    condicion_cuenta = (cuenta.get() == 0)
+    if condicion_cliente or condicion_producto or condicion_cuenta or condicion_fecha or condicion_hora or condicion_minuto:
+        if condicion_cliente:
+            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+        elif condicion_producto:
+            messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
+        elif condicion_cuenta:
+            messagebox.showerror("ERROR", "Por favor, elige el tipo de cuenta.")
+        elif condicion_fecha:
+            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        elif condicion_hora:
+            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
+    else:
+        if messagebox.askquestion("MODIFICAR Compra", "Confirmar que desea modificar el Compra") == "yes":
+            miCompra = Compra(
+            nombre=nombre.get(),
+            producto=producto.get(),
+            fecha=ingreso_fecha_entrega.get_date(),
+            horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
+            cuenta=determinar_tipo_de_cuenta(cuenta.get()),
+            recordatorios=contar_preferencias()
+            )
+            miCompra.Modificar()
+        else:
+            messagebox.showinfo("MODIFICAR Compra", "El Compra NO ha sido modificado")
+
+""" 
+ @brief Función que elimina el registro del Compra del paciente.
+ @param none
+ @return none
+"""
+def eliminar():
+    condicion_hora = (hora_entrega.get() < 0 or hora_entrega.get() > 23)
+    condicion_minuto = (minuto_entrega.get() < 0 or minuto_entrega.get() > 59)
+    condicion_fecha = ((ingreso_fecha_entrega.get_date()) <= date.today())
+    condicion_paciente = (nombre.get() == "")
+    condicion_producto = (producto.get() == "")
+    condicion_especialidad = (cuenta.get() == 0)
+    if condicion_paciente or condicion_producto or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
+        if condicion_paciente:
+            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+        elif condicion_producto:
+            messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
+        elif condicion_especialidad:
+            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+        elif condicion_fecha:
+            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        elif condicion_hora:
+            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
+    else:
+        if messagebox.askquestion("ELIMINAR Compra", "Confirmar que desea eliminar el Compra") == "yes":
+            miCompra = Compra(
+                nombre=nombre.get(),
+                producto=producto.get(),
+                fecha=ingreso_fecha_entrega.get_date(),
+                horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
+                cuenta=determinar_tipo_de_cuenta(cuenta.get()),
+                recordatorios=contar_preferencias()
+            )
+            miCompra.Eliminar()
+        else:
+            messagebox.showinfo("ELIMINAR Compra", "El Compra NO ha sido eliminado")
 
 """
  @brief Función que maneja la salida de la aplicación.
-
  @param none
-
  @return none
 """
 def salida():
@@ -177,30 +298,30 @@ ENTRYS
 """
 # Variables para los Entrys
 nombre = StringVar()
-usuario = StringVar()
-correo = StringVar()
-edad = IntVar()
-costo = DoubleVar()
+producto = StringVar()
+fecha_entrega=StringVar()
+hora_entrega=IntVar()
+minuto_entrega=IntVar()
 # Ingreso del nombre completo
-ingreso_nombre_completo = Entry(marco, textvariable=nombre)
-ingreso_nombre_completo.grid(row=1, column=1, sticky="w", padx=8, pady=10)
-ingreso_nombre_completo.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
-# Ingreso del nombre de usuario
-ingreso_nombre_usuario = Entry(marco, textvariable=usuario)
-ingreso_nombre_usuario.grid(row=2, column=1, sticky="w", padx=8, pady=10)
-ingreso_nombre_usuario.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
-# Ingreso del correo electronico
-ingreso_correo_electronico = Entry(marco, textvariable=correo)
-ingreso_correo_electronico.grid(row=3, column=1, sticky="w", padx=8, pady=10)
-ingreso_correo_electronico.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
-# Ingreso de la edad
-ingreso_edad = Entry(marco, textvariable=edad)
-ingreso_edad.grid(row=4, column=1, sticky="w", padx=8, pady=10)
-ingreso_edad.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
-# Entry para el costo de la cuenta
-ingreso_costo_cuenta = Entry(marco, textvariable=costo)
-ingreso_costo_cuenta.grid(row=5, column=2, sticky="w", padx=8, pady=10)
-ingreso_costo_cuenta.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_cliente = Entry(marco, textvariable=nombre)
+ingreso_nombre_cliente.grid(row=1, column=1, sticky="w", padx=8, pady=10)
+ingreso_nombre_cliente.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del nombre de producto
+ingreso_nombre_producto = Entry(marco, textvariable=producto)
+ingreso_nombre_producto.grid(row=2, column=1, sticky="w", padx=8, pady=10)
+ingreso_nombre_producto.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
+# Ingreso del año de la fecha del Compra
+ingreso_fecha_entrega = DateEntry(marco, date_pattern='yyyy/mm/dd', textvariable=fecha_entrega)
+ingreso_fecha_entrega.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
+ingreso_fecha_entrega.config(width = 30)
+# Ingreso de la hora del Compra (timePicker)
+ingreso_hora_entrega = Entry(marco, textvariable=hora_entrega)
+ingreso_hora_entrega.grid(row=6, column=1, sticky="w", padx=10, pady=10)
+ingreso_hora_entrega.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15)
+# Ingreso de los minutos del Compra (timePicker)
+ingreso_minuto_entrega = Entry(marco, textvariable=minuto_entrega)
+ingreso_minuto_entrega.grid(row=6, column=1, sticky="e", padx=10, pady=10)
+ingreso_minuto_entrega.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15)
 
 """
 BOTONES DE OPCION
@@ -243,22 +364,30 @@ check_resumen.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans
 """
 BOTONES DE ACCION
 """
-#Boton de ingesar.
-boton_ingresar = Button(marco, text="Ingresar", command=lambda:ingresar_registro())
-boton_ingresar.grid(row=5, column=0, columnspan=2, sticky="w", padx=10, pady=10)
-boton_ingresar.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
-#Boton de cancelar prestamo.
-boton_cancelar = Button(marco, text="Cancelar", command=lambda:cancelar())
-boton_cancelar.grid(row=6, column=0, columnspan=2, sticky="w", padx=10, pady=10)
-boton_cancelar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
-#Boton de salir.
-boton_salir = Button(marco, text="Salir", command=lambda:salida())
-boton_salir.grid(row=7, column=0, columnspan=2, sticky="w", padx=10, pady=10)
-boton_salir.config(fg = "red", bg = "black", width = 30, font = ("Helvetica", 14, "italic"))
-# Boton para calcular el costo de la cuenta
-boton_calcular_costo = Button(marco, text="Calcular costo mensual", command=lambda:calcular_costo(cuenta.get()))
-boton_calcular_costo.grid(row=4, column=2, columnspan=2, sticky="w", padx=20, pady=20)
-boton_calcular_costo.config(fg = "blue", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+# Boton de nuevo.
+boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
+boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+# Boton de guardar
+boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
+boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
+# Boton de modificar
+boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
+boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de eliminar
+boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
+boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+# Boton de cancelar
+boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
+boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
+# Boton de salir.
+boton_salir = Button(marco, text="SALIR", command=lambda:salida())
+boton_salir.grid(row=9, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
