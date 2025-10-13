@@ -10,7 +10,7 @@
 from tkinter import *
 from tkinter import messagebox
 from tkcalendar import DateEntry
-from datetime import date, time
+from datetime import date
 from classTurno import Turno
 
 """
@@ -114,9 +114,8 @@ def guardar():
         motivo=motivo.get(),
         fecha=ingreso_fecha_turno.get_date(),
         horario=time_sql(hora_turno.get(), minuto_turno.get()),
-        minutos=minuto_turno.get(),
         medico=determinar_especialidad_medica(especialidad_medica.get()),
-        servicios=contar_preferencias()
+        recordatorios=contar_preferencias()
     )
     miTurno.Agregar()
 
@@ -149,7 +148,7 @@ def modificar():
             fecha=ingreso_fecha_turno.get_date(),
             horario=time_sql(hora_turno.get(), minuto_turno.get()),
             medico=determinar_especialidad_medica(especialidad_medica.get()),
-            servicios=contar_preferencias()
+            recordatorios=contar_preferencias()
         )
         miTurno.Modificar()
         messagebox.showinfo("MODIFICAR TURNO", "El turno ha sido modificado")
@@ -177,7 +176,7 @@ def eliminar():
             fecha=ingreso_fecha_turno.get_date(),
             horario=time_sql(hora_turno.get(), minuto_turno.get()),
             medico=determinar_especialidad_medica(especialidad_medica.get()),
-            servicios=contar_preferencias()
+            recordatorios=contar_preferencias()
         )
         miTurno.Eliminar()
         messagebox.showinfo("ELIMINAR TURNO", "El turno ha sido eliminado")
