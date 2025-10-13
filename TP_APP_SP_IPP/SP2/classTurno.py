@@ -20,7 +20,7 @@ class Turno():
     def Agregar(self):
         conexBD=Conexion()
         instruct_insert="INSERT INTO TurnosMedicos(NombreDelPaciente, Motivo, Fecha, Hora, Medico, OpcionesDeRecordatorio) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
-        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.servicios))
+        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.recordatorios))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
