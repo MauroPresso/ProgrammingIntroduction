@@ -24,24 +24,11 @@ class Turno():
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
-
     # Método para modificar un alumno
     def Modificar(self):
-        mensaje="""Se modifico el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y recordatorios %d
-        CON EXITO!!!""" %(self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.recordatorios)
+        mensaje="Se modifico el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.recordatorios)
         messagebox.showinfo("MODIFICAR",mensaje)
-
-    
     # Método para eliminar un alumno
     def Eliminar(self):
-        mensaje="""Se elimino el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y recordatorios %d
-        CON EXITO!!!""" %(self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios)
+        mensaje="Se elimino el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios)
         messagebox.showinfo("ELIMINAR",mensaje)
