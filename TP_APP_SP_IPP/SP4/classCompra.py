@@ -5,7 +5,7 @@ from datetime import date
 from tkinter import messagebox
 from classConexion import Conexion
 
-class Turno():  
+class Compra():  
     # Constructor
     def __init__(self, id=0, nombre="", producto="", fecha=date.today(), horario=f"{00}:{00}:00", tipoDeCuenta="", contactos=0):
         self.id=id
