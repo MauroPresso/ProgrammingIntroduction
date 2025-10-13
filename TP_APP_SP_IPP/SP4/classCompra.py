@@ -5,42 +5,30 @@ from datetime import date
 from tkinter import messagebox
 from classConexion import Conexion
 
-class Prestamo():  
+class Turno():  
     # Constructor
-    def __init__(self, id=0, nombre="",titulo="", fecha=date.today(), categoria="", servicios=0):
+    def __init__(self, id=0, nombre="", producto="", fecha=date.today(), horario=f"{00}:{00}:00", tipoDeCuenta="", contactos=0):
         self.id=id
         self.nombre=nombre
-        self.titulo=titulo
+        self.producto=producto
         self.fecha=fecha
-        self.categoria=categoria
-        self.servicios=servicios
-    
+        self.horario=horario
+        self.tipoDeCuenta=tipoDeCuenta
+        self.contactos=contactos
+
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
-        instruct_insert="INSERT INTO PrestamosDeLibros(NombreDelLector, Titulo, FechaDeDevolucion, Categoria, ServiciosAdicionales) VALUES ('%s', '%s', '%s', '%s', '%s')"
-        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.titulo, self.fecha, self.categoria, self.servicios))
+        instruct_insert="INSERT INTO TurnosMedicos(NombreDelCliente, Producto, Fecha, Hora, TipoDeCuenta, Contactos) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
+        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.contactos))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
-
     # Método para modificar un alumno
     def Modificar(self):
-        mensaje="""Se modifico el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
+        mensaje="Se modifico la compra de %s que tiene el producto %s con fecha %s y horario %s y tipo de cuenta %s y contactos %d CON EXITO!!!" %(self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.contactos)
         messagebox.showinfo("MODIFICAR",mensaje)
-
-    
     # Método para eliminar un alumno
     def Eliminar(self):
-        mensaje="""Se elimino el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
+        mensaje="Se elimino la compra de %s que tiene el producto %s con fecha %s y horario %s y tipo de cuenta %s y contactos %d CON EXITO!!!" %(self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.contactos)
         messagebox.showinfo("ELIMINAR",mensaje)
