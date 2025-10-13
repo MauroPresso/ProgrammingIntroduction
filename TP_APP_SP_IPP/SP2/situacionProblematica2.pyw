@@ -94,30 +94,39 @@ def contar_preferencias():
  @return none
 """
 def guardar():
-    fecha_sel = ingreso_fecha_turno.get_date()
-    if nombre_paciente.get() == "" or motivo.get() == "" or especialidad_medica.get() == 0:
-        if nombre_paciente.get() == "":
+    condicion_hora = (hora_turno.get() < 0 or hora_turno.get() > 23)
+    condicion_minuto = (minuto_turno.get() < 0 or minuto_turno.get() > 59)
+    condicion_fecha = ((ingreso_fecha_turno.get_date()) <= date.today())
+    condicion_paciente = (nombre_paciente.get() == "")
+    condicion_motivo = (motivo.get() == "")
+    condicion_especialidad = (especialidad_medica.get() == 0)
+    if condicion_paciente or condicion_motivo or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
+        if condicion_paciente:
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
-        elif motivo.get() == "":
+        elif condicion_motivo:
             messagebox.showerror("ERROR", "Por favor, ingresa el motivo del turno.")
-        else:
+        elif condicion_especialidad:
             messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
-
-    if fecha_sel < date.today():
-        messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
-    if hora_turno.get() < 0 or hora_turno.get() > 23:
-        messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")
-    elif minuto_turno.get() < 0 or minuto_turno.get() > 59:
-        messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
-    miTurno = Turno(
-        nombre=nombre_paciente.get(),
-        motivo=motivo.get(),
-        fecha=ingreso_fecha_turno.get_date(),
-        horario=time_sql(hora_turno.get(), minuto_turno.get()),
-        medico=determinar_especialidad_medica(especialidad_medica.get()),
-        recordatorios=contar_preferencias()
-    )
-    miTurno.Agregar()
+        elif condicion_fecha:
+            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        elif condicion_hora:
+            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
+    else:
+        if messagebox.askquestion("GUARDAR TURNO", "Confirmar que desea guardar el turno") == "yes":
+            miTurno = Turno(
+                nombre=nombre_paciente.get(),
+                motivo=motivo.get(),
+                fecha=ingreso_fecha_turno.get_date(),
+                horario=time_sql(hora_turno.get(), minuto_turno.get()),
+                medico=determinar_especialidad_medica(especialidad_medica.get()),
+                recordatorios=contar_preferencias()
+            )
+            miTurno.Agregar()
+            messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
+        else:
+            messagebox.showinfo("GUARDAR TURNO", "El turno NO ha sido guardado")
 
 """ 
  @brief Función que modifica el registro del turno del paciente.
@@ -125,33 +134,38 @@ def guardar():
  @return none
 """
 def modificar():
-    sin_datos = (
-        nombre_paciente.get() == "" and
-        motivo.get() == "" and
-        especialidad_medica.get() == 0
-    )
-    if sin_datos:
-        messagebox.showerror("ERROR", "No hay turno para modificar.")
-
-    fecha_sel = ingreso_fecha_turno.get_date()
-    if fecha_sel < date.today():
-        messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
-    if hora_turno.get() < 0 or hora_turno.get() > 23:
-        messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")
-    elif minuto_turno.get() < 0 or minuto_turno.get() > 59:
-        messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
-
-    if messagebox.askquestion("MODIFICAR TURNO", "Confirmar que desea modificar el turno") == "yes":
-        miTurno = Turno(
+    condicion_hora = (hora_turno.get() < 0 or hora_turno.get() > 23)
+    condicion_minuto = (minuto_turno.get() < 0 or minuto_turno.get() > 59)
+    condicion_fecha = ((ingreso_fecha_turno.get_date()) <= date.today())
+    condicion_paciente = (nombre_paciente.get() == "")
+    condicion_motivo = (motivo.get() == "")
+    condicion_especialidad = (especialidad_medica.get() == 0)
+    if condicion_paciente or condicion_motivo or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
+        if condicion_paciente:
+            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+        elif condicion_motivo:
+            messagebox.showerror("ERROR", "Por favor, ingresa el motivo del turno.")
+        elif condicion_especialidad:
+            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+        elif condicion_fecha:
+            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        elif condicion_hora:
+            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
+    else:
+        if messagebox.askquestion("MODIFICAR TURNO", "Confirmar que desea modificar el turno") == "yes":
+            miTurno = Turno(
             nombre=nombre_paciente.get(),
             motivo=motivo.get(),
             fecha=ingreso_fecha_turno.get_date(),
             horario=time_sql(hora_turno.get(), minuto_turno.get()),
             medico=determinar_especialidad_medica(especialidad_medica.get()),
             recordatorios=contar_preferencias()
-        )
-        miTurno.Modificar()
-        messagebox.showinfo("MODIFICAR TURNO", "El turno ha sido modificado")
+            )
+            miTurno.Modificar()
+        else:
+            messagebox.showinfo("MODIFICAR TURNO", "El turno NO ha sido modificado")
 
 """ 
  @brief Función que elimina el registro del turno del paciente.
@@ -159,27 +173,38 @@ def modificar():
  @return none
 """
 def eliminar():
-    sin_datos = (
-        nombre_paciente.get() == "" and
-        motivo.get() == "" and
-        especialidad_medica.get() == 0
-
-    )
-    if sin_datos:
-        messagebox.showerror("ERROR", "No hay turno para eliminar.")
-        return
-
-    if messagebox.askquestion("ELIMINAR TURNO", "Confirmar que desea eliminar el turno") == "yes":
-        miTurno = Turno(
-            nombre=nombre_paciente.get(),
-            motivo=motivo.get(),
-            fecha=ingreso_fecha_turno.get_date(),
-            horario=time_sql(hora_turno.get(), minuto_turno.get()),
-            medico=determinar_especialidad_medica(especialidad_medica.get()),
-            recordatorios=contar_preferencias()
-        )
-        miTurno.Eliminar()
-        messagebox.showinfo("ELIMINAR TURNO", "El turno ha sido eliminado")
+    condicion_hora = (hora_turno.get() < 0 or hora_turno.get() > 23)
+    condicion_minuto = (minuto_turno.get() < 0 or minuto_turno.get() > 59)
+    condicion_fecha = ((ingreso_fecha_turno.get_date()) <= date.today())
+    condicion_paciente = (nombre_paciente.get() == "")
+    condicion_motivo = (motivo.get() == "")
+    condicion_especialidad = (especialidad_medica.get() == 0)
+    if condicion_paciente or condicion_motivo or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
+        if condicion_paciente:
+            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+        elif condicion_motivo:
+            messagebox.showerror("ERROR", "Por favor, ingresa el motivo del turno.")
+        elif condicion_especialidad:
+            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+        elif condicion_fecha:
+            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
+        elif condicion_hora:
+            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
+        else:
+            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
+    else:
+        if messagebox.askquestion("ELIMINAR TURNO", "Confirmar que desea eliminar el turno") == "yes":
+            miTurno = Turno(
+                nombre=nombre_paciente.get(),
+                motivo=motivo.get(),
+                fecha=ingreso_fecha_turno.get_date(),
+                horario=time_sql(hora_turno.get(), minuto_turno.get()),
+                medico=determinar_especialidad_medica(especialidad_medica.get()),
+                recordatorios=contar_preferencias()
+            )
+            miTurno.Eliminar()
+        else:
+            messagebox.showinfo("ELIMINAR TURNO", "El turno NO ha sido eliminado")
 
 """
  @brief Función que maneja la salida de la aplicación.
