@@ -126,7 +126,7 @@ def guardar():
         elif condicion_producto:
             messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
         elif condicion_cuenta:
-            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+            messagebox.showerror("ERROR", "Por favor, elige el tipo de cuenta.")
         elif condicion_fecha:
             messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
         elif condicion_hora:
@@ -198,14 +198,14 @@ def eliminar():
     condicion_fecha = ((ingreso_fecha_entrega.get_date()) <= date.today())
     condicion_paciente = (nombre.get() == "")
     condicion_producto = (producto.get() == "")
-    condicion_especialidad = (cuenta.get() == 0)
-    if condicion_paciente or condicion_producto or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
+    condicion_cuenta = (cuenta.get() == 0)
+    if condicion_paciente or condicion_producto or condicion_cuenta or condicion_fecha or condicion_hora or condicion_minuto:
         if condicion_paciente:
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
         elif condicion_producto:
             messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
-        elif condicion_especialidad:
-            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
+        elif condicion_cuenta:
+            messagebox.showerror("ERROR", "Por favor, elige el tipo de cuenta.")
         elif condicion_fecha:
             messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
         elif condicion_hora:
