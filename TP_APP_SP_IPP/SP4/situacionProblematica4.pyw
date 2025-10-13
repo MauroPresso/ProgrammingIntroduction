@@ -140,8 +140,8 @@ def guardar():
                 producto=producto.get(),
                 fecha=ingreso_fecha_entrega.get_date(),
                 horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
-                cuenta=determinar_tipo_de_cuenta(cuenta.get()),
-                recordatorios=contar_preferencias()
+                tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()),
+                preferencias=contar_preferencias()
             )
             miCompra.Agregar()
             messagebox.showinfo("GUARDAR Compra", "El Compra ha sido guardado")
@@ -180,8 +180,8 @@ def modificar():
             producto=producto.get(),
             fecha=ingreso_fecha_entrega.get_date(),
             horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
-            cuenta=determinar_tipo_de_cuenta(cuenta.get()),
-            recordatorios=contar_preferencias()
+            tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()),
+            preferencias=contar_preferencias()
             )
             miCompra.Modificar()
         else:
@@ -219,8 +219,8 @@ def eliminar():
                 producto=producto.get(),
                 fecha=ingreso_fecha_entrega.get_date(),
                 horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
-                cuenta=determinar_tipo_de_cuenta(cuenta.get()),
-                recordatorios=contar_preferencias()
+                tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()),
+                preferencias=contar_preferencias()
             )
             miCompra.Eliminar()
         else:
@@ -280,18 +280,27 @@ etiqueta_casillas_verificacion.config(fg = "yellow", bg = "brown", width = 35, f
 etiqueta_nombre_completo = Label(marco, text="Nombre completo:")
 etiqueta_nombre_completo.grid(row=1, column=0, sticky="w", pady=10, padx=8) # .grid() para acomodar el objeto dentro del Frame.
 etiqueta_nombre_completo.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Etiqueta del nombre de usuario
-etiqueta_nombre_usuario = Label(marco, text="Nombre de usuario:")
-etiqueta_nombre_usuario.grid(row=2, column=0, sticky="w", pady=10, padx=8)
-etiqueta_nombre_usuario.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Etiqueta del correo electronico
-etiqueta_correo_electronico = Label(marco, text="Correo electrónico:")
-etiqueta_correo_electronico.grid(row=3, column=0, sticky="w", pady=10, padx=8)
-etiqueta_correo_electronico.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
-# Etiqueta de la edad
-etiqueta_edad = Label(marco, text="Edad:")
-etiqueta_edad.grid(row=4, column=0, sticky="w", pady=10, padx=8)
-etiqueta_edad.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# Etiqueta del nombre de producto
+etiqueta_nombre_producto = Label(marco, text="Producto:")
+etiqueta_nombre_producto.grid(row=2, column=0, sticky="w", pady=10, padx=8)
+etiqueta_nombre_producto.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# Separador entre hora
+etiqueta_separador_hora_minuto = Label(marco, text="Horas:")
+etiqueta_separador_hora_minuto.grid(row=5, column=1, sticky="w", padx=0, pady=10)
+etiqueta_separador_hora_minuto.config(fg = "yellow", bg = "brown", width = 15, font = ("Rockell", 14, "italic"))
+# Separador entre minuto
+etiqueta_separador_minuto = Label(marco, text="Minutos:")
+etiqueta_separador_minuto.grid(row=5, column=1, sticky="e", padx=0, pady=10)
+etiqueta_separador_minuto.config(fg = "yellow", bg = "brown", width = 15, font = ("Rockell", 14, "italic"))
+# Etiqueta del boton de opcion
+# Etiqueta de la fecha de entrega
+etiqueta_fecha_entrega = Label(marco, text="Fecha de entrega:")
+etiqueta_fecha_entrega.grid(row=3, column=0, sticky="w", pady=10, padx=8)
+etiqueta_fecha_entrega.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+# Etiqueta de la hora de entrega
+etiqueta_horario_entrega = Label(marco, text="Horario de entrega:")
+etiqueta_horario_entrega.grid(row=6, column=0, sticky="w", pady=10, padx=8)
+etiqueta_horario_entrega.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
 """
 ENTRYS
@@ -317,11 +326,11 @@ ingreso_fecha_entrega.config(width = 30)
 # Ingreso de la hora del Compra (timePicker)
 ingreso_hora_entrega = Entry(marco, textvariable=hora_entrega)
 ingreso_hora_entrega.grid(row=6, column=1, sticky="w", padx=10, pady=10)
-ingreso_hora_entrega.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15)
+ingreso_hora_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15)
 # Ingreso de los minutos del Compra (timePicker)
 ingreso_minuto_entrega = Entry(marco, textvariable=minuto_entrega)
 ingreso_minuto_entrega.grid(row=6, column=1, sticky="e", padx=10, pady=10)
-ingreso_minuto_entrega.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15)
+ingreso_minuto_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15)
 
 """
 BOTONES DE OPCION
