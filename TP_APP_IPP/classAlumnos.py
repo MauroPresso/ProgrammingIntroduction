@@ -45,3 +45,13 @@ class Alumnos():
         #messagebox.tipo("TITULO","Se elimino un alumno")
         #Alumno1=Alumnos("Jorge","Cipolletti")
         #print("Se elimino el alumno ",self.nombre,self.domicilio)
+
+    # Metodo para listar alumnos
+    def ListaAlumnos(self):
+        conexBD=Conexion()
+        instruct_select="SELECT * FROM Alumnos ORDER BY id DESC"
+        conexBD.miCursor.execute(instruct_select)
+        registros=conexBD.miCursor.fetchall()
+        conexBD.cerrar()
+        return registros # retorna los registros tomados por SELECT
+        
