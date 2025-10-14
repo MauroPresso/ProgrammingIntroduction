@@ -15,17 +15,58 @@ from classAlumnos import Alumnos
 """
 FUNCIONES
 """
+"""
+ @brief Funcion que vacia los entrys.
+
+ @param none
+
+ @return none
+"""
 def limpiar_campos():
     nombre.set("")
     domicilio.set("")
     edad.set(0)
     dni.set(0)
 
+"""
+ @brief Funcion que administra los estados de los entrys y los botones de accion.
+
+ @param estado (string)
+
+ @return none
+"""
 def estado_textbox(estado):
     ingreso_nombre_alumno.config(state=estado)
     ingreso_domicilio_alumno.config(state=estado)
     ingreso_edad_alumno.config(state=estado)
     ingreso_dni_alumno.config(state=estado)
+
+"""
+ @brief Funcion que carga los registros en el visor de la app.
+ @param none
+ @return none
+"""
+def cargarEnVisorBD():
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    vaciarElVisorBD()
+    registros=Alumnos.ListaAlumnos()
+    for r in registros:
+        #              VINC.C/CAMPO0(ID) VALORES(OTROS CAMPOS)               
+        visorBD.insert('', 0, text=r[0], values=(r[1], r[2], r[3], r[4]))
+
+"""
+ @brief Funcion que borra los registros en el visor de la app.
+ @param none
+ @return none
+"""  
+def vaciarElVisorBD():
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    registros=visorBD.get_children()
+    for r in registros:
+        visorBD.delete(r)
+        
 
 """
  @brief Función que maneja la limpieza de los campos de entrada de texto.
@@ -85,7 +126,8 @@ def guardar():
         miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
         miAlumno.Agregar()
         # limpio los campos
-        limpiar_campos
+        cargarEnVisorBD()
+        limpiar_campos()
         estado_textbox("disabled")
         # deshabilito Buttons
         boton_nuevo.config(state="normal")
@@ -200,6 +242,22 @@ ingreso_dni_alumno.grid(row=4, column=1, columnspan=2, sticky="w", pady=10, padx
 ingreso_dni_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60, state="disabled") #state="disabled" para que no se pueda escribir en el entry
 
 """
+VISOR
+"""
+# Visor
+visorBD=ttk.Treeview(marco, columns=('nombre', 'domicilio', 'dni', 'edad'))
+cant_campos=4
+visorBD.grid(row=7, column=0, columnspan=cant_campos, sticky="we")
+# Scrollbar
+barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
+barraDespl.grid(row=(cant_campos+3), column=cant_campos, sticky="e")
+visorBD.configure(yscrollcommand=barraDespl.set)
+# CONFIGURACION
+visorBD.heading('#0', text="ID")
+visorBD.column('#0', width=30)
+
+
+"""
 BOTONES DE ACCION
 """
 # Boton de nuevo.
@@ -224,7 +282,7 @@ boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
 boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=7, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.grid(row=8, column=0, columnspan=3, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
 
 
