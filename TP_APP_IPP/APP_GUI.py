@@ -9,11 +9,24 @@
 
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 from classAlumnos import Alumnos
 
 """
 FUNCIONES
 """
+def limpiar_campos():
+    nombre.set("")
+    domicilio.set("")
+    edad.set(0)
+    dni.set(0)
+
+def estado_textbox(estado):
+    ingreso_nombre_alumno.config(state=estado)
+    ingreso_domicilio_alumno.config(state=estado)
+    ingreso_edad_alumno.config(state=estado)
+    ingreso_dni_alumno.config(state=estado)
+
 """
  @brief Función que maneja la limpieza de los campos de entrada de texto.
 
@@ -24,11 +37,15 @@ FUNCIONES
 def nuevo():
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
-    nombre.set("")
-    domicilio.set("")
-    edad.set(0)
-    dni.set(0)
+    limpiar_campos()
     ingreso_nombre_alumno.focus() #nombre del entry
+    # deshabilito Entrys
+    estado_textbox("normal")
+    ingreso_dni_alumno.config(state="normal")
+    # deshabilito Buttons
+    boton_nuevo.config(state="disabled")
+    boton_cancelar.config(state="normal")
+    boton_guardar.config(state="normal")
 
 """
  @brief Función que maneja la cancelacion.
@@ -40,11 +57,14 @@ def nuevo():
 def cancelar():
     messagebox.showwarning("ATENCIÓN", "Está por cancelar el ingreso de un nuevo registro")
     # Entrys
-    nombre.set("")
-    domicilio.set("")
-    edad.set(0)
-    dni.set(0)
+    limpiar_campos()
     ingreso_nombre_alumno.focus() #nombre del entry
+    # deshabilito Entrys
+    estado_textbox("disabled")
+    # deshabilito Buttons
+    boton_nuevo.config(state="normal")
+    boton_cancelar.config(state="disabled")
+    boton_guardar.config(state="disabled")  
 
 """ 
  @brief Función que maneja la inscripción del alumno.
@@ -64,6 +84,13 @@ def guardar():
     else:
         miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
         miAlumno.Agregar()
+        # limpio los campos
+        limpiar_campos
+        estado_textbox("disabled")
+        # deshabilito Buttons
+        boton_nuevo.config(state="normal")
+        boton_cancelar.config(state="disabled")
+        boton_guardar.config(state="disabled")
 
 """
  @brief Función que maneja la modificación de la inscripción.
@@ -73,14 +100,7 @@ def guardar():
  @return none
 """
 def modificar():
-    if nombre.get() == "" and domicilio.get() == "" and dni.get() == 0 and edad.get() == 0:
-        messagebox.showerror("ERROR", "No hay inscripción para modificar.")
-    else:
-        respuesta = messagebox.askquestion("MODIFICAR INSCRIPCION", "Confirmar que desea modificar la inscripción")
-        if respuesta=="yes":
-            messagebox.showinfo("MODIFICAR INSCRIPCION", "La inscripción ha sido modificada")
-            miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
-            miAlumno.Modificar()
+    pass
 
 """
  @brief Función que maneja la eliminación de la inscripción.
@@ -90,15 +110,7 @@ def modificar():
  @return none
 """
 def eliminar():
-
-    if nombre.get() == "" and domicilio.get() == "" and dni.get() == 0 and edad.get() == 0:
-        messagebox.showerror("ERROR", "No hay inscripción para eliminar.")
-    else:
-        respuesta = messagebox.askquestion("ELIMINAR INSCRIPCION", "Confirmar que desea eliminar la inscripción")
-        if respuesta=="yes":
-            messagebox.showinfo("ELIMINAR INSCRIPCION", "La inscripción ha sido eliminada")
-            miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
-            miAlumno.Eliminar()
+    pass
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -173,19 +185,19 @@ edad = IntVar()
 # Ingreso del nombre del alumno
 ingreso_nombre_alumno = Entry(marco, textvariable=nombre)
 ingreso_nombre_alumno.grid(row=1, column=1, columnspan=2, sticky="w", pady=10, padx=10)
-ingreso_nombre_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60)
+ingreso_nombre_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60, state="disabled") #state="disabled" para que no se pueda escribir en el entry
 # Ingreso del domicilio que desea aprender
 ingreso_domicilio_alumno = Entry(marco, textvariable=domicilio)
 ingreso_domicilio_alumno.grid(row=2, column=1, columnspan=2, sticky="w", pady=10, padx=10)
-ingreso_domicilio_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60)
+ingreso_domicilio_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60, state="disabled") #state="disabled" para que no se pueda escribir en el entry
 # Ingreso de los edad que desea cursar
 ingreso_edad_alumno = Entry(marco, textvariable=edad)
 ingreso_edad_alumno.grid(row=3, column=1, columnspan=2, sticky="w", pady=10, padx=10)
-ingreso_edad_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60)
+ingreso_edad_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60, state="disabled") #state="disabled" para que no se pueda escribir en el entry
 # Ingreso del dni del alumno
 ingreso_dni_alumno = Entry(marco, textvariable=dni)
 ingreso_dni_alumno.grid(row=4, column=1, columnspan=2, sticky="w", pady=10, padx=10)
-ingreso_dni_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60)
+ingreso_dni_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60, state="disabled") #state="disabled" para que no se pueda escribir en el entry
 
 """
 BOTONES DE ACCION
@@ -193,27 +205,27 @@ BOTONES DE ACCION
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
 boton_nuevo.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
+boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"), state="disabled")
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
-boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
 boton_salir.grid(row=7, column=0, columnspan=3, pady=10, padx=10, sticky="w")
-boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
+boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
 
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
