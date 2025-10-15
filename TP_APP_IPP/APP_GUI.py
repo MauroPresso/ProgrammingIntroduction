@@ -183,7 +183,7 @@ try:
     raiz.iconbitmap('TP_APP_IPP\\Software.ico')
 except Exception:
     pass
-raiz.config(bg = "red") # bg: background (color de fondo).
+raiz.config(bg = "orange") # bg: background (color de fondo).
 raiz.config(cursor = "star") # cursor: es el iconito del mouse.
 
 """
@@ -243,36 +243,6 @@ ingreso_dni_alumno.grid(row=4, column=1, columnspan=2, sticky="w", pady=10, padx
 ingreso_dni_alumno.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic"), width=60, state="disabled") #state="disabled" para que no se pueda escribir en el entry
 
 """
-VISOR
-"""
-# Visor
-visorBD=ttk.Treeview(marco, columns=('nombre', 'domicilio', 'dni', 'edad'))
-cant_campos=4
-visorBD.grid(row=7, column=0, columnspan=cant_campos, sticky="we")
-# Scrollbar
-barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
-barraDespl.grid(row=(cant_campos+3), column=cant_campos, sticky="e")
-visorBD.configure(yscrollcommand=barraDespl.set)
-# CONFIGURACION
-# ID
-visorBD.heading('#0', text="ID")
-visorBD.column('#0', width=30)
-# Nombre
-visorBD.heading('#1', text="Nombre")
-visorBD.column('#1', width=100)
-# Domicilio
-visorBD.heading('#2', text="Domicilio")
-visorBD.column('#2', width=100)
-# DNI
-visorBD.heading('#3', text="DNI")
-visorBD.column('#3', width=100)
-# Edad
-visorBD.heading('#4', text="Edad")
-visorBD.column('#4', width=100)
-# Cargar datos en el visor
-cargarEnVisorBD()
-
-"""
 BOTONES DE ACCION
 """
 # Boton de nuevo.
@@ -299,6 +269,42 @@ boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetic
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
 boton_salir.grid(row=8, column=0, columnspan=3, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
+
+"""
+IMPORTANTE: CREAR PRIMERO LOS WIDGETS Y LUEGO LLAMAR A LAS FUNCIONES QUE LOS UTILIZAN.
+"""
+
+"""
+VISOR
+"""
+# Visor
+visorBD=ttk.Treeview(marco, columns=('nombre', 'domicilio', 'dni', 'edad'))
+cant_campos=4
+visorBD.grid(row=7, column=0, columnspan=cant_campos, sticky="nsew")
+# Scrollbar
+barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
+barraDespl.grid(row=(cant_campos+3), column=cant_campos, sticky="ns")
+visorBD.configure(yscrollcommand=barraDespl.set)
+# CONFIGURACION
+# ID
+visorBD.heading('#0', text="ID")
+visorBD.column('#0', width=30)
+# Nombre
+visorBD.heading('#1', text="Nombre")
+visorBD.column('#1', width=100)
+# Domicilio
+visorBD.heading('#2', text="Domicilio")
+visorBD.column('#2', width=100)
+# DNI
+visorBD.heading('#3', text="DNI")
+visorBD.column('#3', width=100)
+# Edad
+visorBD.heading('#4', text="Edad")
+visorBD.column('#4', width=100)
+# Cargar datos en el visor
+cargarEnVisorBD()
+
+
 
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
