@@ -47,7 +47,7 @@ class Alumnos():
         #print("Se elimino el alumno ",self.nombre,self.domicilio)
 
     # Metodo para listar alumnos
-    def ListaAlumnos(self):
+    def ListaAlumnos(): # no necesita self porque no usa atributos de instancia.
         conexBD=Conexion()
         instruct_select="SELECT * FROM Alumnos ORDER BY id DESC"
         conexBD.miCursor.execute(instruct_select)
