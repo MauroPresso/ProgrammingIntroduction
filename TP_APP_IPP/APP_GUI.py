@@ -142,8 +142,8 @@ def guardar():
  @return none
 """
 def modificar():
+    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
     pass
-
 """
  @brief Función que maneja la eliminación de la inscripción.
 
@@ -152,6 +152,7 @@ def modificar():
  @return none
 """
 def eliminar():
+    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
     pass
 
 """
@@ -253,9 +254,23 @@ barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
 barraDespl.grid(row=(cant_campos+3), column=cant_campos, sticky="e")
 visorBD.configure(yscrollcommand=barraDespl.set)
 # CONFIGURACION
+# ID
 visorBD.heading('#0', text="ID")
 visorBD.column('#0', width=30)
-
+# Nombre
+visorBD.heading('#1', text="Nombre")
+visorBD.column('#1', width=100)
+# Domicilio
+visorBD.heading('#2', text="Domicilio")
+visorBD.column('#2', width=100)
+# DNI
+visorBD.heading('#3', text="DNI")
+visorBD.column('#3', width=100)
+# Edad
+visorBD.heading('#4', text="Edad")
+visorBD.column('#4', width=100)
+# Cargar datos en el visor
+cargarEnVisorBD()
 
 """
 BOTONES DE ACCION
