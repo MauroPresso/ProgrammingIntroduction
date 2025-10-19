@@ -9,6 +9,7 @@
 
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 from tkcalendar import DateEntry
 from datetime import date
 from classTurno import Turno
@@ -16,49 +17,6 @@ from classTurno import Turno
 """
 FUNCIONES
 """
-""" 
- @brief Función que convierte la hora y minutos en formato SQL.
- @param hora (int) - Hora del turno.
- @param minutos (int) - Minutos del turno.
- @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
-"""
-def time_sql(hora, minutos):
-    if 0 <= hora <= 23 and 0 <= minutos <= 59:
-        hora_sql = f"{hora:02}:{minutos:02}:00"
-        return hora_sql
-    else:
-        raise ValueError("Hora o minutos fuera de rango")
-
-""" 
- @brief Función que inicializa un nuevo registro, limpiando todos los campos de entrada.
- @param none
- @return none
- """
-def nuevo():
-    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
-    nombre_paciente.set("")
-    motivo.set("")
-    ingreso_fecha_turno.set_date(date.today())
-    hora_turno.set(0); minuto_turno.set(0)
-    especialidad_medica.set(0)
-    email.set(0); whatsapp.set(0); sms.set(0)
-    ingreso_nombre_paciente.focus()
-
-""" 
- @brief Función que cancela el registro actual, limpiando todos los campos de entrada.
- @param none
- @return none
- """
-def cancelar():
-    messagebox.showwarning("ATENCIÓN", "Está por cancelar este turno")
-    nombre_paciente.set("")
-    motivo.set("")
-    ingreso_fecha_turno.set_date(date.today())
-    hora_turno.set(0); minuto_turno.set(0)
-    especialidad_medica.set(0)
-    email.set(0); whatsapp.set(0); sms.set(0)
-    ingreso_nombre_paciente.focus()
-
 """
  @brief Función que determina la categoría del libro según el valor seleccionado.
  @param valor (int) - Valor seleccionado en el botón de opción.
@@ -87,6 +45,122 @@ def contar_preferencias():
         if sms.get() == 1:
             contador_preferencias += 1
     return contador_preferencias
+
+"""
+ @brief Funcion que vacia los entrys.
+
+ @param none
+
+ @return none
+"""
+def limpiar_campos():
+    # Entrys
+    nombre_paciente.set("")
+    motivo.set("")
+    ingreso_fecha_turno.set_date(date.today())
+    hora_turno.set(0); minuto_turno.set(0)
+    # Radiobuttons
+    especialidad_medica.set(0)
+    # Checkbuttons
+    email.set(0); whatsapp.set(0); sms.set(0)
+    # Foco en el primer entry
+    ingreso_nombre_paciente.focus()
+
+"""
+ @brief Funcion que administra los estados de los entrys y los botones de accion.
+
+ @param estado (string)
+
+ @return none
+"""
+def estado_textbox(estado):
+    # Entrys
+    ingreso_nombre_paciente.config(state=estado)
+    ingreso_motivo_paciente.config(state=estado)
+    ingreso_fecha_turno.config(state=estado)
+    ingreso_hora_turno.config(state=estado)
+    ingreso_minuto_turno.config(state=estado)
+    # Radiobuttons
+    opcion_medico_general.config(state=estado)
+    opcion_medico_especialista.config(state=estado)
+    opcion_medico_cirujano.config(state=estado)
+    # Checkbuttons
+    check_email.config(state=estado)
+    check_whatsapp.config(state=estado)
+    check_sms.config(state=estado)
+
+"""
+ @brief Funcion que carga los registros en el visor de la app.
+ @param none
+ @return none
+"""
+def cargarEnVisorBD():
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    vaciarElVisorBD()
+    registros=Turno.ListarTurnos()
+    for r in registros:
+        #              VINC.C/CAMPO0(ID) VALORES(OTROS CAMPOS)               
+        visorBD.insert('', 0, text=r[0], values=(r[1], r[2], r[3], r[4], r[5], r[6]))
+
+"""
+ @brief Funcion que borra los registros en el visor de la app.
+ @param none
+ @return none
+"""  
+def vaciarElVisorBD():
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    registros=visorBD.get_children()
+    for r in registros:
+        visorBD.delete(r)
+
+""" 
+ @brief Función que convierte la hora y minutos en formato SQL.
+ @param hora (int) - Hora del turno.
+ @param minutos (int) - Minutos del turno.
+ @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
+"""
+def time_sql(hora, minutos):
+    if 0 <= hora <= 23 and 0 <= minutos <= 59:
+        hora_sql = f"{hora:02}:{minutos:02}:00"
+        return hora_sql
+    else:
+        raise ValueError("Hora o minutos fuera de rango")
+
+""" 
+ @brief Función que inicializa un nuevo registro, limpiando todos los campos de entrada.
+ @param none
+ @return none
+ """
+def nuevo():
+    messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
+    # Entrys
+    limpiar_campos()
+    ingreso_nombre_paciente.focus() #nombre del entry
+    # deshabilito Entrys
+    estado_textbox("normal")
+    # deshabilito Buttons
+    boton_nuevo.config(state="disabled")
+    boton_cancelar.config(state="normal")
+    boton_guardar.config(state="normal")
+
+""" 
+ @brief Función que cancela el registro actual, limpiando todos los campos de entrada.
+ @param none
+ @return none
+ """
+def cancelar():
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar este turno")
+    # Entrys
+    limpiar_campos()
+    ingreso_nombre_paciente.focus() #nombre del entry
+    # deshabilito Entrys
+    estado_textbox("disabled")
+    # deshabilito Buttons
+    boton_nuevo.config(state="normal")
+    boton_cancelar.config(state="disabled")
+    boton_guardar.config(state="disabled")
 
 """
  @brief Función que guarda el registro del turno del paciente.
@@ -125,6 +199,14 @@ def guardar():
             )
             miTurno.Agregar()
             messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
+            # limpio los campos
+            cargarEnVisorBD()
+            limpiar_campos()
+            estado_textbox("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
         else:
             messagebox.showinfo("GUARDAR TURNO", "El turno NO ha sido guardado")
 
@@ -134,38 +216,8 @@ def guardar():
  @return none
 """
 def modificar():
-    condicion_hora = (hora_turno.get() < 0 or hora_turno.get() > 23)
-    condicion_minuto = (minuto_turno.get() < 0 or minuto_turno.get() > 59)
-    condicion_fecha = ((ingreso_fecha_turno.get_date()) <= date.today())
-    condicion_paciente = (nombre_paciente.get() == "")
-    condicion_motivo = (motivo.get() == "")
-    condicion_especialidad = (especialidad_medica.get() == 0)
-    if condicion_paciente or condicion_motivo or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
-        if condicion_paciente:
-            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
-        elif condicion_motivo:
-            messagebox.showerror("ERROR", "Por favor, ingresa el motivo del turno.")
-        elif condicion_especialidad:
-            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
-        elif condicion_fecha:
-            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
-        elif condicion_hora:
-            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
-        else:
-            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
-    else:
-        if messagebox.askquestion("MODIFICAR TURNO", "Confirmar que desea modificar el turno") == "yes":
-            miTurno = Turno(
-            nombre=nombre_paciente.get(),
-            motivo=motivo.get(),
-            fecha=ingreso_fecha_turno.get_date(),
-            horario=time_sql(hora_turno.get(), minuto_turno.get()),
-            medico=determinar_especialidad_medica(especialidad_medica.get()),
-            recordatorios=contar_preferencias()
-            )
-            miTurno.Modificar()
-        else:
-            messagebox.showinfo("MODIFICAR TURNO", "El turno NO ha sido modificado")
+    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
+    pass
 
 """ 
  @brief Función que elimina el registro del turno del paciente.
@@ -173,38 +225,8 @@ def modificar():
  @return none
 """
 def eliminar():
-    condicion_hora = (hora_turno.get() < 0 or hora_turno.get() > 23)
-    condicion_minuto = (minuto_turno.get() < 0 or minuto_turno.get() > 59)
-    condicion_fecha = ((ingreso_fecha_turno.get_date()) <= date.today())
-    condicion_paciente = (nombre_paciente.get() == "")
-    condicion_motivo = (motivo.get() == "")
-    condicion_especialidad = (especialidad_medica.get() == 0)
-    if condicion_paciente or condicion_motivo or condicion_especialidad or condicion_fecha or condicion_hora or condicion_minuto:
-        if condicion_paciente:
-            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
-        elif condicion_motivo:
-            messagebox.showerror("ERROR", "Por favor, ingresa el motivo del turno.")
-        elif condicion_especialidad:
-            messagebox.showerror("ERROR", "Por favor, elige la especialidad médica.")
-        elif condicion_fecha:
-            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
-        elif condicion_hora:
-            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
-        else:
-            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
-    else:
-        if messagebox.askquestion("ELIMINAR TURNO", "Confirmar que desea eliminar el turno") == "yes":
-            miTurno = Turno(
-                nombre=nombre_paciente.get(),
-                motivo=motivo.get(),
-                fecha=ingreso_fecha_turno.get_date(),
-                horario=time_sql(hora_turno.get(), minuto_turno.get()),
-                medico=determinar_especialidad_medica(especialidad_medica.get()),
-                recordatorios=contar_preferencias()
-            )
-            miTurno.Eliminar()
-        else:
-            messagebox.showinfo("ELIMINAR TURNO", "El turno NO ha sido eliminado")
+    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
+    pass
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -317,17 +339,17 @@ BOTONES DE OPCION
 # Funcionalidad del boton de opcion
 especialidad_medica=IntVar()
 # Opcion de primario completo
-medico_general=Radiobutton(marco, text="Medico General", variable=especialidad_medica, value=1)
-medico_general.grid(row=1, column=2, sticky="w", padx=10, pady=10)
-medico_general.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_medico_general=Radiobutton(marco, text="Medico General", variable=especialidad_medica, value=1)
+opcion_medico_general.grid(row=1, column=2, sticky="w", padx=10, pady=10)
+opcion_medico_general.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Opcion de secundario completo
-medico_especialista=Radiobutton(marco, text="Medico Especialista", variable=especialidad_medica, value=2)
-medico_especialista.grid(row=2, column=2, sticky="w", padx=10, pady=10)
-medico_especialista.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_medico_especialista=Radiobutton(marco, text="Medico Especialista", variable=especialidad_medica, value=2)
+opcion_medico_especialista.grid(row=2, column=2, sticky="w", padx=10, pady=10)
+opcion_medico_especialista.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Opcion de terciario completo
-medico_cirujano=Radiobutton(marco, text="Medico Cirujano", variable=especialidad_medica, value=3)
-medico_cirujano.grid(row=3, column=2, sticky="w", padx=10, pady=10)
-medico_cirujano.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_medico_cirujano=Radiobutton(marco, text="Medico Cirujano", variable=especialidad_medica, value=3)
+opcion_medico_cirujano.grid(row=3, column=2, sticky="w", padx=10, pady=10)
+opcion_medico_cirujano.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
 """
 CASILLAS DE VERIFICACION
@@ -355,27 +377,64 @@ BOTONES DE ACCION
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
 boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
+boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"), state="disabled")
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
-boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=9, column=0, columnspan=3, pady=10, padx=10, sticky="w")
-boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
+boton_salir.grid(row=10, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
+
+"""
+VISOR
+"""
+# Visor
+visorBD=ttk.Treeview(marco, columns=('Nombre', 'Motivo', 'Fecha', 'Horario', 'Medico', 'Recordatorios'))
+visorBD.grid(row=9, column=0, columnspan=4, sticky="w")
+# Scrollbar
+barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
+barraDespl.grid(row=9, column=4, sticky="w")
+visorBD.configure(yscrollcommand=barraDespl.set)
+# CONFIGURACION
+# ID
+visorBD.heading('#0', text="ID")
+visorBD.column('#0', width=10)
+# Nombre
+visorBD.heading('#1', text="Nombre")
+visorBD.column('#1', width=50)
+# Motivo
+visorBD.heading('#2', text="Motivo")
+visorBD.column('#2', width=50)
+# Fecha
+visorBD.heading('#3', text="Fecha")
+visorBD.column('#3', width=50)
+# Horario
+visorBD.heading('#4', text="Horario")
+visorBD.column('#4', width=50)
+# Medico
+visorBD.heading('#5', text="Medico")
+visorBD.column('#5', width=50)
+# Recordatorios
+visorBD.heading('#6', text="Recordatorios")
+visorBD.column('#6', width=50)
+
+# Cargar datos en el visor
+cargarEnVisorBD()
+
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
