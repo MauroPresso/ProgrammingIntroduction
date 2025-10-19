@@ -82,7 +82,6 @@ def nuevo():
     ingreso_nombre_alumno.focus() #nombre del entry
     # deshabilito Entrys
     estado_textbox("normal")
-    ingreso_dni_alumno.config(state="normal")
     # deshabilito Buttons
     boton_nuevo.config(state="disabled")
     boton_cancelar.config(state="normal")
