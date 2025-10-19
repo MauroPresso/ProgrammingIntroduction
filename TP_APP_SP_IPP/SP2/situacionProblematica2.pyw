@@ -46,11 +46,22 @@ def contar_preferencias():
             contador_preferencias += 1
     return contador_preferencias
 
+""" 
+ @brief Función que convierte la hora y minutos en formato SQL.
+ @param hora (int) - Hora del turno.
+ @param minutos (int) - Minutos del turno.
+ @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
+"""
+def time_sql(hora, minutos):
+    if 0 <= hora <= 23 and 0 <= minutos <= 59:
+        hora_sql = f"{hora:02}:{minutos:02}:00"
+        return hora_sql
+    else:
+        raise ValueError("Hora o minutos fuera de rango")
+    
 """
  @brief Funcion que vacia los entrys.
-
  @param none
-
  @return none
 """
 def limpiar_campos():
@@ -68,12 +79,10 @@ def limpiar_campos():
 
 """
  @brief Funcion que administra los estados de los entrys y los botones de accion.
-
  @param estado (string)
-
  @return none
 """
-def estado_textbox(estado):
+def state_textbox_and_buttons(estado):
     # Entrys
     ingreso_nombre_paciente.config(state=estado)
     ingreso_motivo_paciente.config(state=estado)
@@ -95,6 +104,7 @@ def estado_textbox(estado):
  @return none
 """
 def cargarEnVisorBD():
+    boton_nuevo.config(state="normal")
     boton_modificar.config(state="normal")
     boton_eliminar.config(state="normal")
     vaciarElVisorBD()
@@ -109,24 +119,13 @@ def cargarEnVisorBD():
  @return none
 """  
 def vaciarElVisorBD():
+    boton_nuevo.config(state="normal")
     boton_modificar.config(state="normal")
     boton_eliminar.config(state="normal")
     registros=visorBD.get_children()
     for r in registros:
         visorBD.delete(r)
 
-""" 
- @brief Función que convierte la hora y minutos en formato SQL.
- @param hora (int) - Hora del turno.
- @param minutos (int) - Minutos del turno.
- @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
-"""
-def time_sql(hora, minutos):
-    if 0 <= hora <= 23 and 0 <= minutos <= 59:
-        hora_sql = f"{hora:02}:{minutos:02}:00"
-        return hora_sql
-    else:
-        raise ValueError("Hora o minutos fuera de rango")
 
 """ 
  @brief Función que inicializa un nuevo registro, limpiando todos los campos de entrada.
@@ -139,9 +138,11 @@ def nuevo():
     limpiar_campos()
     ingreso_nombre_paciente.focus() #nombre del entry
     # deshabilito Entrys
-    estado_textbox("normal")
-    # deshabilito Buttons
+    state_textbox_and_buttons("normal")
+    # Buttons
     boton_nuevo.config(state="disabled")
+    boton_modificar.config(state="disabled")
+    boton_eliminar.config(state="disabled")
     boton_cancelar.config(state="normal")
     boton_guardar.config(state="normal")
 
@@ -156,9 +157,11 @@ def cancelar():
     limpiar_campos()
     ingreso_nombre_paciente.focus() #nombre del entry
     # deshabilito Entrys
-    estado_textbox("disabled")
-    # deshabilito Buttons
+    state_textbox_and_buttons("disabled")
+    # Buttons
     boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
     boton_cancelar.config(state="disabled")
     boton_guardar.config(state="disabled")
 
@@ -202,9 +205,11 @@ def guardar():
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
-            estado_textbox("disabled")
+            state_textbox_and_buttons("disabled")
             # deshabilito Buttons
             boton_nuevo.config(state="normal")
+            boton_modificar.config(state="normal")
+            boton_eliminar.config(state="normal")
             boton_cancelar.config(state="disabled")
             boton_guardar.config(state="disabled")
         else:
@@ -385,11 +390,11 @@ boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 1
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
+boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
