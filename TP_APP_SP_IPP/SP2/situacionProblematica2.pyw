@@ -315,23 +315,23 @@ minuto_turno=IntVar()
 # Ingreso del nombre paciente
 ingreso_nombre_paciente = Entry(marco, textvariable=nombre_paciente)
 ingreso_nombre_paciente.grid(row=1, column=1, sticky="w", padx=10,pady=10)
-ingreso_nombre_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del motivo del turno
 ingreso_motivo_paciente = Entry(marco, textvariable=motivo)
 ingreso_motivo_paciente.grid(row=2, column=1, sticky="w", padx=10, pady=10)
-ingreso_motivo_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"))
+ingreso_motivo_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del año de la fecha del turno
 ingreso_fecha_turno = DateEntry(marco, date_pattern='yyyy/mm/dd', textvariable=fecha_turno)
 ingreso_fecha_turno.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
-ingreso_fecha_turno.config(width = 30)
+ingreso_fecha_turno.config(width = 30, state="disabled")
 # Ingreso de la hora del turno (timePicker)
 ingreso_hora_turno = Entry(marco, textvariable=hora_turno)
 ingreso_hora_turno.grid(row=6, column=1, sticky="w", padx=10, pady=10)
-ingreso_hora_turno.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15)
+ingreso_hora_turno.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15, state="disabled")
 # Ingreso de los minutos del turno (timePicker)
 ingreso_minuto_turno = Entry(marco, textvariable=minuto_turno)
 ingreso_minuto_turno.grid(row=6, column=1, sticky="e", padx=10, pady=10)
-ingreso_minuto_turno.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15)
+ingreso_minuto_turno.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15, state="disabled")
 
 """
 BOTONES DE OPCION
@@ -341,15 +341,15 @@ especialidad_medica=IntVar()
 # Opcion de primario completo
 opcion_medico_general=Radiobutton(marco, text="Medico General", variable=especialidad_medica, value=1)
 opcion_medico_general.grid(row=1, column=2, sticky="w", padx=10, pady=10)
-opcion_medico_general.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_medico_general.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de secundario completo
 opcion_medico_especialista=Radiobutton(marco, text="Medico Especialista", variable=especialidad_medica, value=2)
 opcion_medico_especialista.grid(row=2, column=2, sticky="w", padx=10, pady=10)
-opcion_medico_especialista.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_medico_especialista.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de terciario completo
 opcion_medico_cirujano=Radiobutton(marco, text="Medico Cirujano", variable=especialidad_medica, value=3)
 opcion_medico_cirujano.grid(row=3, column=2, sticky="w", padx=10, pady=10)
-opcion_medico_cirujano.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_medico_cirujano.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 
 """
 CASILLAS DE VERIFICACION
@@ -361,15 +361,15 @@ sms=IntVar()
 # EMAIL
 check_email = Checkbutton(marco, text="e-mail", variable=email, onvalue=1, offvalue=0)
 check_email.grid(row=1,column=3,sticky="w",padx=10,pady=10)
-check_email.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_email.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # WHATSAPP
 check_whatsapp = Checkbutton(marco, text="WhatsApp", variable=whatsapp, onvalue=1, offvalue=0)
 check_whatsapp.grid(row=2,column=3,sticky="w",padx=10,pady=10)
-check_whatsapp.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_whatsapp.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # ENCUESTA
 check_sms = Checkbutton(marco, text="SMS", variable=sms, onvalue=1, offvalue=0)
 check_sms.grid(row=3,column=3,sticky="w",padx=10,pady=10)
-check_sms.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_sms.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 
 """
 BOTONES DE ACCION
