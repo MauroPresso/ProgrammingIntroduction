@@ -9,9 +9,26 @@
 
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 from tkcalendar import DateEntry
 from datetime import date
 from classCompra import Compra
+
+"""
+ @brief Función que cuenta la cantidad de preferencias seleccionadas.
+ @param none
+ @return contador_preferencias (int) - Cantidad de preferencias seleccionadas.
+"""
+def contar_preferencias():
+    contador_preferencias = 0
+    if ofertas.get() != 0 or resumen.get() != 0 or sms.get() != 0:
+        if ofertas.get() == 1:
+            contador_preferencias += 1
+        if resumen.get() == 1:
+            contador_preferencias += 1
+        if sms.get() == 1:
+            contador_preferencias += 1
+    return contador_preferencias
 
 """
  @brief Función que determina el tipo de cuenta seleccionado.
@@ -25,8 +42,6 @@ def determinar_tipo_de_cuenta(tipo_cuenta):
         return "Premium"
     else:
         return "Administrador"
-
-
 
 """
  @brief Función que cuenta la cantidad de preferencias seleccionadas.
@@ -61,6 +76,73 @@ def time_sql(hora, minutos):
         return hora_sql
     else:
         raise ValueError("Hora o minutos fuera de rango")
+    
+"""
+ @brief Funcion que vacia los entrys.
+ @param none
+ @return none
+"""
+def limpiar_campos():
+    # Entrys
+    nombre.set("")
+    producto.set("")
+    ingreso_fecha_entrega.set_date(date.today())
+    hora_entrega.set(0); minuto_entrega.set(0)
+    # Radiobuttons
+    cuenta.set(0)
+    # Checkbuttons
+    ofertas.set(0); resumen.set(0); sms.set(0)
+    # Foco en el primer entry
+    ingreso_nombre_cliente.focus()
+
+"""
+ @brief Funcion que administra los estados de los entrys y los botones de accion.
+ @param estado (string)
+ @return none
+"""
+def state_textbox_and_buttons(estado):
+    # Entrys
+    ingreso_nombre_cliente.config(state=estado)
+    ingreso_nombre_producto.config(state=estado)
+    ingreso_fecha_entrega.config(state=estado)
+    ingreso_hora_entrega.config(state=estado)
+    ingreso_minuto_entrega.config(state=estado)
+    # Radiobuttons
+    opcion_cuenta_basica.config(state=estado)
+    opcion_cuenta_premium.config(state=estado)
+    opcion_cuenta_admin.config(state=estado)
+    # Checkbuttons
+    check_ofertas.config(state=estado)
+    check_resumen.config(state=estado)
+    check_sms.config(state=estado)
+
+"""
+ @brief Funcion que carga los registros en el visor de la app.
+ @param none
+ @return none
+"""
+def cargarEnVisorBD():
+    boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    vaciarElVisorBD()
+    registros=Compra.ListarCompras()
+    for r in registros:
+        #              VINC.C/CAMPO0(ID) VALORES(OTROS CAMPOS)               
+        visorBD.insert('', 0, text=r[0], values=(r[1], r[2], r[3], r[4], r[5], r[6]))
+
+"""
+ @brief Funcion que borra los registros en el visor de la app.
+ @param none
+ @return none
+"""  
+def vaciarElVisorBD():
+    boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    registros=visorBD.get_children()
+    for r in registros:
+        visorBD.delete(r)
 
 """ 
  @brief Función que inicializa un nuevo registro, limpiando todos los campos de entrada.
@@ -69,13 +151,17 @@ def time_sql(hora, minutos):
  """
 def nuevo():
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
-    nombre.set("")
-    producto.set("")
-    ingreso_fecha_entrega.set_date(date.today())
-    hora_entrega.set(0); minuto_entrega.set(0)
-    cuenta.set(0)
-    ofertas.set(0); resumen.set(0); sms.set(0)
-    ingreso_nombre_cliente.focus()
+    # Entrys
+    limpiar_campos()
+    ingreso_nombre_cliente.focus() #nombre del entry
+    # deshabilito Entrys
+    state_textbox_and_buttons("normal")
+    # Buttons
+    boton_nuevo.config(state="disabled")
+    boton_modificar.config(state="disabled")
+    boton_eliminar.config(state="disabled")
+    boton_cancelar.config(state="normal")
+    boton_guardar.config(state="normal")
 
 """ 
  @brief Función que cancela el registro actual, limpiando todos los campos de entrada.
@@ -84,29 +170,17 @@ def nuevo():
  """
 def cancelar():
     messagebox.showwarning("ATENCIÓN", "Está por cancelar este Compra")
-    nombre.set("")
-    producto.set("")
-    ingreso_fecha_entrega.set_date(date.today())
-    hora_entrega.set(0); minuto_entrega.set(0)
-    ofertas.set(0); resumen.set(0); sms.set(0)
-    ingreso_nombre_cliente.focus()
-    cuenta.set(0)
-
-"""
- @brief Función que cuenta la cantidad de preferencias seleccionadas.
- @param none
- @return contador_preferencias (int) - Cantidad de preferencias seleccionadas.
-"""
-def contar_preferencias():
-    contador_preferencias = 0
-    if ofertas.get() != 0 or resumen.get() != 0 or sms.get() != 0:
-        if ofertas.get() == 1:
-            contador_preferencias += 1
-        if resumen.get() == 1:
-            contador_preferencias += 1
-        if sms.get() == 1:
-            contador_preferencias += 1
-    return contador_preferencias
+    # Entrys
+    limpiar_campos()
+    ingreso_nombre_cliente.focus() #nombre del entry
+    # deshabilito Entrys
+    state_textbox_and_buttons("disabled")
+    # Buttons
+    boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    boton_cancelar.config(state="disabled")
+    boton_guardar.config(state="disabled")
 
 """
  @brief Función que guarda el registro del Compra del paciente.
@@ -145,6 +219,16 @@ def guardar():
             )
             miCompra.Agregar()
             messagebox.showinfo("GUARDAR Compra", "El Compra ha sido guardado")
+            # limpio los campos
+            cargarEnVisorBD()
+            limpiar_campos()
+            state_textbox_and_buttons("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_modificar.config(state="normal")
+            boton_eliminar.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
         else:
             messagebox.showinfo("GUARDAR Compra", "El Compra NO ha sido guardado")
 
@@ -154,38 +238,8 @@ def guardar():
  @return none
 """
 def modificar():
-    condicion_hora = (hora_entrega.get() < 0 or hora_entrega.get() > 23)
-    condicion_minuto = (minuto_entrega.get() < 0 or minuto_entrega.get() > 59)
-    condicion_fecha = ((ingreso_fecha_entrega.get_date()) <= date.today())
-    condicion_cliente = (nombre.get() == "")
-    condicion_producto = (producto.get() == "")
-    condicion_cuenta = (cuenta.get() == 0)
-    if condicion_cliente or condicion_producto or condicion_cuenta or condicion_fecha or condicion_hora or condicion_minuto:
-        if condicion_cliente:
-            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
-        elif condicion_producto:
-            messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
-        elif condicion_cuenta:
-            messagebox.showerror("ERROR", "Por favor, elige el tipo de cuenta.")
-        elif condicion_fecha:
-            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
-        elif condicion_hora:
-            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
-        else:
-            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
-    else:
-        if messagebox.askquestion("MODIFICAR Compra", "Confirmar que desea modificar el Compra") == "yes":
-            miCompra = Compra(
-            nombre=nombre.get(),
-            producto=producto.get(),
-            fecha=ingreso_fecha_entrega.get_date(),
-            horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
-            tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()),
-            preferencias=contar_preferencias()
-            )
-            miCompra.Modificar()
-        else:
-            messagebox.showinfo("MODIFICAR Compra", "El Compra NO ha sido modificado")
+    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
+    pass
 
 """ 
  @brief Función que elimina el registro del Compra del paciente.
@@ -193,38 +247,8 @@ def modificar():
  @return none
 """
 def eliminar():
-    condicion_hora = (hora_entrega.get() < 0 or hora_entrega.get() > 23)
-    condicion_minuto = (minuto_entrega.get() < 0 or minuto_entrega.get() > 59)
-    condicion_fecha = ((ingreso_fecha_entrega.get_date()) <= date.today())
-    condicion_paciente = (nombre.get() == "")
-    condicion_producto = (producto.get() == "")
-    condicion_cuenta = (cuenta.get() == 0)
-    if condicion_paciente or condicion_producto or condicion_cuenta or condicion_fecha or condicion_hora or condicion_minuto:
-        if condicion_paciente:
-            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
-        elif condicion_producto:
-            messagebox.showerror("ERROR", "Por favor, ingresa el producto del Compra.")
-        elif condicion_cuenta:
-            messagebox.showerror("ERROR", "Por favor, elige el tipo de cuenta.")
-        elif condicion_fecha:
-            messagebox.showerror("ERROR", "Por favor, ingresa una fecha posterior a hoy.")
-        elif condicion_hora:
-            messagebox.showerror("ERROR", "Por favor, ingresa una hora válida (0-23).")     
-        else:
-            messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
-    else:
-        if messagebox.askquestion("ELIMINAR Compra", "Confirmar que desea eliminar el Compra") == "yes":
-            miCompra = Compra(
-                nombre=nombre.get(),
-                producto=producto.get(),
-                fecha=ingreso_fecha_entrega.get_date(),
-                horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
-                tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()),
-                preferencias=contar_preferencias()
-            )
-            miCompra.Eliminar()
-        else:
-            messagebox.showinfo("ELIMINAR Compra", "El Compra NO ha sido eliminado")
+    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
+    pass
 
 """
  @brief Función que maneja la salida de la aplicación.
@@ -314,23 +338,23 @@ minuto_entrega=IntVar()
 # Ingreso del nombre completo
 ingreso_nombre_cliente = Entry(marco, textvariable=nombre)
 ingreso_nombre_cliente.grid(row=1, column=1, sticky="w", padx=8, pady=10)
-ingreso_nombre_cliente.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_cliente.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del nombre de producto
 ingreso_nombre_producto = Entry(marco, textvariable=producto)
 ingreso_nombre_producto.grid(row=2, column=1, sticky="w", padx=8, pady=10)
-ingreso_nombre_producto.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_producto.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del año de la fecha del Compra
 ingreso_fecha_entrega = DateEntry(marco, date_pattern='yyyy/mm/dd', textvariable=fecha_entrega)
 ingreso_fecha_entrega.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
-ingreso_fecha_entrega.config(width = 30)
+ingreso_fecha_entrega.config(width = 30, state="disabled")
 # Ingreso de la hora del Compra (timePicker)
 ingreso_hora_entrega = Entry(marco, textvariable=hora_entrega)
 ingreso_hora_entrega.grid(row=6, column=1, sticky="w", padx=10, pady=10)
-ingreso_hora_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15)
+ingreso_hora_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15, state="disabled")
 # Ingreso de los minutos del Compra (timePicker)
 ingreso_minuto_entrega = Entry(marco, textvariable=minuto_entrega)
 ingreso_minuto_entrega.grid(row=6, column=1, sticky="e", padx=10, pady=10)
-ingreso_minuto_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15)
+ingreso_minuto_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15, state="disabled")
 
 """
 BOTONES DE OPCION
@@ -338,17 +362,17 @@ BOTONES DE OPCION
 # Funcionalidad del boton de opcion
 cuenta=IntVar()
 # Opcion de cuenta basica
-cuenta_basica=Radiobutton(marco, text="Basica", variable=cuenta, value=1)
-cuenta_basica.grid(row=1, column=2, sticky="w", padx=10, pady=10)
-cuenta_basica.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_cuenta_basica=Radiobutton(marco, text="Basica", variable=cuenta, value=1)
+opcion_cuenta_basica.grid(row=1, column=2, sticky="w", padx=10, pady=10)
+opcion_cuenta_basica.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de cuenta premium
-cuenta_premium=Radiobutton(marco, text="Premium", variable=cuenta, value=2)
-cuenta_premium.grid(row=2, column=2, sticky="w", padx=10, pady=10)
-cuenta_premium.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_cuenta_premium=Radiobutton(marco, text="Premium", variable=cuenta, value=2)
+opcion_cuenta_premium.grid(row=2, column=2, sticky="w", padx=10, pady=10)
+opcion_cuenta_premium.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de cuenta administrador
-cuenta_admin=Radiobutton(marco, text="Administrador", variable=cuenta, value=3)
-cuenta_admin.grid(row=3, column=2, sticky="w", padx=10, pady=10)
-cuenta_admin.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+opcion_cuenta_admin=Radiobutton(marco, text="Administrador", variable=cuenta, value=3)
+opcion_cuenta_admin.grid(row=3, column=2, sticky="w", padx=10, pady=10)
+opcion_cuenta_admin.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 
 """
 CASILLAS DE VERIFICACION
@@ -360,15 +384,15 @@ resumen=IntVar()
 # VENCIMIENTO
 check_ofertas = Checkbutton(marco, text="e-mail", variable=ofertas, onvalue=1, offvalue=0)
 check_ofertas.grid(row=1,column=3,sticky="w",padx=10,pady=10)
-check_ofertas.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_ofertas.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # EXTENSION
 check_sms = Checkbutton(marco, text="WhatsApp", variable=sms, onvalue=1, offvalue=0)
 check_sms.grid(row=2,column=3,sticky="w",padx=10,pady=10)
-check_sms.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_sms.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # NOVEDADES
 check_resumen = Checkbutton(marco, text="SMS", variable=resumen, onvalue=1, offvalue=0)
 check_resumen.grid(row=3,column=3,sticky="w",padx=10,pady=10)
-check_resumen.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_resumen.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 
 """
 BOTONES DE ACCION
@@ -376,27 +400,63 @@ BOTONES DE ACCION
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
 boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
+boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"), state="disabled")
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
-boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=9, column=0, columnspan=3, pady=10, padx=10, sticky="w")
-boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
+boton_salir.grid(row=10, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
+
+"""
+VISOR
+"""
+# Visor
+visorBD=ttk.Treeview(marco, columns=('NombreDelCliente', 'Producto', 'FechaDeEntregaAprox', 'HorarioDeEntregaAprox', 'TipoDeCuenta', 'Preferencias'))
+visorBD.grid(row=9, column=0, columnspan=3, sticky="nsew")
+# Scrollbar
+barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
+barraDespl.grid(row=9, column=3, sticky="ns")
+visorBD.configure(yscrollcommand=barraDespl.set)
+# CONFIGURACION
+# ID
+visorBD.heading('#0', text="ID")
+visorBD.column('#0', width=30)
+# Nombre
+visorBD.heading('#1', text="Nombre Del Cliente")
+visorBD.column('#1', width=100)
+# Producto
+visorBD.heading('#2', text="Producto")
+visorBD.column('#2', width=100)
+# Fecha
+visorBD.heading('#3', text="Fecha De Entrega Aproximada")
+visorBD.column('#3', width=100)
+# Horario
+visorBD.heading('#4', text="Horario De Entrega Aproximado")
+visorBD.column('#4', width=100)
+# Tipo De Cuenta
+visorBD.heading('#5', text="Tipo De Cuenta")
+visorBD.column('#5', width=100)
+# Preferencias
+visorBD.heading('#6', text="Preferencias Seleccionadas")
+visorBD.column('#6', width=100)
+
+# Cargar datos en el visor
+cargarEnVisorBD()
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
