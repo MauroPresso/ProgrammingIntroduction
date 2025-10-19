@@ -404,33 +404,33 @@ VISOR
 """
 # Visor
 visorBD=ttk.Treeview(marco, columns=('Nombre', 'Motivo', 'Fecha', 'Horario', 'Medico', 'Recordatorios'))
-visorBD.grid(row=9, column=0, columnspan=4, sticky="w")
+visorBD.grid(row=9, column=0, columnspan=3, sticky="nsew")
 # Scrollbar
 barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
-barraDespl.grid(row=9, column=4, sticky="w")
+barraDespl.grid(row=9, column=3, sticky="ns")
 visorBD.configure(yscrollcommand=barraDespl.set)
 # CONFIGURACION
 # ID
 visorBD.heading('#0', text="ID")
-visorBD.column('#0', width=10)
+visorBD.column('#0', width=30)
 # Nombre
 visorBD.heading('#1', text="Nombre")
-visorBD.column('#1', width=50)
+visorBD.column('#1', width=100)
 # Motivo
 visorBD.heading('#2', text="Motivo")
-visorBD.column('#2', width=50)
+visorBD.column('#2', width=100)
 # Fecha
 visorBD.heading('#3', text="Fecha")
-visorBD.column('#3', width=50)
+visorBD.column('#3', width=100)
 # Horario
 visorBD.heading('#4', text="Horario")
-visorBD.column('#4', width=50)
+visorBD.column('#4', width=100)
 # Medico
 visorBD.heading('#5', text="Medico")
-visorBD.column('#5', width=50)
+visorBD.column('#5', width=100)
 # Recordatorios
 visorBD.heading('#6', text="Recordatorios")
-visorBD.column('#6', width=50)
+visorBD.column('#6', width=100)
 
 # Cargar datos en el visor
 cargarEnVisorBD()
