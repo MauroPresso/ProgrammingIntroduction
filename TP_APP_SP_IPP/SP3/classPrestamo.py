@@ -15,7 +15,7 @@ class Prestamo():
         self.categoria=categoria
         self.servicios=servicios
     
-    # Método para agregar un alumno
+    # Método para agregar un prestamo
     def Agregar(self):
         conexBD=Conexion()
         instruct_insert="INSERT INTO PrestamosDeLibros(NombreDelLector, Titulo, FechaDeDevolucion, Categoria, ServiciosAdicionales) VALUES ('%s', '%s', '%s', '%s', '%s')"
@@ -24,7 +24,7 @@ class Prestamo():
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
 
-    # Método para modificar un alumno
+    # Método para modificar un prestamo
     def Modificar(self):
         mensaje="""Se modifico el prestamo del lector %s
         que tiene el libro %s
@@ -35,7 +35,7 @@ class Prestamo():
         messagebox.showinfo("MODIFICAR",mensaje)
 
     
-    # Método para eliminar un alumno
+    # Método para eliminar un prestamo
     def Eliminar(self):
         mensaje="""Se elimino el prestamo del lector %s
         que tiene el libro %s
@@ -44,3 +44,12 @@ class Prestamo():
         y servicios adicionales %d
         CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
         messagebox.showinfo("ELIMINAR",mensaje)
+
+    # Método para listar prestamos
+    def ListarPrestamos():
+        conexBD=Conexion()
+        instruct_select="SELECT * FROM PrestamosDeLibros ORDER BY id DESC"
+        conexBD.miCursor.execute(instruct_select)
+        lista_prestamos=conexBD.miCursor.fetchall()
+        conexBD.cerrar()
+        return lista_prestamos
