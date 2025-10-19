@@ -9,6 +9,7 @@
 
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 from tkcalendar import DateEntry
 from datetime import date
 from classPrestamo import Prestamo
@@ -19,9 +20,7 @@ FUNCIONES
 
 """ 
  @brief Función que determina la categoría del libro según el valor seleccionado.
-
  @param valor (int) - Valor seleccionado en el botón de opción.
-
  @return categoría (str) - Categoría del libro correspondiente al valor.
 """
 def determinar_categoria(valor):
@@ -36,9 +35,7 @@ def determinar_categoria(valor):
 
 """
  @brief Función que cuenta la cantidad de preferencias seleccionadas.
-
  @param none
-
  @return contador_preferencias (int) - Cantidad de preferencias seleccionadas.
 """
 def contar_preferencias():
@@ -53,46 +50,107 @@ def contar_preferencias():
     return contador_preferencias
 
 """
- @brief Función que maneja la limpieza de los campos de entrada de texto.
-
+ @brief Funcion que vacia los entrys.
  @param none
+ @return none
+"""
+def limpiar_campos():
+    # Entrys
+    nombre_lector.set("")
+    titulo.set("")
+    ingreso_fecha_devolucion.set_date(date.today())
+    # Radiobuttons
+    categoria.set(0)
+    # Checkbuttons
+    vencimiento.set(0); extension.set(0); novedades.set(0)
+    # Foco en el primer entry
+    ingreso_nombre_lector.focus()
 
+"""
+ @brief Funcion que administra los estados de los entrys y los botones de accion.
+ @param estado (string)
+ @return none
+"""
+def state_textbox_and_buttons(estado):
+    # Entrys
+    ingreso_nombre_lector.config(state=estado)
+    ingreso_titulo_libro.config(state=estado)
+    ingreso_fecha_devolucion.config(state=estado)
+    # Radiobuttons
+    categoria_ciencia.config(state=estado)
+    categoria_historia.config(state=estado)
+    categoria_novela.config(state=estado)
+    categoria_infantil.config(state=estado)
+    # Checkbuttons
+    check_vencimiento.config(state=estado)
+    check_extension.config(state=estado)
+    check_novedades.config(state=estado)
+
+"""
+ @brief Funcion que carga los registros en el visor de la app.
+ @param none
+ @return none
+"""
+def cargarEnVisorBD():
+    boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    vaciarElVisorBD()
+    registros=Prestamo.ListarPrestamos()
+    for r in registros:
+        #              VINC.C/CAMPO0(ID) VALORES(OTROS CAMPOS)               
+        visorBD.insert('', 0, text=r[0], values=(r[1], r[2], r[3], r[4], r[5]))
+
+"""
+ @brief Funcion que borra los registros en el visor de la app.
+ @param none
+ @return none
+"""  
+def vaciarElVisorBD():
+    boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    registros=visorBD.get_children()
+    for r in registros:
+        visorBD.delete(r)
+
+"""
+ @brief Función que maneja la limpieza de los campos de entrada de texto.
+ @param none
  @return none
 """
 def nuevo():
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
-    nombre_lector.set("")
-    titulo.set("")
-    ingreso_fecha_devolucion.set_date(date.today())
-    # Botones de opción
-    categoria.set(0)
-    # Casillas de verificación
-    vencimiento.set(0)
-    extension.set(0)
-    novedades.set(0)
+    limpiar_campos()
     ingreso_nombre_lector.focus() #nombre del entry
+    # deshabilito Entrys
+    state_textbox_and_buttons("normal")
+    # Buttons
+    boton_nuevo.config(state="disabled")
+    boton_modificar.config(state="disabled")
+    boton_eliminar.config(state="disabled")
+    boton_cancelar.config(state="normal")
+    boton_guardar.config(state="normal")
 
 """
  @brief Función que maneja la cancelación del prestamo.
-
  @param none
-
  @return none
 """
 def cancelar():
     messagebox.showwarning("ATENCIÓN", "Está por cancelar este prestamo")
     # Entrys
-    nombre_lector.set("")
-    titulo.set("")
-    ingreso_fecha_devolucion.set_date(date.today())
-    # Botones de opción
-    categoria.set(0)
-    # Casillas de verificación
-    vencimiento.set(0)
-    extension.set(0)
-    novedades.set(0)
+    limpiar_campos()
     ingreso_nombre_lector.focus() #nombre del entry
+    # deshabilito Entrys
+    state_textbox_and_buttons("disabled")
+    # Buttons
+    boton_nuevo.config(state="normal")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")
+    boton_cancelar.config(state="disabled")
+    boton_guardar.config(state="disabled")
 
 """ 
  @brief Función que maneja la inscripción del alumno.
@@ -110,50 +168,43 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa la categoría del libro.")
     else:
-        miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
-        miPrestamo.Agregar()
+        if messagebox.askquestion("CONFIRMAR GUARDADO", "¿Confirma que desea guardar el préstamo?") == "yes":
+            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
+            miPrestamo.Agregar()
+             # limpio los campos
+            cargarEnVisorBD()
+            limpiar_campos()
+            state_textbox_and_buttons("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_modificar.config(state="normal")
+            boton_eliminar.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
+        else:
+            messagebox.showinfo("GUARDAR Prestamo", "El préstamo NO ha sido guardado")
 
 """
  @brief Función que maneja la modificación de la inscripción.
- 
  @param none
-    
  @return none
 """
 def modificar():
-    if nombre_lector.get() == "" and titulo.get() == "" and fecha.get() == date.today() and categoria.get() == "":
-        messagebox.showerror("ERROR", "No hay préstamo para modificar.")
-    else:
-        respuesta = messagebox.askquestion("MODIFICAR PRESTAMO", "Confirmar que desea modificar el préstamo")
-        if respuesta=="yes":
-            messagebox.showinfo("MODIFICAR PRESTAMO", "El préstamo ha sido modificado")
-            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
-            miPrestamo.Modificar()
+    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
+    pass
 
 """
  @brief Función que maneja la eliminación de la inscripción.
-
  @param none
-
  @return none
 """
 def eliminar():
-
-    if nombre_lector.get() == "" and titulo.get() == "" and fecha.get() == 0 and categoria.get() == "":
-        messagebox.showerror("ERROR", "No hay préstamo para eliminar.")
-    else:
-        respuesta = messagebox.askquestion("ELIMINAR PRESTAMO", "Confirmar que desea eliminar el préstamo")
-        if respuesta=="yes":
-            messagebox.showinfo("ELIMINAR PRESTAMO", "El préstamo ha sido eliminado")
-            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=fecha.get(), categoria=categoria.get(), servicios=contar_preferencias())
-            miPrestamo.Eliminar()
-
+    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
+    pass
 
 """
  @brief Función que maneja la salida de la aplicación.
-
  @param none
-
  @return none
 """
 def salida():
@@ -183,7 +234,7 @@ raiz.config(cursor = "spider") # cursor: es el iconito del mouse.
 FRAME
 """
 marco = Frame(raiz, padx=20, pady=20)
-marco.pack(fill="y", expand=True)
+marco.pack(fill="x", expand=True)
 marco.config(bg = "orange", relief= "solid") 
 
 """
@@ -225,15 +276,15 @@ dias = IntVar()
 # Ingreso del nombre lector
 ingreso_nombre_lector = Entry(marco, textvariable=nombre_lector)
 ingreso_nombre_lector.grid(row=1, column=1, sticky="w", pady=8)
-ingreso_nombre_lector.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"))
+ingreso_nombre_lector.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del titulo del libro
 ingreso_titulo_libro = Entry(marco, textvariable=titulo)
 ingreso_titulo_libro.grid(row=2, column=1, sticky="w", pady=8)
-ingreso_titulo_libro.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"))
+ingreso_titulo_libro.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso de la fecha de devolucion
 ingreso_fecha_devolucion = DateEntry(marco, date_pattern='dd/mm/yyyy', textvariable=fecha)
 ingreso_fecha_devolucion.grid(row=3, column=1, sticky="w", pady=8)
-ingreso_fecha_devolucion.config(width = 30)
+ingreso_fecha_devolucion.config(width = 30, state="disabled")
 
 """
 BOTONES DE OPCION
@@ -243,19 +294,19 @@ categoria=IntVar()
 # Opcion de categoria novela
 categoria_novela=Radiobutton(marco, text="Novela", variable=categoria, value=1)
 categoria_novela.grid(row=1, column=2, sticky="w", padx=10, pady=10)
-categoria_novela.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+categoria_novela.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de categoria historia
 categoria_historia=Radiobutton(marco, text="Historia", variable=categoria, value=2)
 categoria_historia.grid(row=2, column=2, sticky="w", padx=10, pady=10)
-categoria_historia.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+categoria_historia.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de categoria ciencia
 categoria_ciencia=Radiobutton(marco, text="Ciencia", variable=categoria, value=3)
 categoria_ciencia.grid(row=3, column=2, sticky="w", padx=10, pady=10)
-categoria_ciencia.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+categoria_ciencia.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # Opcion de categoria infantil
 categoria_infantil=Radiobutton(marco, text="Infantil", variable=categoria, value=4)
 categoria_infantil.grid(row=4, column=2, sticky="w", padx=10, pady=10)
-categoria_infantil.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+categoria_infantil.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 
 """
 CASILLAS DE VERIFICACION
@@ -267,44 +318,76 @@ novedades=IntVar()
 # VENCIMIENTO
 check_vencimiento = Checkbutton(marco, text="e-mail", variable=vencimiento, onvalue=1, offvalue=0)
 check_vencimiento.grid(row=1,column=3,sticky="w",padx=10,pady=10)
-check_vencimiento.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_vencimiento.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # EXTENSION
 check_extension = Checkbutton(marco, text="WhatsApp", variable=extension, onvalue=1, offvalue=0)
 check_extension.grid(row=2,column=3,sticky="w",padx=10,pady=10)
-check_extension.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_extension.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 # NOVEDADES
 check_novedades = Checkbutton(marco, text="SMS", variable=novedades, onvalue=1, offvalue=0)
 check_novedades.grid(row=3,column=3,sticky="w",padx=10,pady=10)
-check_novedades.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
+check_novedades.config(fg = "black", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w", state="disabled")
 
 """
 BOTONES DE ACCION
 """
 # Boton de nuevo.
-boton_inscribir = Button(marco, text="NUEVO", command=lambda:nuevo())
-boton_inscribir.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_inscribir.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"))
+boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
+boton_nuevo.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"))
+boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"), state="disabled")
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"))
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
-boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"))
+boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=7, column=0, columnspan=3, pady=10, padx=10, sticky="w")
-boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"))
+boton_salir.grid(row=10, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
 
+"""
+VISOR
+"""
+# Visor
+visorBD=ttk.Treeview(marco, columns=('NombreDelLector', 'Titulo', 'FechaDeDevolucion', 'Categoria', 'ServiciosAdicionales'))
+visorBD.grid(row=9, column=0, columnspan=3, sticky="nsew")
+# Scrollbar
+barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
+barraDespl.grid(row=9, column=3, sticky="ns")
+visorBD.configure(yscrollcommand=barraDespl.set)
+# CONFIGURACION
+# ID
+visorBD.heading('#0', text="ID")
+visorBD.column('#0', width=30)
+# Nombre
+visorBD.heading('#1', text="Nombre Del Lector")
+visorBD.column('#1', width=100)
+# Titulo
+visorBD.heading('#2', text="Titulo")
+visorBD.column('#2', width=100)
+# Fecha De Devolucion
+visorBD.heading('#3', text="Fecha De Devolucion")
+visorBD.column('#3', width=100)
+# Categoria
+visorBD.heading('#4', text="Categoria")
+visorBD.column('#4', width=100)
+# Servicios Adicionales
+visorBD.heading('#5', text="Servicios Adicionales")
+visorBD.column('#5', width=100)
+
+# Cargar datos en el visor
+cargarEnVisorBD()
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
