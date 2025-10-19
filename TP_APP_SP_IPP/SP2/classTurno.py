@@ -15,8 +15,8 @@ class Turno():
         self.horario=horario
         self.medico=medico
         self.recordatorios=recordatorios
-    
-    # Método para agregar un alumno
+
+    # Método para agregar un turno
     def Agregar(self):
         conexBD=Conexion()
         instruct_insert="INSERT INTO TurnosMedicos(NombreDelPaciente, Motivo, Fecha, Hora, Medico, OpcionesDeRecordatorio) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
@@ -24,11 +24,20 @@ class Turno():
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
-    # Método para modificar un alumno
+    # Método para modificar un turno
     def Modificar(self):
         mensaje="Se modifico el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.recordatorios)
         messagebox.showinfo("MODIFICAR",mensaje)
-    # Método para eliminar un alumno
+    # Método para eliminar un turno
     def Eliminar(self):
         mensaje="Se elimino el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios)
         messagebox.showinfo("ELIMINAR",mensaje)
+
+    # Metodo para listar turnos
+    def ListarTurnos(): # no necesita self porque no usa atributos de instancia.
+        conexBD=Conexion() # crea el objeto de conexion
+        instruct_select="SELECT * FROM TurnosMedicos ORDER BY id DESC" # ORDER BY id DESC para que muestre primero los mas viejos
+        conexBD.miCursor.execute(instruct_select) # ejecuta el SELECT
+        registros=conexBD.miCursor.fetchall() # fetchall() toma todos los registros del SELECT
+        conexBD.cerrar() # cierra la conexion
+        return registros # retorna los registros tomados por SELECT
