@@ -24,15 +24,12 @@ class Alumnos():
 
     # Método para modificar un alumno
     def Modificar(self):
-        mensaje="""Se modifico el alumno %s
-        que vive en %s
-        con dni %d
-        y de %d años de edad,
-        CON EXITO!!!""" %(self.nombre,self.domicilio,self.dni,self.edad)
-        messagebox.showinfo("MODIFICAR",mensaje)
-        #messagebox.tipo("TITULO","Se modifico un alumno")
-        #Alumno1=Alumnos("Jorge","Cipolletti")
-        #print("Se modifico el alumno ",self.nombre,self.domicilio)
+        instruct_update="UPDATE Alumnos SET nombre='%s', domicilio='%s', dni='%s', edad='%s' WHERE id=%d"
+        conexBD=Conexion()
+        conexBD.miCursor.execute(instruct_update % (self.nombre,self.domicilio,self.dni,self.edad,self.id))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
+        messagebox.showinfo("MODIFICAR","Registro modificado")
+        conexBD.cerrar()
     
     # Método para eliminar un alumno
     def Eliminar(self):
