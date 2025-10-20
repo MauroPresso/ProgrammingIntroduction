@@ -76,6 +76,8 @@ def vaciarElVisorBD():
  @return none
 """
 def nuevo():
+    global registroNuevo
+    registroNuevo=True
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
     limpiar_campos()
@@ -112,18 +114,30 @@ def cancelar():
  @return none
 """
 def guardar():
-    if nombre.get() == "" or domicilio.get() == "" or dni.get() == 0 or edad.get() == 0:
-        if nombre.get() == "":
-            messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
-        elif domicilio.get() == "":
-            messagebox.showerror("ERROR", "Por favor, ingresa el domicilio que deseas aprender.")
-        elif edad.get() == 0:
-            messagebox.showerror("ERROR", "Por favor, ingresa tu edad.")
+    if registroNuevo==True:
+        if nombre.get() == "" or domicilio.get() == "" or dni.get() == 0 or edad.get() == 0:
+            if nombre.get() == "":
+                messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+            elif domicilio.get() == "":
+                messagebox.showerror("ERROR", "Por favor, ingresa el domicilio que deseas aprender.")
+            elif edad.get() == 0:
+                messagebox.showerror("ERROR", "Por favor, ingresa tu edad.")
+            else:
+                messagebox.showerror("ERROR", "Por favor, ingresa tu DNI.")
         else:
-            messagebox.showerror("ERROR", "Por favor, ingresa tu DNI.")
+            miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
+            miAlumno.Agregar()
+            # limpio los campos
+            cargarEnVisorBD()
+            limpiar_campos()
+            estado_textbox("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
     else:
-        miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
-        miAlumno.Agregar()
+        miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
+        miAlumno.Modificar()
         # limpio los campos
         cargarEnVisorBD()
         limpiar_campos()
@@ -141,8 +155,22 @@ def guardar():
  @return none
 """
 def modificar():
-    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
-    pass
+    global registroNuevo
+    registroNuevo=False
+    try:
+        limpiar_campos()
+        estado_textbox("normal")
+        boton_guardar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_cancelar.config(state="normal")
+
+        nombre.set(visorBD.item(visorBD.selection())['values'][0])
+        domicilio.set(visorBD.item(visorBD.selection())['values'][1])
+        dni.set(visorBD.item(visorBD.selection())['values'][2])
+        edad.set(visorBD.item(visorBD.selection())['values'][3])
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
+
 """
  @brief Función que maneja la eliminación de la inscripción.
 
@@ -177,11 +205,8 @@ raiz.title("** SISTEMA EDUCATIVO - TU NOMBRE **")
 raiz.geometry("480x300")
 raiz.minsize(420, 260)
 raiz.resizable(True, True)
-# Icono
-try:
-    raiz.iconbitmap('TP_APP_IPP\\Software.ico')
-except Exception:
-    pass
+# Icono de la app
+raiz.iconbitmap('TP_APP_IPP\\Software.ico')
 raiz.config(bg = "orange") # bg: background (color de fondo).
 raiz.config(cursor = "star") # cursor: es el iconito del mouse.
 
