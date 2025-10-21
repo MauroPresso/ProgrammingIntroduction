@@ -119,7 +119,7 @@ def guardar():
             if nombre.get() == "":
                 messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
             elif domicilio.get() == "":
-                messagebox.showerror("ERROR", "Por favor, ingresa el domicilio que deseas aprender.")
+                messagebox.showerror("ERROR", "Por favor, ingresa el domicilio.")
             elif edad.get() == 0:
                 messagebox.showerror("ERROR", "Por favor, ingresa tu edad.")
             else:
@@ -136,16 +136,26 @@ def guardar():
             boton_cancelar.config(state="disabled")
             boton_guardar.config(state="disabled")
     else:
-        miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
-        miAlumno.Modificar()
-        # limpio los campos
-        cargarEnVisorBD()
-        limpiar_campos()
-        estado_textbox("disabled")
-        # deshabilito Buttons
-        boton_nuevo.config(state="normal")
-        boton_cancelar.config(state="disabled")
-        boton_guardar.config(state="disabled")
+        if nombre.get() == "" or domicilio.get() == "" or dni.get() == 0 or edad.get() == 0:
+            if nombre.get() == "":
+                messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
+            elif domicilio.get() == "":
+                messagebox.showerror("ERROR", "Por favor, ingresa el domicilio.")
+            elif edad.get() == 0:
+                messagebox.showerror("ERROR", "Por favor, ingresa tu edad.")
+            else:
+                messagebox.showerror("ERROR", "Por favor, ingresa tu DNI.")
+        else:
+            miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
+            miAlumno.Modificar()
+            # limpio los campos
+            cargarEnVisorBD()
+            limpiar_campos()
+            estado_textbox("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
 
 """
  @brief Función que maneja la modificación de la inscripción.
@@ -327,9 +337,6 @@ visorBD.heading('#4', text="Edad")
 visorBD.column('#4', width=100)
 # Cargar datos en el visor
 cargarEnVisorBD()
-
-
-
 
 # Mantengo la ventana abierta para que no se cierre hasta que yo le diga
 raiz.mainloop()
