@@ -29,6 +29,15 @@ def determinar_especialidad_medica(valor):
         return "Especialista"
     else:
         return "Cirujano"
+    
+def especialidad_medica_a_value():
+    medico=""
+    if medico=="General":
+        opcion_medico_general.config(state="normal")
+    elif medico=="Especialista":
+        return 2
+    else:
+        return 3
 
 """
  @brief Función que cuenta la cantidad de preferencias seleccionadas.
@@ -52,13 +61,20 @@ def contar_preferencias():
  @param minutos (int) - Minutos del turno.
  @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
 """
-def time_sql(hora, minutos):
+def time_to_sql(hora, minutos):
     if 0 <= hora <= 23 and 0 <= minutos <= 59:
         hora_sql = f"{hora:02}:{minutos:02}:00"
         return hora_sql
     else:
-        raise ValueError("Hora o minutos fuera de rango")
+        messagebox.showerror("Hora o minutos fuera de rango")
     
+def sql_to_time():
+    pass
+
+def sql_to_minutes():
+    pass
+
+
 """
  @brief Funcion que vacia los entrys.
  @param none
@@ -196,7 +212,7 @@ def guardar():
                 nombre=nombre_paciente.get(),
                 motivo=motivo.get(),
                 fecha=ingreso_fecha_turno.get_date(),
-                horario=time_sql(hora_turno.get(), minuto_turno.get()),
+                horario=time_to_sql(hora_turno.get(), minuto_turno.get()),
                 medico=determinar_especialidad_medica(especialidad_medica.get()),
                 recordatorios=contar_preferencias()
             )
@@ -221,8 +237,25 @@ def guardar():
  @return none
 """
 def modificar():
-    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
-    pass
+    global registroNuevo
+    registroNuevo=False
+    try:
+        limpiar_campos()
+        state_textbox_and_buttons("normal")
+        boton_guardar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_cancelar.config(state="normal")
+        # Cargo los valores en los entrys
+        nombre_paciente.set(visorBD.item(visorBD.selection())['values'][0])
+        motivo.set(visorBD.item(visorBD.selection())['values'][1])
+        fecha_turno.set(visorBD.item(visorBD.selection())['values'][2])
+        hora_turno.set(visorBD.item(visorBD.selection())['values'][3])
+        minuto_turno.set(visorBD.item(visorBD.selection())['values'][3])
+        especialidad_medica.set(visorBD.item(visorBD.selection())['values'][4])
+
+        
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
 
 """ 
  @brief Función que elimina el registro del turno del paciente.
