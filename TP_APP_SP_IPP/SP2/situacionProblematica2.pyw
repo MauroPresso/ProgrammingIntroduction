@@ -265,7 +265,7 @@ raiz.config(cursor = "cross")
 FRAME
 """
 marco = Frame(raiz, padx=20, pady=20)
-marco.pack(fill="none", expand=True)
+marco.pack(fill="x", expand=True)
 marco.config(bg = "blue", relief= "sunken") 
 
 """
@@ -382,7 +382,7 @@ BOTONES DE ACCION
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
 boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="disabled")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
@@ -390,11 +390,11 @@ boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 1
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
+boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
