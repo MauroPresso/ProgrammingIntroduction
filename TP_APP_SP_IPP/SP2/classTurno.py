@@ -24,10 +24,14 @@ class Turno():
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
-    # Método para modificar un turno
+    # Método para modificar un alumno
     def Modificar(self):
-        mensaje="Se modifico el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre, self.motivo, self.fecha, self.horario, self.medico, self.recordatorios)
-        messagebox.showinfo("MODIFICAR",mensaje)
+        instruct_update="UPDATE TurnosMedicos SET NombreDelPaciente='%s', Motivo='%s', Fecha='%s', Hora='%s', Medico='%s', OpcionesDeRecordatorio='%s' WHERE id=%d"
+        conexBD=Conexion()
+        conexBD.miCursor.execute(instruct_update % (self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
+        messagebox.showinfo("MODIFICAR","Registro modificado")
+        conexBD.cerrar()
     # Método para eliminar un turno
     def Eliminar(self):
         mensaje="Se elimino el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios)
