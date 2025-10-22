@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkcalendar import DateEntry
-from datetime import date
+from datetime import date, time
 from classTurno import Turno
 
 """
@@ -29,11 +29,10 @@ def determinar_especialidad_medica(valor):
         return "Especialista"
     else:
         return "Cirujano"
-    
-def especialidad_medica_a_value():
-    medico=""
+
+def especialidad_medica_a_value(medico):
     if medico=="General":
-        opcion_medico_general.config(state="normal")
+        return 1
     elif medico=="Especialista":
         return 2
     else:
@@ -54,6 +53,7 @@ def contar_preferencias():
         if sms.get() == 1:
             contador_preferencias += 1
     return contador_preferencias
+
 
 """ 
  @brief Función que convierte la hora y minutos en formato SQL.
@@ -251,7 +251,7 @@ def modificar():
         fecha_turno.set(visorBD.item(visorBD.selection())['values'][2])
         hora_turno.set(visorBD.item(visorBD.selection())['values'][3])
         minuto_turno.set(visorBD.item(visorBD.selection())['values'][3])
-        especialidad_medica.set(visorBD.item(visorBD.selection())['values'][4])
+        especialidad_medica.set(especialidad_medica_a_value(visorBD.item(visorBD.selection())['values'][4]))
 
         
     except:
