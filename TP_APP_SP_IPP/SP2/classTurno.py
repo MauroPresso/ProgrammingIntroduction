@@ -26,9 +26,9 @@ class Turno():
         conexBD.cerrar()
     # Método para modificar un alumno
     def Modificar(self):
-        instruct_update="UPDATE TurnosMedicos SET NombreDelPaciente='%s', Motivo='%s', Fecha='%s', Hora='%s', Medico='%s', OpcionesDeRecordatorio='%s' WHERE id=%d"
+        instruct_update="UPDATE TurnosMedicos SET NombreDelPaciente='%s', Motivo='%s', Fecha='%s', Hora='%s', Medico='%s', OpcionesDeRecordatorio='%s' WHERE id=%s"
         conexBD=Conexion()
-        conexBD.miCursor.execute(instruct_update % (self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios))
+        conexBD.miCursor.execute(instruct_update % (self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios,self.id))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
         messagebox.showinfo("MODIFICAR","Registro modificado")
         conexBD.cerrar()
