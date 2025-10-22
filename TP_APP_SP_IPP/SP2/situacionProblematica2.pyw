@@ -30,6 +30,11 @@ def determinar_especialidad_medica(valor):
     else:
         return "Cirujano"
 
+""" 
+ @brief Función que convierte la especialidad médica a su valor correspondiente.
+ @param medico (str) - Especialidad médica.
+ @return valor (int) - Valor correspondiente a la especialidad médica.
+"""
 def especialidad_medica_a_value(medico):
     if medico=="General":
         return 1
@@ -54,6 +59,23 @@ def contar_preferencias():
             contador_preferencias += 1
     return contador_preferencias
 
+def preferences_to_checkbutton(cantidad):
+    if cantidad == 0:
+        email.set(0)
+        whatsapp.set(0)
+        sms.set(0)
+    elif cantidad == 1:
+        email.set(1)
+        whatsapp.set(0)
+        sms.set(0)
+    elif cantidad == 2:
+        email.set(1)
+        whatsapp.set(1)
+        sms.set(0)
+    else:
+        email.set(1)
+        whatsapp.set(1)
+        sms.set(1)
 
 """ 
  @brief Función que convierte la hora y minutos en formato SQL.
@@ -252,6 +274,7 @@ def modificar():
         hora_turno.set(visorBD.item(visorBD.selection())['values'][3])
         minuto_turno.set(visorBD.item(visorBD.selection())['values'][3])
         especialidad_medica.set(especialidad_medica_a_value(visorBD.item(visorBD.selection())['values'][4]))
+        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])
 
         
     except:
