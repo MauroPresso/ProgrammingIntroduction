@@ -202,7 +202,7 @@ def nuevo():
     # Entrys
     limpiar_campos()
     ingreso_nombre_paciente.focus() #nombre del entry
-    # deshabilito Entrys
+    #  Entrys
     state_textbox_and_buttons("normal")
     # Buttons
     boton_nuevo.config(state="disabled")
@@ -221,7 +221,7 @@ def cancelar():
     # Entrys
     limpiar_campos()
     ingreso_nombre_paciente.focus() #nombre del entry
-    # deshabilito Entrys
+    #  Entrys
     state_textbox_and_buttons("disabled")
     # Buttons
     boton_nuevo.config(state="normal")
@@ -257,21 +257,19 @@ def guardar():
             messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
     else:
         if messagebox.askquestion("GUARDAR TURNO", "Confirmar que desea guardar el turno") == "yes":
-            miTurno = Turno(
-                nombre=nombre_paciente.get(),
-                motivo=motivo.get(),
-                fecha=ingreso_fecha_turno.get_date(),
-                horario=time_to_sql(hora_turno.get(), minuto_turno.get()),
-                medico=determinar_especialidad_medica(especialidad_medica.get()),
-                recordatorios=contar_preferencias()
-            )
-            miTurno.Agregar()
-            messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
+            if registroNuevo==True:
+                miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), horario=time_to_sql(hora_turno.get(), minuto_turno.get()), medico=determinar_especialidad_medica(especialidad_medica.get()), recordatorios=contar_preferencias())
+                miTurno.Agregar()
+                messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
+            else:
+                miTurno = Turno(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), horario=time_to_sql(hora_turno.get(), minuto_turno.get()), medico=determinar_especialidad_medica(especialidad_medica.get()), recordatorios=contar_preferencias())
+                miTurno.Modificar()
+                messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
             state_textbox_and_buttons("disabled")
-            # deshabilito Buttons
+            #  Buttons
             boton_nuevo.config(state="normal")
             boton_modificar.config(state="normal")
             boton_eliminar.config(state="normal")
@@ -301,9 +299,7 @@ def modificar():
         hora_turno.set(sql_to_time(visorBD.item(visorBD.selection())['values'][3]))
         minuto_turno.set(sql_to_minutes(visorBD.item(visorBD.selection())['values'][3]))
         especialidad_medica.set(especialidad_medica_a_value(visorBD.item(visorBD.selection())['values'][4]))
-        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])
-
-        
+        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])   
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
 
