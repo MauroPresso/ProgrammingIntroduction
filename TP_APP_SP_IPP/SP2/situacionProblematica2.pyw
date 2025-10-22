@@ -59,6 +59,11 @@ def contar_preferencias():
             contador_preferencias += 1
     return contador_preferencias
 
+"""
+ @brief Función que convierte la cantidad de preferencias en los valores de los checkbuttons.
+ @param cantidad (int) - Cantidad de preferencias seleccionadas.
+ @return none
+"""
 def preferences_to_checkbutton(cantidad):
     if cantidad == 0:
         email.set(0)
@@ -90,12 +95,34 @@ def time_to_sql(hora, minutos):
     else:
         messagebox.showerror("Hora o minutos fuera de rango")
     
-def sql_to_time():
-    pass
+"""
+ @brief Función que extrae la hora de una cadena en formato SQL.
+ @param valor (str) - Cadena en formato SQL (HH:MM:SS).
+ @return hh (int) - Hora extraída de la cadena.
+"""
+def sql_to_time(valor):
+    s = str(valor).strip()
+    try:
+        hh = int(s.split(":")[0])
+        if 0 <= hh <= 23:
+            return hh
+    except Exception:
+        pass
 
-def sql_to_minutes():
-    pass
-
+"""
+ @brief Función que extrae los minutos de una cadena en formato SQL.
+ @param valor (str) - Cadena en formato SQL (HH:MM:SS).
+ @return mm (int) - Minutos extraídos de la cadena.
+"""
+def sql_to_minutes(valor):
+    s = str(valor).strip()
+    # Último recurso: partir por ":" y tomar el segundo grupo
+    try:
+        mm = int(s.split(":")[1])
+        if 0 <= mm <= 59:
+            return mm
+    except Exception:
+        pass
 
 """
  @brief Funcion que vacia los entrys.
@@ -271,8 +298,8 @@ def modificar():
         nombre_paciente.set(visorBD.item(visorBD.selection())['values'][0])
         motivo.set(visorBD.item(visorBD.selection())['values'][1])
         fecha_turno.set(visorBD.item(visorBD.selection())['values'][2])
-        hora_turno.set(visorBD.item(visorBD.selection())['values'][3])
-        minuto_turno.set(visorBD.item(visorBD.selection())['values'][3])
+        hora_turno.set(sql_to_time(visorBD.item(visorBD.selection())['values'][3]))
+        minuto_turno.set(sql_to_minutes(visorBD.item(visorBD.selection())['values'][3]))
         especialidad_medica.set(especialidad_medica_a_value(visorBD.item(visorBD.selection())['values'][4]))
         preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])
 
