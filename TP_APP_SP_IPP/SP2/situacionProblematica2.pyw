@@ -262,11 +262,11 @@ def guardar():
             if registroNuevo==True:
                 miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), horario=time_to_sql(hora_turno.get(), minuto_turno.get()), medico=determinar_especialidad_medica(especialidad_medica.get()), recordatorios=contar_preferencias())
                 miTurno.Agregar()
-                messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
+                messagebox.showinfo("GUARDAR TURNO", "El turno ha sido agregado")
             else:
                 miTurno = Turno(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), horario=time_to_sql(hora_turno.get(), minuto_turno.get()), medico=determinar_especialidad_medica(especialidad_medica.get()), recordatorios=contar_preferencias())
                 miTurno.Modificar()
-                messagebox.showinfo("GUARDAR TURNO", "El turno ha sido guardado")
+                messagebox.showinfo("GUARDAR TURNO", "El turno ha sido modificado")
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
