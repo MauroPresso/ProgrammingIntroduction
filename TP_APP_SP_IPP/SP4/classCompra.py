@@ -22,7 +22,6 @@ class Compra():
         instruct_insert="INSERT INTO TiendaOnline(NombreDelCliente, Producto, FechaDeEntregaAprox, HorarioDeEntregaAprox, TipoDeCuenta, Preferencias) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.preferencias))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
-        messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
     # Método para modificar una compra
     def Modificar(self):
@@ -30,7 +29,6 @@ class Compra():
         conexBD=Conexion()
         conexBD.miCursor.execute(instruct_update % (self.nombre,self.producto,self.fecha,self.horario,self.tipoDeCuenta,self.preferencias,self.id))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
-        messagebox.showinfo("MODIFICAR","Registro modificado")
         conexBD.cerrar()
     # Método para eliminar una compra
     def Eliminar(self):
