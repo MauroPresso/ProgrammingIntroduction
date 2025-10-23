@@ -44,6 +44,19 @@ def determinar_tipo_de_cuenta(tipo_cuenta):
         return "Administrador"
 
 """
+ @brief Función que convierte el tipo de cuenta en un valor entero.
+ @param tipo_cuenta_str (str) - Descripción del tipo de cuenta.
+ @return tipo_cuenta (int) - Valor del tipo de cuenta.
+"""
+def cuenta_a_value(tipo_cuenta_str):
+    if tipo_cuenta_str == "Basica":
+        return 1
+    elif tipo_cuenta_str == "Premium":
+        return 2
+    else:
+        return 3
+
+"""
  @brief Función que cuenta la cantidad de preferencias seleccionadas.
 
  @param none
@@ -126,19 +139,6 @@ def sql_to_minutes(valor):
     except Exception:
         pass
 
-""" 
- @brief Función que convierte la hora y minutos en formato SQL.
- @param hora (int) - Hora del Compra.
- @param minutos (int) - Minutos del Compra.
- @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
-"""
-def time_sql(hora, minutos):
-    if 0 <= hora <= 23 and 0 <= minutos <= 59:
-        hora_sql = f"{hora:02}:{minutos:02}:00"
-        return hora_sql
-    else:
-        raise ValueError("Hora o minutos fuera de rango")
-    
 """
  @brief Funcion que vacia los entrys.
  @param none
@@ -212,6 +212,8 @@ def vaciarElVisorBD():
  @return none
  """
 def nuevo():
+    global registroNuevo
+    registroNuevo=True
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
     limpiar_campos()
@@ -270,17 +272,15 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
     else:
-        if messagebox.askquestion("GUARDAR Compra", "Confirmar que desea guardar el Compra") == "yes":
-            miCompra = Compra(
-                nombre=nombre.get(),
-                producto=producto.get(),
-                fecha=ingreso_fecha_entrega.get_date(),
-                horario=time_sql(hora_entrega.get(), minuto_entrega.get()),
-                tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()),
-                preferencias=contar_preferencias()
-            )
-            miCompra.Agregar()
-            messagebox.showinfo("GUARDAR Compra", "El Compra ha sido guardado")
+        if messagebox.askquestion("GUARDAR Compra", "Confirmar que desea guardar la compra") == "yes":
+            if registroNuevo==True:
+                miCompra = Compra(nombre=nombre.get(), producto=producto.get(), fecha=ingreso_fecha_entrega.get_date(), horario=time_to_sql(hora_entrega.get(), minuto_entrega.get()), tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()), preferencias=contar_preferencias())
+                miCompra.Agregar()
+                messagebox.showinfo("GUARDAR Compra", "La compra ha sido agregada")
+            else:
+                miCompra = Compra(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre.get(), producto=producto.get(), fecha=ingreso_fecha_entrega.get_date(), horario=time_to_sql(hora_entrega.get(), minuto_entrega.get()), tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()), preferencias=contar_preferencias())
+                miCompra.Modificar()
+                messagebox.showinfo("GUARDAR Compra", "La compra ha sido modificada")
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
@@ -292,16 +292,33 @@ def guardar():
             boton_cancelar.config(state="disabled")
             boton_guardar.config(state="disabled")
         else:
-            messagebox.showinfo("GUARDAR Compra", "El Compra NO ha sido guardado")
+            messagebox.showinfo("GUARDAR Compra", "La compra NO ha sido guardada")
 
 """ 
- @brief Función que modifica el registro del Compra del paciente.
+ @brief Función que modifica el registro del turno del paciente.
  @param none
  @return none
 """
 def modificar():
-    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
-    pass
+    global registroNuevo
+    registroNuevo=False
+    try:
+        limpiar_campos()
+        state_textbox_and_buttons("normal")
+        boton_guardar.config(state="normal")
+        boton_cancelar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_eliminar.config(state="disabled")
+        # Cargo los valores en los entrys
+        nombre.set(visorBD.item(visorBD.selection())['values'][0])
+        producto.set(visorBD.item(visorBD.selection())['values'][1])
+        fecha_entrega.set(visorBD.item(visorBD.selection())['values'][2])
+        hora_entrega.set(sql_to_time(visorBD.item(visorBD.selection())['values'][3]))
+        minuto_entrega.set(sql_to_minutes(visorBD.item(visorBD.selection())['values'][3]))
+        cuenta.set(cuenta_a_value(visorBD.item(visorBD.selection())['values'][4]))
+        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])   
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
 
 """ 
  @brief Función que elimina el registro del Compra del paciente.
