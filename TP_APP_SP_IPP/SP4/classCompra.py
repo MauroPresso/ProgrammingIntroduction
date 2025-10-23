@@ -26,8 +26,12 @@ class Compra():
         conexBD.cerrar()
     # Método para modificar una compra
     def Modificar(self):
-        mensaje="Se modifico la compra de %s que tiene el producto %s con fecha %s y horario %s y tipo de cuenta %s y preferencias %d CON EXITO!!!" %(self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.preferencias)
-        messagebox.showinfo("MODIFICAR",mensaje)
+        instruct_update="UPDATE TiendaOnline SET NombreDelCliente='%s', Producto='%s', FechaDeEntregaAprox='%s', HorarioDeEntregaAprox='%s', TipoDeCuenta='%s', Preferencias='%s' WHERE id=%s"
+        conexBD=Conexion()
+        conexBD.miCursor.execute(instruct_update % (self.nombre,self.producto,self.fecha,self.horario,self.tipoDeCuenta,self.preferencias,self.id))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
+        messagebox.showinfo("MODIFICAR","Registro modificado")
+        conexBD.cerrar()
     # Método para eliminar una compra
     def Eliminar(self):
         mensaje="Se elimino la compra de %s que tiene el producto %s con fecha %s y horario %s y tipo de cuenta %s y preferencias %d CON EXITO!!!" %(self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.preferencias)
