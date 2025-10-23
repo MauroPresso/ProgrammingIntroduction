@@ -34,6 +34,21 @@ def determinar_categoria(valor):
         return "Infantil"
 
 """
+ @brief Función que convierte la categoría del libro a su valor correspondiente.
+ @param categoria (str) - Categoría del libro.
+ @return valor (int) - Valor correspondiente a la categoría.
+"""
+def categoria_a_valor(categoria):
+    if categoria == "Novela":
+        return 1
+    elif categoria == "Historia":
+        return 2
+    elif categoria == "Ciencia":
+        return 3
+    else:
+        return 4
+
+"""
  @brief Función que cuenta la cantidad de preferencias seleccionadas.
  @param none
  @return contador_preferencias (int) - Cantidad de preferencias seleccionadas.
@@ -48,6 +63,29 @@ def contar_preferencias():
         if novedades.get() == 1:
             contador_preferencias += 1
     return contador_preferencias
+
+"""
+ @brief Función que convierte el número de servicios seleccionados a los valores de los checkbuttons
+ @param servicios (int) - Número de servicios seleccionados.
+ @return none
+"""
+def servicios_a_checkbuttons(servicios):
+    if servicios == 0:
+        vencimiento.set(0)
+        extension.set(0)
+        novedades.set(0)
+    elif servicios == 1:
+        vencimiento.set(1)
+        extension.set(0)
+        novedades.set(0)
+    elif servicios == 2:
+        vencimiento.set(1)
+        extension.set(1)
+        novedades.set(0)
+    else:
+        vencimiento.set(1)
+        extension.set(1)
+        novedades.set(1)
 
 """
  @brief Funcion que vacia los entrys.
@@ -120,6 +158,8 @@ def vaciarElVisorBD():
  @return none
 """
 def nuevo():
+    global registroNuevo
+    registroNuevo=True
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
     limpiar_campos()
@@ -153,7 +193,7 @@ def cancelar():
     boton_guardar.config(state="disabled")
 
 """ 
- @brief Función que maneja la inscripción del alumno.
+ @brief Función que maneja el guardado del préstamo.
  @param none
  @return none
 """
@@ -169,9 +209,15 @@ def guardar():
             messagebox.showerror("ERROR", "Por favor, ingresa la categoría del libro.")
     else:
         if messagebox.askquestion("CONFIRMAR GUARDADO", "¿Confirma que desea guardar el préstamo?") == "yes":
-            miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
-            miPrestamo.Agregar()
-             # limpio los campos
+            if registroNuevo==True:
+                miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
+                miPrestamo.Agregar()
+                messagebox.showinfo("AGREGAR Prestamo", "El préstamo ha sido agregado correctamente.")
+            else:
+                miPrestamo = Prestamo(id=visorBD.item(visorBD.selection())['text'], nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
+                miPrestamo.Modificar()
+                messagebox.showinfo("MODIFICAR Prestamo", "El préstamo ha sido modificado correctamente.")
+            # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
             state_textbox_and_buttons("disabled")
@@ -185,16 +231,31 @@ def guardar():
             messagebox.showinfo("GUARDAR Prestamo", "El préstamo NO ha sido guardado")
 
 """
- @brief Función que maneja la modificación de la inscripción.
+ @brief Función que maneja la modificación del préstamo.
  @param none
  @return none
 """
 def modificar():
-    messagebox.showinfo("MODIFICAR", "Funcionalidad en desarrollo...")
-    pass
+    global registroNuevo
+    registroNuevo=False
+    try:
+        limpiar_campos()
+        state_textbox_and_buttons("normal")
+        boton_guardar.config(state="normal")
+        boton_cancelar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_eliminar.config(state="disabled")
+        # Cargo los valores en los entrys
+        nombre_lector.set(visorBD.item(visorBD.selection())['values'][0])
+        titulo.set(visorBD.item(visorBD.selection())['values'][1])
+        fecha.set(visorBD.item(visorBD.selection())['values'][2])
+        categoria.set(categoria_a_valor(visorBD.item(visorBD.selection())['values'][3]))
+        servicios_a_checkbuttons(visorBD.item(visorBD.selection())['values'][4])
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
 
 """
- @brief Función que maneja la eliminación de la inscripción.
+ @brief Función que maneja la eliminación del préstamo.
  @param none
  @return none
 """
@@ -334,7 +395,7 @@ BOTONES DE ACCION
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
 boton_nuevo.grid(row=5, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="disabled")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=5, column=1, columnspan=1, pady=10, padx=10, sticky="w")
@@ -342,11 +403,11 @@ boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 1
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
+boton_modificar.config(fg = "orange", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
