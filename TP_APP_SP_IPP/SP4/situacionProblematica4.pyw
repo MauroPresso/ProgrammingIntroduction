@@ -62,8 +62,70 @@ def contar_preferencias():
     return contador_preferencias
 
 """
-FUNCIONES
+ @brief Función que convierte la cantidad de preferencias en los valores de los checkbuttons.
+ @param cantidad (int) - Cantidad de preferencias seleccionadas.
+ @return none
 """
+def preferences_to_checkbutton(cantidad):
+    if cantidad == 0:
+        resumen.set(0)
+        ofertas.set(0)
+        sms.set(0)
+    elif cantidad == 1:
+        resumen.set(1)
+        ofertas.set(0)
+        sms.set(0)
+    elif cantidad == 2:
+        resumen.set(1)
+        ofertas.set(1)
+        sms.set(0)
+    else:
+        resumen.set(1)
+        ofertas.set(1)
+        sms.set(1)
+
+""" 
+ @brief Función que convierte la hora y minutos en formato SQL.
+ @param hora (int) - Hora del turno.
+ @param minutos (int) - Minutos del turno.
+ @return hora_sql (str) - Hora en formato SQL (HH:MM:SS).
+"""
+def time_to_sql(hora, minutos):
+    if 0 <= hora <= 23 and 0 <= minutos <= 59:
+        hora_sql = f"{hora:02}:{minutos:02}:00"
+        return hora_sql
+    else:
+        messagebox.showerror("Hora o minutos fuera de rango")
+    
+"""
+ @brief Función que extrae la hora de una cadena en formato SQL.
+ @param valor (str) - Cadena en formato SQL (HH:MM:SS).
+ @return hh (int) - Hora extraída de la cadena.
+"""
+def sql_to_time(valor):
+    s = str(valor).strip()
+    try:
+        hh = int(s.split(":")[0])
+        if 0 <= hh <= 23:
+            return hh
+    except Exception:
+        pass
+
+"""
+ @brief Función que extrae los minutos de una cadena en formato SQL.
+ @param valor (str) - Cadena en formato SQL (HH:MM:SS).
+ @return mm (int) - Minutos extraídos de la cadena.
+"""
+def sql_to_minutes(valor):
+    s = str(valor).strip()
+    # Último recurso: partir por ":" y tomar el segundo grupo
+    try:
+        mm = int(s.split(":")[1])
+        if 0 <= mm <= 59:
+            return mm
+    except Exception:
+        pass
+
 """ 
  @brief Función que convierte la hora y minutos en formato SQL.
  @param hora (int) - Hora del Compra.
@@ -400,7 +462,7 @@ BOTONES DE ACCION
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
 boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="normal")
+boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="disabled")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
 boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
@@ -408,11 +470,11 @@ boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 1
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
 boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
-boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
+boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
 boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
-boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="normal")
+boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
 boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
