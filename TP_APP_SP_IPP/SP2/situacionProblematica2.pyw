@@ -198,6 +198,8 @@ def vaciarElVisorBD():
  @return none
  """
 def nuevo():
+    global registroNuevo
+    registroNuevo=True
     messagebox.showwarning("ATENCIÓN", "Está por ingresar un nuevo registro")
     # Entrys
     limpiar_campos()
