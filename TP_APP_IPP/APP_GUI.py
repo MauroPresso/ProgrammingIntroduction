@@ -127,9 +127,11 @@ def guardar():
         if registroNuevo==True:
             miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
             miAlumno.Agregar()
+            messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         else:
             miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']), nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
             miAlumno.Modificar()
+            messagebox.showinfo("MODIFICADO","Registro modificado")
         # limpio los campos
         cargarEnVisorBD()
         limpiar_campos()
