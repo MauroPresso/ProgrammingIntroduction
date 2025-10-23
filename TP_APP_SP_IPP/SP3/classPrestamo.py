@@ -24,16 +24,13 @@ class Prestamo():
         messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
 
-    # Método para modificar un prestamo
+   # Método para modificar un prestamo
     def Modificar(self):
-        mensaje="""Se modifico el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
-        messagebox.showinfo("MODIFICAR",mensaje)
-
+        instruct_update="UPDATE PrestamosDeLibros SET NombreDelLector='%s', Titulo='%s', FechaDeDevolucion='%s', Categoria='%s', ServiciosAdicionales='%s' WHERE id=%s"
+        conexBD=Conexion()
+        conexBD.miCursor.execute(instruct_update % (self.nombre,self.titulo,self.fecha,self.categoria,self.servicios,self.id))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
+        conexBD.cerrar()
     
     # Método para eliminar un prestamo
     def Eliminar(self):
