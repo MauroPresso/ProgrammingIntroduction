@@ -19,7 +19,6 @@ class Alumnos():
         instruct_insert="INSERT INTO Alumnos(nombre, domicilio, dni, edad) VALUES ('%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.domicilio, self.dni, self.edad))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
-        messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
 
     # Método para modificar un alumno
@@ -28,7 +27,6 @@ class Alumnos():
         conexBD=Conexion()
         conexBD.miCursor.execute(instruct_update % (self.nombre,self.domicilio,self.dni,self.edad,self.id))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
-        messagebox.showinfo("MODIFICAR","Registro modificado")
         conexBD.cerrar()
     
     # Método para eliminar un alumno
