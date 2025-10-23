@@ -292,8 +292,9 @@ def modificar():
         limpiar_campos()
         state_textbox_and_buttons("normal")
         boton_guardar.config(state="normal")
-        boton_nuevo.config(state="disabled")
         boton_cancelar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_eliminar.config(state="disabled")
         # Cargo los valores en los entrys
         nombre_paciente.set(visorBD.item(visorBD.selection())['values'][0])
         motivo.set(visorBD.item(visorBD.selection())['values'][1])
