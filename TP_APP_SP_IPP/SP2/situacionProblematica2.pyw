@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkcalendar import DateEntry
-from datetime import date, time
+from datetime import date
 from classTurno import Turno
 
 """
