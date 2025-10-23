@@ -21,7 +21,6 @@ class Prestamo():
         instruct_insert="INSERT INTO PrestamosDeLibros(NombreDelLector, Titulo, FechaDeDevolucion, Categoria, ServiciosAdicionales) VALUES ('%s', '%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.titulo, self.fecha, self.categoria, self.servicios))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
-        messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
 
    # Método para modificar un prestamo
