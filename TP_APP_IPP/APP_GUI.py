@@ -106,7 +106,9 @@ def cancelar():
     # deshabilito Buttons
     boton_nuevo.config(state="normal")
     boton_cancelar.config(state="disabled")
-    boton_guardar.config(state="disabled")  
+    boton_guardar.config(state="disabled")
+    boton_modificar.config(state="normal")
+    boton_eliminar.config(state="normal")  
 
 """ 
  @brief Función que maneja la inscripción del alumno.
