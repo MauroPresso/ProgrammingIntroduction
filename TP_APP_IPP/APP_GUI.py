@@ -159,6 +159,8 @@ def modificar():
         boton_guardar.config(state="normal")
         boton_nuevo.config(state="disabled")
         boton_cancelar.config(state="normal")
+        boton_modificar.config(state="disabled")
+        boton_eliminar.config(state="disabled")
 
         nombre.set(visorBD.item(visorBD.selection())['values'][0])
         domicilio.set(visorBD.item(visorBD.selection())['values'][1])
@@ -170,6 +172,7 @@ def modificar():
         boton_guardar.config(state="disabled")
         boton_nuevo.config(state="normal")
         boton_cancelar.config(state="disabled")
+        
 
 """
  @brief Función que maneja la eliminación de la inscripción.
