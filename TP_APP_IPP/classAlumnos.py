@@ -33,8 +33,12 @@ class Alumnos():
     def Eliminar(self):
         instruct_delete="DELETE FROM Alumnos WHERE id=%d"
         conexBD=Conexion()
-        conexBD.miCursor.execute(instruct_delete % (self.id))
-        conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+        try:
+            conexBD.miCursor.execute(instruct_delete % (self.id))
+            conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+            messagebox.showinfo("ELIMINADO", "Registro eliminado correctamente.")
+        except:
+            messagebox.showerror("ERROR", "No se pudo eliminar el registro.")
         conexBD.cerrar()
 
     # Metodo para listar alumnos
