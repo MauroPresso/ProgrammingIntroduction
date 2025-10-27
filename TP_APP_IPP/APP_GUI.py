@@ -166,6 +166,10 @@ def modificar():
         edad.set(visorBD.item(visorBD.selection())['values'][3])
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
+        estado_textbox("disabled")
+        boton_guardar.config(state="disabled")
+        boton_nuevo.config(state="normal")
+        boton_cancelar.config(state="disabled")
 
 """
  @brief Función que maneja la eliminación de la inscripción.
