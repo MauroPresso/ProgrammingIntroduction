@@ -31,15 +31,11 @@ class Alumnos():
     
     # Método para eliminar un alumno
     def Eliminar(self):
-        mensaje="""Se elimino el alumno %s
-        que vive en %s
-        con dni %d
-        y de %d años de edad,
-        CON EXITO!!!""" %(self.nombre,self.domicilio,self.dni,self.edad)
-        messagebox.showinfo("ELIMINAR",mensaje)
-        #messagebox.tipo("TITULO","Se elimino un alumno")
-        #Alumno1=Alumnos("Jorge","Cipolletti")
-        #print("Se elimino el alumno ",self.nombre,self.domicilio)
+        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        conexBD=Conexion()
+        conexBD.miCursor.execute(instruct_delete % (self.id))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+        conexBD.cerrar()
 
     # Metodo para listar alumnos
     def ListaAlumnos(): # no necesita self porque no usa atributos de instancia.
