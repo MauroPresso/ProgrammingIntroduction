@@ -114,7 +114,6 @@ def cancelar():
  @return none
 """
 def guardar():
-    global registroNuevo
     # valido que los campos no esten vacios
     if nombre.get() == "" or domicilio.get() == "" or dni.get() == 0 or edad.get() == 0:
         if nombre.get() == "":
@@ -126,6 +125,7 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa tu DNI.")
     else:
+        global registroNuevo
         if registroNuevo==True:
             miAlumno = Alumnos(nombre=nombre.get(), domicilio=domicilio.get(), dni=dni.get(), edad=edad.get())
             miAlumno.Agregar()
