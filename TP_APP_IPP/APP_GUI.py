@@ -175,15 +175,18 @@ def modificar():
  @return none
 """
 def eliminar():
-    miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']))
-    miAlumno.Eliminar()
-    limpiar_campos()
-    estado_textbox("disabled")
-    # deshabilito Buttons
-    boton_nuevo.config(state="normal")
-    boton_cancelar.config(state="disabled")
-    boton_guardar.config(state="disabled")
-    cargarEnVisorBD()
+    try:
+        miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']))
+        miAlumno.Eliminar()
+        limpiar_campos()
+        estado_textbox("disabled")
+        # deshabilito Buttons
+        boton_nuevo.config(state="normal")
+        boton_cancelar.config(state="disabled")
+        boton_guardar.config(state="disabled")
+        cargarEnVisorBD()
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
 
 """
