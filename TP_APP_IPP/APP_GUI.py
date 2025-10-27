@@ -114,6 +114,8 @@ def cancelar():
  @return none
 """
 def guardar():
+    global registroNuevo
+    # valido que los campos no esten vacios
     if nombre.get() == "" or domicilio.get() == "" or dni.get() == 0 or edad.get() == 0:
         if nombre.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
@@ -173,8 +175,16 @@ def modificar():
  @return none
 """
 def eliminar():
-    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
-    pass
+    miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']))
+    miAlumno.Eliminar()
+    limpiar_campos()
+    estado_textbox("disabled")
+    # deshabilito Buttons
+    boton_nuevo.config(state="normal")
+    boton_cancelar.config(state="disabled")
+    boton_guardar.config(state="disabled")
+    cargarEnVisorBD()
+
 
 """
  @brief Función que maneja la salida de la aplicación.
