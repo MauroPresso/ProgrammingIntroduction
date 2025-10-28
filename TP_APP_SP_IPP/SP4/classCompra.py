@@ -32,7 +32,7 @@ class Compra():
         conexBD.cerrar()
     # Método para eliminar una compra
     def Eliminar(self):
-        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        instruct_delete="DELETE FROM TiendaOnline WHERE id=%d"
         conexBD=Conexion()
         try:
             conexBD.miCursor.execute(instruct_delete % (self.id))
