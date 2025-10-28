@@ -208,6 +208,7 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa la categoría del libro.")
     else:
+        global registroNuevo
         if messagebox.askquestion("CONFIRMAR GUARDADO", "¿Confirma que desea guardar el préstamo?") == "yes":
             if registroNuevo==True:
                 miPrestamo = Prestamo(nombre=nombre_lector.get(), titulo=titulo.get(), fecha=ingreso_fecha_devolucion.get_date(), categoria=determinar_categoria(categoria.get()), servicios=contar_preferencias())
@@ -260,8 +261,18 @@ def modificar():
  @return none
 """
 def eliminar():
-    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
-    pass
+    try:
+        miAlumno = Prestamo(id=int(visorBD.item(visorBD.selection())['text']))
+        miAlumno.Eliminar()
+        limpiar_campos()
+        state_textbox_and_buttons("disabled")
+        # deshabilito Buttons
+        boton_nuevo.config(state="normal")
+        boton_cancelar.config(state="disabled")
+        boton_guardar.config(state="disabled")
+        cargarEnVisorBD()
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
 """
  @brief Función que maneja la salida de la aplicación.
