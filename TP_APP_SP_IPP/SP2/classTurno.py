@@ -32,7 +32,7 @@ class Turno():
         conexBD.cerrar()
     # Método para eliminar un turno
     def Eliminar(self):
-        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        instruct_delete="DELETE FROM TurnosMedicos WHERE id=%d"
         conexBD=Conexion()
         try:
             conexBD.miCursor.execute(instruct_delete % (self.id))
