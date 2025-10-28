@@ -32,8 +32,15 @@ class Turno():
         conexBD.cerrar()
     # Método para eliminar un turno
     def Eliminar(self):
-        mensaje="Se elimino el turno del paciente %s que tiene el motivo %s con fecha %s y horario %s y medico %s y recordatorios %d CON EXITO!!!" %(self.nombre,self.motivo,self.fecha,self.horario,self.medico,self.recordatorios)
-        messagebox.showinfo("ELIMINAR",mensaje)
+        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        conexBD=Conexion()
+        try:
+            conexBD.miCursor.execute(instruct_delete % (self.id))
+            conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+            messagebox.showinfo("ELIMINADO", "Registro eliminado correctamente.")
+        except:
+            messagebox.showerror("ERROR", "No se pudo eliminar el registro.")
+        conexBD.cerrar()
 
     # Metodo para listar turnos
     def ListarTurnos(): # no necesita self porque no usa atributos de instancia.
