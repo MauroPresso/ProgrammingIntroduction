@@ -206,7 +206,7 @@ def nuevo():
     ingreso_nombre_paciente.focus() #nombre del entry
     #  Entrys
     state_textbox_and_checkbuttons("normal")
-    # Buttons
+    # Action Buttons
     boton_nuevo.config(state="disabled")
     boton_modificar.config(state="disabled")
     boton_eliminar.config(state="disabled")
@@ -292,10 +292,6 @@ def modificar():
     try:
         limpiar_campos()
         state_textbox_and_checkbuttons("normal")
-        boton_guardar.config(state="normal")
-        boton_cancelar.config(state="normal")
-        boton_nuevo.config(state="disabled")
-        boton_eliminar.config(state="disabled")
         # Cargo los valores en los entrys
         nombre_paciente.set(visorBD.item(visorBD.selection())['values'][0])
         motivo.set(visorBD.item(visorBD.selection())['values'][1])
@@ -303,9 +299,22 @@ def modificar():
         hora_turno.set(sql_to_time(visorBD.item(visorBD.selection())['values'][3]))
         minuto_turno.set(sql_to_minutes(visorBD.item(visorBD.selection())['values'][3]))
         especialidad_medica.set(especialidad_medica_a_value(visorBD.item(visorBD.selection())['values'][4]))
-        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])   
+        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])
+        # Botones de accion
+        boton_guardar.config(state="normal")
+        boton_cancelar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_eliminar.config(state="disabled")
+        boton_modificar.config(state="disabled") # El boton de la funcion es el ultimo en desactivarse
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
+        state_textbox_and_checkbuttons("disabled")
+        boton_nuevo.config(state="normal")
+        boton_modificar.config(state="normal")
+        boton_eliminar.config(state="normal")
+        boton_guardar.config(state="disabled")
+        boton_cancelar.config(state="disabled")
+        
 
 """ 
  @brief Función que elimina el registro del turno del paciente.
