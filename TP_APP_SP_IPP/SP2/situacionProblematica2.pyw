@@ -258,6 +258,7 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
     else:
+        global registroNuevo
         if messagebox.askquestion("GUARDAR TURNO", "Confirmar que desea guardar el turno") == "yes":
             if registroNuevo==True:
                 miTurno = Turno(nombre=nombre_paciente.get(), motivo=motivo.get(), fecha=ingreso_fecha_turno.get_date(), horario=time_to_sql(hora_turno.get(), minuto_turno.get()), medico=determinar_especialidad_medica(especialidad_medica.get()), recordatorios=contar_preferencias())
@@ -312,8 +313,18 @@ def modificar():
  @return none
 """
 def eliminar():
-    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
-    pass
+    try:
+        miAlumno = Turno(id=int(visorBD.item(visorBD.selection())['text']))
+        miAlumno.Eliminar()
+        limpiar_campos()
+        state_textbox_and_buttons("disabled")
+        # deshabilito Buttons
+        boton_nuevo.config(state="normal")
+        boton_cancelar.config(state="disabled")
+        boton_guardar.config(state="disabled")
+        cargarEnVisorBD()
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
 """
  @brief Función que maneja la salida de la aplicación.
