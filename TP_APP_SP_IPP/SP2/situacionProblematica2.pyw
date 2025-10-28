@@ -147,7 +147,7 @@ def limpiar_campos():
  @param estado (string)
  @return none
 """
-def state_textbox_and_buttons(estado):
+def state_textbox_and_checkbuttons(estado):
     # Entrys
     ingreso_nombre_paciente.config(state=estado)
     ingreso_motivo_paciente.config(state=estado)
@@ -205,7 +205,7 @@ def nuevo():
     limpiar_campos()
     ingreso_nombre_paciente.focus() #nombre del entry
     #  Entrys
-    state_textbox_and_buttons("normal")
+    state_textbox_and_checkbuttons("normal")
     # Buttons
     boton_nuevo.config(state="disabled")
     boton_modificar.config(state="disabled")
@@ -224,7 +224,7 @@ def cancelar():
     limpiar_campos()
     ingreso_nombre_paciente.focus() #nombre del entry
     #  Entrys
-    state_textbox_and_buttons("disabled")
+    state_textbox_and_checkbuttons("disabled")
     # Buttons
     boton_nuevo.config(state="normal")
     boton_modificar.config(state="normal")
@@ -271,7 +271,7 @@ def guardar():
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
-            state_textbox_and_buttons("disabled")
+            state_textbox_and_checkbuttons("disabled")
             #  Buttons
             boton_nuevo.config(state="normal")
             boton_modificar.config(state="normal")
@@ -291,7 +291,7 @@ def modificar():
     registroNuevo=False
     try:
         limpiar_campos()
-        state_textbox_and_buttons("normal")
+        state_textbox_and_checkbuttons("normal")
         boton_guardar.config(state="normal")
         boton_cancelar.config(state="normal")
         boton_nuevo.config(state="disabled")
@@ -315,14 +315,17 @@ def modificar():
 def eliminar():
     try:
         miAlumno = Turno(id=int(visorBD.item(visorBD.selection())['text']))
-        miAlumno.Eliminar()
-        limpiar_campos()
-        state_textbox_and_buttons("disabled")
-        # deshabilito Buttons
-        boton_nuevo.config(state="normal")
-        boton_cancelar.config(state="disabled")
-        boton_guardar.config(state="disabled")
-        cargarEnVisorBD()
+        if messagebox.askquestion("ELIMINAR TURNO","Confirma que desea eliminar turno")=="yes":
+            miAlumno.Eliminar()
+            limpiar_campos()
+            state_textbox_and_checkbuttons("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
+            cargarEnVisorBD()
+        else:
+            messagebox.showinfo("ELIMINAR TURNO","El turno NO fue eliminado")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
