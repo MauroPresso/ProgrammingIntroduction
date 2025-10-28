@@ -162,7 +162,7 @@ def limpiar_campos():
  @param estado (string)
  @return none
 """
-def state_textbox_and_buttons(estado):
+def state_textbox_and_checkbuttons(estado):
     # Entrys
     ingreso_nombre_cliente.config(state=estado)
     ingreso_nombre_producto.config(state=estado)
@@ -219,7 +219,7 @@ def nuevo():
     limpiar_campos()
     ingreso_nombre_cliente.focus() #nombre del entry
     # deshabilito Entrys
-    state_textbox_and_buttons("normal")
+    state_textbox_and_checkbuttons("normal")
     # Buttons
     boton_nuevo.config(state="disabled")
     boton_modificar.config(state="disabled")
@@ -238,7 +238,7 @@ def cancelar():
     limpiar_campos()
     ingreso_nombre_cliente.focus() #nombre del entry
     # deshabilito Entrys
-    state_textbox_and_buttons("disabled")
+    state_textbox_and_checkbuttons("disabled")
     # Buttons
     boton_nuevo.config(state="normal")
     boton_modificar.config(state="normal")
@@ -285,7 +285,7 @@ def guardar():
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
-            state_textbox_and_buttons("disabled")
+            state_textbox_and_checkbuttons("disabled")
             # deshabilito Buttons
             boton_nuevo.config(state="normal")
             boton_modificar.config(state="normal")
@@ -305,11 +305,7 @@ def modificar():
     registroNuevo=False
     try:
         limpiar_campos()
-        state_textbox_and_buttons("normal")
-        boton_guardar.config(state="normal")
-        boton_cancelar.config(state="normal")
-        boton_nuevo.config(state="disabled")
-        boton_eliminar.config(state="disabled")
+        state_textbox_and_checkbuttons("normal")
         # Cargo los valores en los entrys
         nombre.set(visorBD.item(visorBD.selection())['values'][0])
         producto.set(visorBD.item(visorBD.selection())['values'][1])
@@ -317,9 +313,22 @@ def modificar():
         hora_entrega.set(sql_to_time(visorBD.item(visorBD.selection())['values'][3]))
         minuto_entrega.set(sql_to_minutes(visorBD.item(visorBD.selection())['values'][3]))
         cuenta.set(cuenta_a_value(visorBD.item(visorBD.selection())['values'][4]))
-        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])   
+        preferences_to_checkbutton(visorBD.item(visorBD.selection())['values'][5])  
+        # Buttons
+        boton_guardar.config(state="normal")
+        boton_cancelar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_eliminar.config(state="disabled")
+        boton_modificar.config(state="disabled")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
+        state_textbox_and_checkbuttons("disabled")       
+        boton_guardar.config(state="disabled")
+        boton_cancelar.config(state="disabled")
+        boton_nuevo.config(state="normal")
+        boton_eliminar.config(state="normal")
+        boton_modificar.config(state="normal")
+
 
 """ 
  @brief Función que elimina el registro del Compra del paciente.
@@ -329,14 +338,17 @@ def modificar():
 def eliminar():
     try:
         miAlumno = Compra(id=int(visorBD.item(visorBD.selection())['text']))
-        miAlumno.Eliminar()
-        limpiar_campos()
-        state_textbox_and_buttons("disabled")
-        # deshabilito Buttons
-        boton_nuevo.config(state="normal")
-        boton_cancelar.config(state="disabled")
-        boton_guardar.config(state="disabled")
-        cargarEnVisorBD()
+        if messagebox.askquestion("ELIMINAR COMPRA","Confirmar que desea eliminar la compra")=="yes":
+            miAlumno.Eliminar()
+            limpiar_campos()
+            state_textbox_and_checkbuttons("disabled")
+            # deshabilito Buttons
+            boton_nuevo.config(state="normal")
+            boton_cancelar.config(state="disabled")
+            boton_guardar.config(state="disabled")
+            cargarEnVisorBD()
+        else:
+            messagebox.showinfo("ELIMINAR COMPRA","La compra NO ha sido eliminada")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
