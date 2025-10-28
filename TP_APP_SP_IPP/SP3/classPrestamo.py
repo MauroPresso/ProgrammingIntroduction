@@ -33,13 +33,15 @@ class Prestamo():
     
     # Método para eliminar un prestamo
     def Eliminar(self):
-        mensaje="""Se elimino el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
-        messagebox.showinfo("ELIMINAR",mensaje)
+        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        conexBD=Conexion()
+        try:
+            conexBD.miCursor.execute(instruct_delete % (self.id))
+            conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+            messagebox.showinfo("ELIMINADO", "Registro eliminado correctamente.")
+        except:
+            messagebox.showerror("ERROR", "No se pudo eliminar el registro.")
+        conexBD.cerrar()
 
     # Método para listar prestamos
     def ListarPrestamos():
