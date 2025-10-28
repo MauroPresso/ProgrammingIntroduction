@@ -272,6 +272,7 @@ def guardar():
         else:
             messagebox.showerror("ERROR", "Por favor, ingresa minutos válidos (0-59).")
     else:
+        global registroNuevo
         if messagebox.askquestion("GUARDAR Compra", "Confirmar que desea guardar la compra") == "yes":
             if registroNuevo==True:
                 miCompra = Compra(nombre=nombre.get(), producto=producto.get(), fecha=ingreso_fecha_entrega.get_date(), horario=time_to_sql(hora_entrega.get(), minuto_entrega.get()), tipoDeCuenta=determinar_tipo_de_cuenta(cuenta.get()), preferencias=contar_preferencias())
@@ -326,8 +327,18 @@ def modificar():
  @return none
 """
 def eliminar():
-    messagebox.showinfo("ELIMINAR", "Funcionalidad en desarrollo...")
-    pass
+    try:
+        miAlumno = Compra(id=int(visorBD.item(visorBD.selection())['text']))
+        miAlumno.Eliminar()
+        limpiar_campos()
+        state_textbox_and_buttons("disabled")
+        # deshabilito Buttons
+        boton_nuevo.config(state="normal")
+        boton_cancelar.config(state="disabled")
+        boton_guardar.config(state="disabled")
+        cargarEnVisorBD()
+    except:
+        messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
 """
  @brief Función que maneja la salida de la aplicación.
