@@ -32,8 +32,15 @@ class Compra():
         conexBD.cerrar()
     # Método para eliminar una compra
     def Eliminar(self):
-        mensaje="Se elimino la compra de %s que tiene el producto %s con fecha %s y horario %s y tipo de cuenta %s y preferencias %d CON EXITO!!!" %(self.nombre, self.producto, self.fecha, self.horario, self.tipoDeCuenta, self.preferencias)
-        messagebox.showinfo("ELIMINAR",mensaje)
+        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        conexBD=Conexion()
+        try:
+            conexBD.miCursor.execute(instruct_delete % (self.id))
+            conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+            messagebox.showinfo("ELIMINADO", "Registro eliminado correctamente.")
+        except:
+            messagebox.showerror("ERROR", "No se pudo eliminar el registro.")
+        conexBD.cerrar()
     # Metodo para listar compras
     def ListarCompras(): # no necesita self porque no usa atributos de instancia.
         conexBD=Conexion() # crea el objeto de conexion
