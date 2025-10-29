@@ -33,7 +33,7 @@ class Prestamo():
     
     # Método para eliminar un prestamo
     def Eliminar(self):
-        instruct_delete="DELETE FROM Alumnos WHERE id=%d"
+        instruct_delete="DELETE FROM PrestamosDeLibros WHERE id=%d"
         conexBD=Conexion()
         try:
             conexBD.miCursor.execute(instruct_delete % (self.id))
