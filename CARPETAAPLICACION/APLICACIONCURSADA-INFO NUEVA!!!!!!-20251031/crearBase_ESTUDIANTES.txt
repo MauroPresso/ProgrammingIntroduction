@@ -1,0 +1,11 @@
+import sqlite3
+
+miconexion=sqlite3.connect("Base")
+micursor=miconexion.cursor()
+micursor.execute("""CREATE TABLE ALUMNOS(
+    ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    NOMBRE VARCHAR(50),
+    DOMICILIO VARCHAR(50),
+    DNI INTEGER,
+    EDAD INTEGER)""")
+miconexion.close()    
