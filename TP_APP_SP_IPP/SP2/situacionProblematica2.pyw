@@ -184,13 +184,9 @@ def cargarEnVisorBD():
  @return none
 """  
 def vaciarElVisorBD():
-    boton_nuevo.config(state="normal")
-    boton_modificar.config(state="normal")
-    boton_eliminar.config(state="normal")
     registros=visorBD.get_children()
     for r in registros:
         visorBD.delete(r)
-
 
 """ 
  @brief Función que inicializa un nuevo registro, limpiando todos los campos de entrada.
@@ -206,7 +202,7 @@ def nuevo():
     ingreso_nombre_paciente.focus() #nombre del entry
     #  Entrys
     state_textbox_and_checkbuttons("normal")
-    # Action Buttons
+    # Botones de accion
     boton_nuevo.config(state="disabled")
     boton_modificar.config(state="disabled")
     boton_eliminar.config(state="disabled")
@@ -225,7 +221,7 @@ def cancelar():
     ingreso_nombre_paciente.focus() #nombre del entry
     #  Entrys
     state_textbox_and_checkbuttons("disabled")
-    # Buttons
+    # Botones de accion
     boton_nuevo.config(state="normal")
     boton_modificar.config(state="normal")
     boton_eliminar.config(state="normal")
@@ -272,7 +268,7 @@ def guardar():
             cargarEnVisorBD()
             limpiar_campos()
             state_textbox_and_checkbuttons("disabled")
-            #  Buttons
+            # Botones de accion
             boton_nuevo.config(state="normal")
             boton_modificar.config(state="normal")
             boton_eliminar.config(state="normal")
@@ -328,10 +324,7 @@ def eliminar():
             miAlumno.Eliminar()
             limpiar_campos()
             state_textbox_and_checkbuttons("disabled")
-            # deshabilito Buttons
-            boton_nuevo.config(state="normal")
-            boton_cancelar.config(state="disabled")
-            boton_guardar.config(state="disabled")
+            
             cargarEnVisorBD()
         else:
             messagebox.showinfo("ELIMINAR TURNO","El turno NO fue eliminado")
@@ -514,10 +507,10 @@ VISOR
 """
 # Visor
 visorBD=ttk.Treeview(marco, columns=('Nombre', 'Motivo', 'Fecha', 'Horario', 'Medico', 'Recordatorios'))
-visorBD.grid(row=9, column=0, columnspan=3, sticky="nsew")
+visorBD.grid(row=8, column=0, columnspan=3, sticky="nsew")
 # Scrollbar
 barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
-barraDespl.grid(row=9, column=3, sticky="ns")
+barraDespl.grid(row=8, column=3, sticky="ns")
 visorBD.configure(yscrollcommand=barraDespl.set)
 # CONFIGURACION
 # ID
