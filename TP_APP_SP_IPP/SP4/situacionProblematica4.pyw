@@ -199,9 +199,6 @@ def cargarEnVisorBD():
  @return none
 """  
 def vaciarElVisorBD():
-    boton_nuevo.config(state="normal")
-    boton_modificar.config(state="normal")
-    boton_eliminar.config(state="normal")
     registros=visorBD.get_children()
     for r in registros:
         visorBD.delete(r)
@@ -342,10 +339,7 @@ def eliminar():
             miAlumno.Eliminar()
             limpiar_campos()
             state_textbox_and_checkbuttons("disabled")
-            # deshabilito Buttons
-            boton_nuevo.config(state="normal")
-            boton_cancelar.config(state="disabled")
-            boton_guardar.config(state="disabled")
+
             cargarEnVisorBD()
         else:
             messagebox.showinfo("ELIMINAR COMPRA","La compra NO ha sido eliminada")
@@ -412,11 +406,11 @@ etiqueta_nombre_producto.grid(row=2, column=0, sticky="w", pady=10, padx=8)
 etiqueta_nombre_producto.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Separador entre hora
 etiqueta_separador_hora_minuto = Label(marco, text="Horas:")
-etiqueta_separador_hora_minuto.grid(row=5, column=1, sticky="w", padx=0, pady=10)
+etiqueta_separador_hora_minuto.grid(row=4, column=1, sticky="w", padx=0, pady=10)
 etiqueta_separador_hora_minuto.config(fg = "yellow", bg = "brown", width = 15, font = ("Rockell", 14, "italic"))
 # Separador entre minuto
 etiqueta_separador_minuto = Label(marco, text="Minutos:")
-etiqueta_separador_minuto.grid(row=5, column=1, sticky="e", padx=0, pady=10)
+etiqueta_separador_minuto.grid(row=4, column=1, sticky="e", padx=0, pady=10)
 etiqueta_separador_minuto.config(fg = "yellow", bg = "brown", width = 15, font = ("Rockell", 14, "italic"))
 # Etiqueta del boton de opcion
 # Etiqueta de la fecha de entrega
@@ -425,7 +419,7 @@ etiqueta_fecha_entrega.grid(row=3, column=0, sticky="w", pady=10, padx=8)
 etiqueta_fecha_entrega.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta de la hora de entrega
 etiqueta_horario_entrega = Label(marco, text="Horario de entrega:")
-etiqueta_horario_entrega.grid(row=6, column=0, sticky="w", pady=10, padx=8)
+etiqueta_horario_entrega.grid(row=5, column=0, sticky="w", pady=10, padx=8)
 etiqueta_horario_entrega.config(fg = "yellow", bg = "brown", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 
 """
@@ -451,11 +445,11 @@ ingreso_fecha_entrega.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
 ingreso_fecha_entrega.config(width = 30, state="disabled")
 # Ingreso de la hora del Compra (timePicker)
 ingreso_hora_entrega = Entry(marco, textvariable=hora_entrega)
-ingreso_hora_entrega.grid(row=6, column=1, sticky="w", padx=10, pady=10)
+ingreso_hora_entrega.grid(row=5, column=1, sticky="w", padx=10, pady=10)
 ingreso_hora_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15, state="disabled")
 # Ingreso de los minutos del Compra (timePicker)
 ingreso_minuto_entrega = Entry(marco, textvariable=minuto_entrega)
-ingreso_minuto_entrega.grid(row=6, column=1, sticky="e", padx=10, pady=10)
+ingreso_minuto_entrega.grid(row=5, column=1, sticky="e", padx=10, pady=10)
 ingreso_minuto_entrega.config(fg = "brown", bg = "yellow", font = ("Arial", 14, "italic"), width=15, state="disabled")
 
 """
@@ -501,27 +495,27 @@ BOTONES DE ACCION
 """
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
-boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_nuevo.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
 boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="disabled")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
-boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_guardar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"), state="disabled")
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
-boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_modificar.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
 boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
-boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_eliminar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
-boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_cancelar.grid(row=6, column=2, columnspan=1, pady=10, padx=10, sticky="w")
 boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=10, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.grid(row=9, column=0, columnspan=3, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
 
 """
@@ -529,10 +523,10 @@ VISOR
 """
 # Visor
 visorBD=ttk.Treeview(marco, columns=('NombreDelCliente', 'Producto', 'FechaDeEntregaAprox', 'HorarioDeEntregaAprox', 'TipoDeCuenta', 'Preferencias'))
-visorBD.grid(row=9, column=0, columnspan=3, sticky="nsew")
+visorBD.grid(row=8, column=0, columnspan=3, sticky="nsew")
 # Scrollbar
 barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
-barraDespl.grid(row=9, column=3, sticky="ns")
+barraDespl.grid(row=8, column=3, sticky="ns")
 visorBD.configure(yscrollcommand=barraDespl.set)
 # CONFIGURACION
 # ID
