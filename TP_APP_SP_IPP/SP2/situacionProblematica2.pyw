@@ -394,15 +394,15 @@ etiqueta_fecha_turno.grid(row=3, column=0, sticky="w", padx=10, pady=10)
 etiqueta_fecha_turno.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Etiqueta de la horario del turno
 etiqueta_hora_turno = Label(marco, text="Horario del turno:")
-etiqueta_hora_turno.grid(row=6, column=0, sticky="w", padx=10, pady=10)
+etiqueta_hora_turno.grid(row=5, column=0, sticky="w", padx=10, pady=10)
 etiqueta_hora_turno.config(fg = "orange", bg = "white", width = 25, font = ("Comic Sans", 12, "bold"), anchor = "w")
 # Separador entre hora
 etiqueta_separador_hora_minuto = Label(marco, text="Horas:")
-etiqueta_separador_hora_minuto.grid(row=5, column=1, sticky="w", padx=0, pady=10)
+etiqueta_separador_hora_minuto.grid(row=4, column=1, sticky="w", padx=0, pady=10)
 etiqueta_separador_hora_minuto.config(fg = "yellow", bg = "black", width = 15, font = ("Rockell", 14, "italic"))
 # Separador entre minuto
 etiqueta_separador_minuto = Label(marco, text="Minutos:")
-etiqueta_separador_minuto.grid(row=5, column=1, sticky="e", padx=0, pady=10)
+etiqueta_separador_minuto.grid(row=4, column=1, sticky="e", padx=0, pady=10)
 etiqueta_separador_minuto.config(fg = "yellow", bg = "black", width = 15, font = ("Rockell", 14, "italic"))
 # Etiqueta del boton de opcion
 etiqueta_especialidad_medica = Label(marco, text = "*** ESPECIALIDAD MEDICA ***")
@@ -436,11 +436,11 @@ ingreso_fecha_turno.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
 ingreso_fecha_turno.config(width = 30, state="disabled")
 # Ingreso de la hora del turno (timePicker)
 ingreso_hora_turno = Entry(marco, textvariable=hora_turno)
-ingreso_hora_turno.grid(row=6, column=1, sticky="w", padx=10, pady=10)
+ingreso_hora_turno.grid(row=5, column=1, sticky="w", padx=10, pady=10)
 ingreso_hora_turno.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15, state="disabled")
 # Ingreso de los minutos del turno (timePicker)
 ingreso_minuto_turno = Entry(marco, textvariable=minuto_turno)
-ingreso_minuto_turno.grid(row=6, column=1, sticky="e", padx=10, pady=10)
+ingreso_minuto_turno.grid(row=5, column=1, sticky="e", padx=10, pady=10)
 ingreso_minuto_turno.config(fg = "white", bg = "skyblue", font = ("Arial", 14, "italic"), width=15, state="disabled")
 
 """
@@ -486,27 +486,27 @@ BOTONES DE ACCION
 """
 # Boton de nuevo.
 boton_nuevo = Button(marco, text="NUEVO", command=lambda:nuevo())
-boton_nuevo.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_nuevo.grid(row=6, column=0, columnspan=1, pady=10, padx=10, sticky="w")
 boton_nuevo.config(fg = "green", bg = "white", width = 30, font = ("Calibri", 14, "italic"), state="disabled")
 # Boton de guardar
 boton_guardar = Button(marco, text="GUARDAR", command=lambda:guardar())
-boton_guardar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_guardar.grid(row=6, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_guardar.config(fg = "blue", bg = "white", width = 30, font = ("Verdana", 14, "italic"), state="disabled")
 # Boton de modificar
 boton_modificar = Button(marco, text="MODIFICAR", command=lambda:modificar())
-boton_modificar.grid(row=8, column=0, columnspan=1, pady=10, padx=10, sticky="w")
+boton_modificar.grid(row=7, column=0, columnspan=1, pady=10, padx=10, sticky="w")
 boton_modificar.config(fg = "brown", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de eliminar
 boton_eliminar = Button(marco, text="ELIMINAR", command=lambda:eliminar())
-boton_eliminar.grid(row=8, column=1, columnspan=1, pady=10, padx=10, sticky="w")
+boton_eliminar.grid(row=7, column=1, columnspan=1, pady=10, padx=10, sticky="w")
 boton_eliminar.config(fg = "red", bg = "white", width = 30, font = ("Times New Roman", 14, "italic"), state="disabled")
 # Boton de cancelar
 boton_cancelar = Button(marco, text="CANCELAR", command=lambda:cancelar())
-boton_cancelar.grid(row=7, column=2, columnspan=1, pady=10, padx=10, sticky="w")
+boton_cancelar.grid(row=6, column=2, columnspan=1, pady=10, padx=10, sticky="w")
 boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=10, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.grid(row=9, column=0, columnspan=3, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
 
 """
