@@ -5,42 +5,52 @@ from datetime import date
 from tkinter import messagebox
 from classConexion import Conexion
 
-class Prestamo():  
+class Alumnos():  
     # Constructor
-    def __init__(self, id=0, nombre="",titulo="", fecha=date.today(), categoria="", servicios=0):
+    def __init__(self, id=0,nombre="",idioma="", fecha=date.today(), nivel="", material="", clases="", talleres=""):
         self.id=id
         self.nombre=nombre
-        self.titulo=titulo
+        self.idioma=idioma
         self.fecha=fecha
-        self.categoria=categoria
-        self.servicios=servicios
+        self.nivel=nivel
+        self.material=material
+        self.clases=clases
+        self.talleres=talleres
+        
     
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
-        instruct_insert="INSERT INTO PrestamosDeLibros(NombreDelLector, Titulo, FechaDeDevolucion, Categoria, ServiciosAdicionales) VALUES ('%s', '%s', '%s', '%s', '%s')"
-        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.titulo, self.fecha, self.categoria, self.servicios))
+        instruct_insert="INSERT INTO EscuelaDeIdiomas(nombre, idioma, fecha, nivel, material, clases, talleres) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
+        conexBD.miCursor.execute(instruct_insert % (self.nombre, self.idioma, self.fecha, self.nivel, self.material, self.clases, self.talleres))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
-        messagebox.showinfo("AGREGADO","Nuevo registro ingresado")
         conexBD.cerrar()
 
     # Método para modificar un alumno
     def Modificar(self):
-        mensaje="""Se modifico el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
-        messagebox.showinfo("MODIFICAR",mensaje)
-
+        instruct_update="UPDATE EscuelaDeIdiomas SET nombre='%s', idioma='%s', fecha='%s', nivel='%s', material='%s', clases='%s', talleres='%s' WHERE id=%d"
+        conexBD=Conexion()
+        conexBD.miCursor.execute(instruct_update % (self.nombre,self.idioma,self.fecha,self.nivel,self.material,self.clases,self.talleres,self.id))
+        conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
+        conexBD.cerrar()
     
     # Método para eliminar un alumno
     def Eliminar(self):
-        mensaje="""Se elimino el prestamo del lector %s
-        que tiene el libro %s
-        con fecha de devolucion %s
-        y categoria %s
-        y servicios adicionales %d
-        CON EXITO!!!""" %(self.nombre,self.titulo,self.fecha,self.categoria,self.servicios)
-        messagebox.showinfo("ELIMINAR",mensaje)
+        instruct_delete="DELETE FROM EscuelaDeIdiomas WHERE id=%d"
+        conexBD=Conexion()
+        try:
+            conexBD.miCursor.execute(instruct_delete % (self.id))
+            conexBD.miConexion.commit() # COMMIT DEL COMANDO DELETE
+            messagebox.showinfo("ELIMINADO", "Registro eliminado correctamente.")
+        except:
+            messagebox.showerror("ERROR", "No se pudo eliminar el registro.")
+        conexBD.cerrar()
+
+    # Metodo para listar alumnos
+    def ListaAlumnos(): # no necesita self porque no usa atributos de instancia.
+        conexBD=Conexion()
+        instruct_select="SELECT * FROM Academia ORDER BY id DESC"
+        conexBD.miCursor.execute(instruct_select)
+        registros=conexBD.miCursor.fetchall()
+        conexBD.cerrar()
+        return registros # retorna los registros tomados por SELECT
