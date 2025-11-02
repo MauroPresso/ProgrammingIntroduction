@@ -109,7 +109,7 @@ def limpiar_campos():
  @param estado (string)
  @return none
 """
-def state_textbox_and_buttons(estado):
+def state_textbox_and_checkbuttons(estado):
     # Entrys
     ingreso_nombre_lector.config(state=estado)
     ingreso_titulo_libro.config(state=estado)
@@ -145,9 +145,7 @@ def cargarEnVisorBD():
  @return none
 """  
 def vaciarElVisorBD():
-    boton_nuevo.config(state="normal")
-    boton_modificar.config(state="normal")
-    boton_eliminar.config(state="normal")
+
     registros=visorBD.get_children()
     for r in registros:
         visorBD.delete(r)
@@ -165,8 +163,8 @@ def nuevo():
     limpiar_campos()
     ingreso_nombre_lector.focus() #nombre del entry
     # deshabilito Entrys
-    state_textbox_and_buttons("normal")
-    # Buttons
+    state_textbox_and_checkbuttons("normal")
+    # Botones de accion
     boton_nuevo.config(state="disabled")
     boton_modificar.config(state="disabled")
     boton_eliminar.config(state="disabled")
@@ -184,8 +182,8 @@ def cancelar():
     limpiar_campos()
     ingreso_nombre_lector.focus() #nombre del entry
     # deshabilito Entrys
-    state_textbox_and_buttons("disabled")
-    # Buttons
+    state_textbox_and_checkbuttons("disabled")
+    # Botones de accion
     boton_nuevo.config(state="normal")
     boton_modificar.config(state="normal")
     boton_eliminar.config(state="normal")
@@ -221,8 +219,8 @@ def guardar():
             # limpio los campos
             cargarEnVisorBD()
             limpiar_campos()
-            state_textbox_and_buttons("disabled")
-            # deshabilito Buttons
+            state_textbox_and_checkbuttons("disabled")
+            # Botones de accion
             boton_nuevo.config(state="normal")
             boton_modificar.config(state="normal")
             boton_eliminar.config(state="normal")
@@ -241,19 +239,27 @@ def modificar():
     registroNuevo=False
     try:
         limpiar_campos()
-        state_textbox_and_buttons("normal")
-        boton_guardar.config(state="normal")
-        boton_cancelar.config(state="normal")
-        boton_nuevo.config(state="disabled")
-        boton_eliminar.config(state="disabled")
+        state_textbox_and_checkbuttons("normal")
         # Cargo los valores en los entrys
         nombre_lector.set(visorBD.item(visorBD.selection())['values'][0])
         titulo.set(visorBD.item(visorBD.selection())['values'][1])
         fecha.set(visorBD.item(visorBD.selection())['values'][2])
         categoria.set(categoria_a_valor(visorBD.item(visorBD.selection())['values'][3]))
         servicios_a_checkbuttons(visorBD.item(visorBD.selection())['values'][4])
+        # Botones de accion
+        boton_guardar.config(state="normal")
+        boton_cancelar.config(state="normal")
+        boton_nuevo.config(state="disabled")
+        boton_eliminar.config(state="disabled")
+        boton_modificar.config(state="disabled")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para modificar.")
+        state_textbox_and_checkbuttons("disabled")
+        boton_nuevo.config(state="normal")
+        boton_modificar.config(state="normal")
+        boton_eliminar.config(state="normal")
+        boton_guardar.config(state="disabled")
+        boton_cancelar.config(state="disabled")
 
 """
  @brief Función que maneja la eliminación del préstamo.
@@ -263,14 +269,13 @@ def modificar():
 def eliminar():
     try:
         miAlumno = Prestamo(id=int(visorBD.item(visorBD.selection())['text']))
-        miAlumno.Eliminar()
-        limpiar_campos()
-        state_textbox_and_buttons("disabled")
-        # deshabilito Buttons
-        boton_nuevo.config(state="normal")
-        boton_cancelar.config(state="disabled")
-        boton_guardar.config(state="disabled")
-        cargarEnVisorBD()
+        if messagebox.askquestion("CONFIRMAR ELIMINACIÓN", "¿Confirma que desea eliminar el préstamo?") == "yes":  
+            miAlumno.Eliminar()
+            limpiar_campos()
+            state_textbox_and_checkbuttons("disabled")
+            cargarEnVisorBD()
+        else:
+            messagebox.showinfo("ELIMINAR Prestamo", "El préstamo NO ha sido eliminado.")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
@@ -425,7 +430,7 @@ boton_cancelar.grid(row=5, column=2, columnspan=1, pady=10, padx=10, sticky="w")
 boton_cancelar.config(fg = "purple", bg = "white", width = 30, font = ("Helvetica", 14, "italic"), state="disabled")
 # Boton de salir.
 boton_salir = Button(marco, text="SALIR", command=lambda:salida())
-boton_salir.grid(row=10, column=0, columnspan=3, pady=10, padx=10, sticky="w")
+boton_salir.grid(row=8, column=0, columnspan=3, pady=10, padx=10, sticky="w")
 boton_salir.config(fg = "red", bg = "black", width = 90, font = ("Helvetica", 14, "italic"), state="normal")
 
 """
@@ -433,10 +438,10 @@ VISOR
 """
 # Visor
 visorBD=ttk.Treeview(marco, columns=('NombreDelLector', 'Titulo', 'FechaDeDevolucion', 'Categoria', 'ServiciosAdicionales'))
-visorBD.grid(row=9, column=0, columnspan=3, sticky="nsew")
+visorBD.grid(row=7, column=0, columnspan=3, sticky="nsew")
 # Scrollbar
 barraDespl=ttk.Scrollbar(marco, orient=VERTICAL, command=visorBD.yview)
-barraDespl.grid(row=9, column=3, sticky="ns")
+barraDespl.grid(row=7, column=3, sticky="ns")
 visorBD.configure(yscrollcommand=barraDespl.set)
 # CONFIGURACION
 # ID
