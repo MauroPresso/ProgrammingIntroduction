@@ -348,8 +348,7 @@ INGRESOS
 # Variables de control de los ingresos
 nombre_lector = StringVar()
 titulo = StringVar()
-fecha = StringVar()
-dias = IntVar()                                                
+fecha = StringVar()                                               
 # Ingreso del nombre lector
 ingreso_nombre_lector = Entry(marco, textvariable=nombre_lector)
 ingreso_nombre_lector.grid(row=1, column=1, sticky="w", pady=8)
