@@ -101,9 +101,6 @@ def encuesta_a_checkbutton(encuesta_val):
     elif encuesta_val == "SI":
         encuesta.set(1)
 
-def transformar_fecha_a_date(fecha_str):
-    dia, mes, anio = map(int, fecha_str.split('-'))
-    return date(anio, mes, dia)
 
 """
  @brief Funcion que vacia los entrys.
