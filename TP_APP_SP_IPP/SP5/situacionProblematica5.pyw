@@ -244,7 +244,7 @@ def guardar():
             messagebox.showinfo("GUARDAR Alumnos", "La inscripción NO ha sido guardada.")
 
 """
- @brief Función que maneja la modificación del préstamo.
+ @brief Función que maneja la modificación de la inscripción.
  @param none
  @return none
 """
@@ -278,20 +278,20 @@ def modificar():
         boton_cancelar.config(state="disabled")
 
 """
- @brief Función que maneja la eliminación del préstamo.
+ @brief Función que maneja la eliminación de la inscripción.
  @param none
  @return none
 """
 def eliminar():
     try:
         miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']))
-        if messagebox.askquestion("CONFIRMAR ELIMINACIÓN", "¿Confirma que desea eliminar el préstamo?") == "yes":  
+        if messagebox.askquestion("CONFIRMAR ELIMINACIÓN", "¿Confirma que desea eliminar la inscripción?") == "yes":  
             miAlumno.Eliminar()
             limpiar_campos()
             state_textbox_and_checkbuttons("disabled")
             cargarEnVisorBD()
         else:
-            messagebox.showinfo("ELIMINAR Alumnos", "El préstamo NO ha sido eliminado.")
+            messagebox.showinfo("ELIMINAR Alumnos", "La inscripción NO ha sido eliminada.")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
