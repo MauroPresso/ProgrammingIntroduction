@@ -355,13 +355,9 @@ etiqueta_meses_cursado.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14
 etiqueta_nivel_conocimiento = Label(marco, text="Nivel de conocimiento:")
 etiqueta_nivel_conocimiento.grid(row=0, column=2, sticky="w", padx=10, pady=10)
 etiqueta_nivel_conocimiento.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
-# Etiqueta de la modalidad de cursada
-etiqueta_modalidad_cursada = Label(marco, text="Modalidad de cursada:")
-etiqueta_modalidad_cursada.grid(row=0, column=3, sticky="w", pady=10, padx=10)
-etiqueta_modalidad_cursada.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
 # Etiqueta de las preferencias
 etiqueta_preferencias = Label(marco, text="Seleccione las preferencias:")
-etiqueta_preferencias.grid(row=0, column=4, sticky="w", pady=10, padx=10)
+etiqueta_preferencias.grid(row=0, column=3, sticky="w", pady=10, padx=10)
 etiqueta_preferencias.config(fg = "yellow", bg = "skyblue", font = ("Arial", 14, "bold italic underline"))
 
 """
@@ -403,20 +399,6 @@ nivel_conocimiento_avanzado = Radiobutton(marco, text="Avanzado", variable=nivel
 nivel_conocimiento_avanzado.grid(row=3, column=2, sticky="w", pady=10, padx=10)
 nivel_conocimiento_avanzado.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
 
-# Variable del boton de opcion de modalidad de cursada
-modalidad = IntVar()
-# Boton de opcion de modalidad de cursada presencial
-modalidad_cursada_presencial = Radiobutton(marco, text="Presencial", variable=modalidad, value=1)
-modalidad_cursada_presencial.grid(row=1, column=3, sticky="w", pady=10, padx=10)
-modalidad_cursada_presencial.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
-# Boton de opcion de modalidad de cursada virtual
-modalidad_cursada_virtual = Radiobutton(marco, text="Virtual", variable=modalidad, value=2)
-modalidad_cursada_virtual.grid(row=2, column=3, sticky="w", pady=10, padx=10)
-modalidad_cursada_virtual.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
-# Boton de opcion de modalidad de cursada mixta
-modalidad_cursada_mixta = Radiobutton(marco, text="Mixta", variable=modalidad, value=3)
-modalidad_cursada_mixta.grid(row=3, column=3, sticky="w", pady=10, padx=10)
-modalidad_cursada_mixta.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
 
 """
 CASILLAS DE VERIFICACION
@@ -427,21 +409,18 @@ clases_grabadas = IntVar()
 talleres_extra = IntVar()
 # Opcion de material impreso
 opcion_material_impreso = Checkbutton(marco, text="Material impreso", variable=material_impreso)
-opcion_material_impreso.grid(row=1, column=4, sticky="w", pady=10, padx=10)
+opcion_material_impreso.grid(row=1, column=3, sticky="w", pady=10, padx=10)
 opcion_material_impreso.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
 # Opcion de clases grabadas
 opcion_clases_grabadas = Checkbutton(marco, text="Clases grabadas", variable=clases_grabadas)
-opcion_clases_grabadas.grid(row=2, column=4, sticky="w", pady=10, padx=10)
+opcion_clases_grabadas.grid(row=2, column=3, sticky="w", pady=10, padx=10)
 opcion_clases_grabadas.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
 # Opcion de talleres extra
 opcion_talleres_extra = Checkbutton(marco, text="Talleres extra", variable=talleres_extra)
-opcion_talleres_extra.grid(row=3, column=4, sticky="w", pady=10, padx=10)
+opcion_talleres_extra.grid(row=3, column=3, sticky="w", pady=10, padx=10)
 opcion_talleres_extra.config(fg = "black", bg = "white", font = ("Arial", 14, "bold italic"))
 
 """
-BOTONES DE ACCION
-"""
-""" 
 BOTONES DE ACCION
 """
 # Boton de nuevo.
