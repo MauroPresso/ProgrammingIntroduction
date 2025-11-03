@@ -115,7 +115,7 @@ def limpiar_campos():
     # Radiobuttons
     nivel.set(0)
     # Checkbuttons
-    opcion_material_impreso.set(0); opcion_clases_grabadas.set(0); opcion_talleres_extra.set(0)
+    material_impreso.set(0); clases_grabadas.set(0); talleres_extra.set(0)
     # Foco en el primer entry
     ingreso_nombre_alumno.focus()
 
@@ -223,11 +223,11 @@ def guardar():
         global registroNuevo
         if messagebox.askquestion("CONFIRMAR GUARDADO", "¿Confirma que desea guardar la inscripción?") == "yes":
             if registroNuevo==True:
-                miAlumnos = Alumnos(nombre=nombre.get(), idioma=idioma.get(), fecha=ingreso_fecha_inscripcion.get_date(), nivel=determinar_nivel(nivel.get()), material=preferencia_material_impreso_a_valor(), clases_grabadas=preferencia_clases_grabadas_a_valor(), talleres_extra=preferencia_talleres_extra_a_valor())
+                miAlumnos = Alumnos(nombre=nombre.get(), idioma=idioma.get(), fecha=ingreso_fecha_inscripcion.get_date(), nivel=determinar_nivel(nivel.get()), material=preferencia_material_impreso_a_valor(), clases=preferencia_clases_grabadas_a_valor(), talleres=preferencia_talleres_extra_a_valor())
                 miAlumnos.Agregar()
                 messagebox.showinfo("AGREGAR Alumnos", "La inscripción ha sido agregado correctamente.")
             else:
-                miAlumnos = Alumnos(id=visorBD.item(visorBD.selection())['text'], nombre=nombre.get(), idioma=idioma.get(), fecha=ingreso_fecha_inscripcion.get_date(), nivel=determinar_nivel(nivel.get()), material=preferencia_material_impreso_a_valor(), clases_grabadas=preferencia_clases_grabadas_a_valor(), talleres_extra=preferencia_talleres_extra_a_valor())
+                miAlumnos = Alumnos(id=visorBD.item(visorBD.selection())['text'], nombre=nombre.get(), idioma=idioma.get(), fecha=ingreso_fecha_inscripcion.get_date(), nivel=determinar_nivel(nivel.get()), material=preferencia_material_impreso_a_valor(), clases=preferencia_clases_grabadas_a_valor(), talleres=preferencia_talleres_extra_a_valor())
                 miAlumnos.Modificar()
                 messagebox.showinfo("MODIFICAR Alumnos", "La inscripción ha sido modificado correctamente.")
             # limpio los campos
