@@ -165,7 +165,7 @@ def vaciarElVisorBD():
         visorBD.delete(r)
 
 """
- @brief Función que maneja la limpieza de los campos de entrada de texto.
+ @brief Función que maneja la entrada de un nuevo registro.
  @param none
  @return none
 """
@@ -186,12 +186,12 @@ def nuevo():
     boton_guardar.config(state="normal")
 
 """
- @brief Función que maneja la cancelación del Alumnos.
+ @brief Función que maneja la cancelación de la inscripción.
  @param none
  @return none
 """
 def cancelar():
-    messagebox.showwarning("ATENCIÓN", "Está por cancelar este Alumnos")
+    messagebox.showwarning("ATENCIÓN", "Está por cancelar esta inscripción")
     # Entrys
     limpiar_campos()
     ingreso_nombre_completo.focus() #nombre del entry
@@ -205,7 +205,7 @@ def cancelar():
     boton_guardar.config(state="disabled")
 
 """ 
- @brief Función que maneja el guardado del préstamo.
+ @brief Función que maneja el guardado de la inscripción.
  @param none
  @return none
 """
@@ -214,7 +214,7 @@ def guardar():
         if nombre_completo.get() == "":
             messagebox.showerror("ERROR", "Por favor, ingresa tu nombre.")
         elif idioma.get() == "":
-            messagebox.showerror("ERROR", "Por favor, ingresa el idioma del libro.")
+            messagebox.showerror("ERROR", "Por favor, ingresa el idioma que deseas estudiar.")
         elif ingreso_fecha_inscripcion.get_date() <= date.today():
             messagebox.showerror("ERROR", "Por favor, ingresa la fecha de inscripción válida.")
         else:
@@ -278,20 +278,20 @@ def modificar():
         boton_cancelar.config(state="disabled")
 
 """
- @brief Función que maneja la eliminación del préstamo.
+ @brief Función que maneja la eliminación de la inscripción.
  @param none
  @return none
 """
 def eliminar():
     try:
         miAlumno = Alumnos(id=int(visorBD.item(visorBD.selection())['text']))
-        if messagebox.askquestion("CONFIRMAR ELIMINACIÓN", "¿Confirma que desea eliminar el préstamo?") == "yes":  
+        if messagebox.askquestion("CONFIRMAR ELIMINACIÓN", "¿Confirma que desea eliminar la inscripción?") == "yes":  
             miAlumno.Eliminar()
             limpiar_campos()
             state_textbox_and_checkbuttons("disabled")
             cargarEnVisorBD()
         else:
-            messagebox.showinfo("ELIMINAR Alumnos", "El préstamo NO ha sido eliminado.")
+            messagebox.showinfo("ELIMINAR Alumnos", "La inscripción NO ha sido eliminada.")
     except:
         messagebox.showerror("ERROR", "Debe seleccionar un registro para eliminar.")
 
