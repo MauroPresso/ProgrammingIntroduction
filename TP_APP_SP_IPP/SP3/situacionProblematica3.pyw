@@ -358,7 +358,7 @@ ingreso_titulo_libro = Entry(marco, textvariable=titulo)
 ingreso_titulo_libro.grid(row=2, column=1, sticky="w", pady=8)
 ingreso_titulo_libro.config(fg = "yellow", bg = "brown", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso de la fecha de devolucion
-ingreso_fecha_devolucion = DateEntry(marco, date_pattern='dd/mm/yyyy', textvariable=fecha)
+ingreso_fecha_devolucion = DateEntry(marco, date_pattern='yyyy-mm-dd', textvariable=fecha)
 ingreso_fecha_devolucion.grid(row=3, column=1, sticky="w", pady=8)
 ingreso_fecha_devolucion.config(width = 30, state="disabled")
 
