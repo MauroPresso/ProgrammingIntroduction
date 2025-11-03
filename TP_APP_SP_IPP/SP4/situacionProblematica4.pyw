@@ -440,7 +440,7 @@ ingreso_nombre_producto = Entry(marco, textvariable=producto)
 ingreso_nombre_producto.grid(row=2, column=1, sticky="w", padx=8, pady=10)
 ingreso_nombre_producto.config(fg = "brown", bg = "yellow", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del año de la fecha del Compra
-ingreso_fecha_entrega = DateEntry(marco, date_pattern='yyyy/mm/dd', textvariable=fecha_entrega)
+ingreso_fecha_entrega = DateEntry(marco, date_pattern='yyyy-mm-dd', textvariable=fecha_entrega)
 ingreso_fecha_entrega.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
 ingreso_fecha_entrega.config(width = 30, state="disabled")
 # Ingreso de la hora del Compra (timePicker)
