@@ -21,14 +21,14 @@ class Alumnos():
     # Método para agregar un alumno
     def Agregar(self):
         conexBD=Conexion()
-        instruct_insert="INSERT INTO EscuelaDeIdiomas(nombre, idioma, fecha, nivel, material, clases, talleres) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
+        instruct_insert="INSERT INTO EscuelaDeIdiomas(NombreDelEstudiante, Idioma, FechaDeInscripcion, Nivel, MaterialImpreso, ClasesGrabadas, TalleresExtras) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')"
         conexBD.miCursor.execute(instruct_insert % (self.nombre, self.idioma, self.fecha, self.nivel, self.material, self.clases, self.talleres))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO INSERT
         conexBD.cerrar()
 
     # Método para modificar un alumno
     def Modificar(self):
-        instruct_update="UPDATE EscuelaDeIdiomas SET nombre='%s', idioma='%s', fecha='%s', nivel='%s', material='%s', clases='%s', talleres='%s' WHERE id=%d"
+        instruct_update="UPDATE EscuelaDeIdiomas SET NombreDelEstudiante='%s', Idioma='%s', FechaDeInscripcion='%s', Nivel='%s', MaterialImpreso='%s', ClasesGrabadas='%s', TalleresExtras='%s' WHERE id=%d"
         conexBD=Conexion()
         conexBD.miCursor.execute(instruct_update % (self.nombre,self.idioma,self.fecha,self.nivel,self.material,self.clases,self.talleres,self.id))
         conexBD.miConexion.commit() # COMMIT DEL COMANDO UPDATE
