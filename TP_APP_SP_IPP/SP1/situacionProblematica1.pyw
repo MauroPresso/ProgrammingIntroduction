@@ -101,6 +101,10 @@ def encuesta_a_checkbutton(encuesta_val):
     elif encuesta_val == "SI":
         encuesta.set(1)
 
+def transformar_fecha_a_date(fecha_str):
+    dia, mes, anio = map(int, fecha_str.split('-'))
+    return date(anio, mes, dia)
+
 """
  @brief Funcion que vacia los entrys.
  @param none
@@ -256,7 +260,7 @@ def modificar():
         # Cargo los valores en los entrys
         nombre_completo.set(visorBD.item(visorBD.selection())['values'][0])
         idioma.set(visorBD.item(visorBD.selection())['values'][1])
-        fecha.set(visorBD.item(visorBD.selection())['values'][2])
+        fecha.set((visorBD.item(visorBD.selection())['values'][2]))
         nivel_estudios.set(nivel_a_valor(visorBD.item(visorBD.selection())['values'][3]))
         email_a_checkbutton(visorBD.item(visorBD.selection())['values'][4])
         whatsapp_a_checkbutton(visorBD.item(visorBD.selection())['values'][5])
@@ -373,7 +377,7 @@ ingreso_idioma = Entry(marco, textvariable=idioma)
 ingreso_idioma.grid(row=2, column=1, sticky="w", padx=10, pady=10)
 ingreso_idioma.config(fg = "red", bg = "white", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso de la fecha de inscripcion
-ingreso_fecha_inscripcion = DateEntry(marco, date_pattern='dd/mm/yyyy', textvariable=fecha)
+ingreso_fecha_inscripcion = DateEntry(marco, date_pattern='yyyy-mm-dd', textvariable=fecha)
 ingreso_fecha_inscripcion.grid(row=3, column=1, sticky="w", pady=8)
 ingreso_fecha_inscripcion.config(width = 30, state="disabled")
 
