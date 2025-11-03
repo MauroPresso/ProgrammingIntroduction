@@ -424,7 +424,7 @@ ingreso_motivo_paciente = Entry(marco, textvariable=motivo)
 ingreso_motivo_paciente.grid(row=2, column=1, sticky="w", padx=10, pady=10)
 ingreso_motivo_paciente.config(fg = "white", bg = "skyblue", width = 30, font = ("Arial", 14, "italic"), state="disabled")
 # Ingreso del año de la fecha del turno
-ingreso_fecha_turno = DateEntry(marco, date_pattern='yyyy/mm/dd', textvariable=fecha_turno)
+ingreso_fecha_turno = DateEntry(marco, date_pattern='yyyy-mm-dd', textvariable=fecha_turno)
 ingreso_fecha_turno.grid(row=3, column=1, sticky="w", padx=10 ,pady=10)
 ingreso_fecha_turno.config(width = 30, state="disabled")
 # Ingreso de la hora del turno (timePicker)
