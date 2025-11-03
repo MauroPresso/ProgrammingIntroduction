@@ -49,7 +49,7 @@ class Alumnos():
     # Metodo para listar alumnos
     def ListaAlumnos(): # no necesita self porque no usa atributos de instancia.
         conexBD=Conexion()
-        instruct_select="SELECT * FROM Academia ORDER BY id DESC"
+        instruct_select="SELECT * FROM EscuelaDeIdiomas ORDER BY id DESC"
         conexBD.miCursor.execute(instruct_select)
         registros=conexBD.miCursor.fetchall()
         conexBD.cerrar()
